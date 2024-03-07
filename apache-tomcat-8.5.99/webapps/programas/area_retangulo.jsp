@@ -1,25 +1,9 @@
-<!DOCTYPE html="pt-br">
-<html>
+﻿'<!DOCTYPE html="pt-br">
+<html lang="pt-br">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title> Cálculo da área de um Retângulo</title>
-        <style>
-            body {
-                background-image: linear-gradient(to bottom, red, orange);
-                align-items: center;
-                display: flex;              
-            }
-
-            h2 {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                border: 1px solid blue;
-                padding: 3rem;
-                width: 200px;
-            }
-        </style>
+        <link rel="stylesheet" href="styleresp.css">
 	</head>
 	<body>
         <%

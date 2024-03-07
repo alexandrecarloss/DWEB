@@ -1,0 +1,25 @@
+﻿'<!DOCTYPE html">
+<html lang="pt-br">
+ <head>
+  <meta charset="ISO-8859-1">
+  <title>Cálculo de áreas</title>
+  <link rel="stylesheet" href="style.css">
+ </head>
+
+ <body>
+  <form name="formCalculoAreas" method="get" action="./calcular_areas_figuras.jsp">
+    <h2 style="text-align: center;">Cálculo de Áreas de Figuras Geométricas</h2>
+    <p>
+    <label for="opretangulo">Retângulo</label>
+    <input id="opretangulo" name="TipoFigura" value="1" type="radio"/>
+    <label for="opcircunferencia">Circunferência</label>
+    <input name="TipoFigura" id="opcircunferencia" value="2" type="radio"/>
+    <label for="optriangulo">Triângulo</label>
+    <input name="TipoFigura" id="optriangulo" value="3" type="radio"/>
+    <label for="optrapezio">Trapézio</label>
+    <input name="TipoFigura" id="optrapezio" value="4" type="radio"/>
+    </p>
+    <p><input name="btnConfirmar" value="Confirmar" type="submit"/></p>
+  </form>
+ </body>
+</html>
