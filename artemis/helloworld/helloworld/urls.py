@@ -19,6 +19,7 @@ from adocao import views as adocaoViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', adocaoViews.home),
-    path('about/', adocaoViews.about),
+    path('', adocaoViews.home, name='home'),
+    path('about/', adocaoViews.about, name='about'),
+    path('adocao/', adocaoViews.adocao, name='adocao'),
 ]

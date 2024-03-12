@@ -6,9 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    {% for Pet in pets %}
+    {% for petteste in pets %}
+    <h1>Nome: {{ petteste.nome }} - {{ petteste.id }}</h1>
     {% endfor %}
-    <h1>Nome: {{ Pet.nome }} - {{ Pet.id }}</h1>
-        teste
+        teste {{ pets }}
+    <a href="{% url 'about' %}">About</a>
 </body>
 </html>
