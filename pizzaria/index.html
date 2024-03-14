@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizzaria AlexandreDev</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form id="formpizza" action="get" name="formpizza">
+    <legend>Pizzaria AlexandreDev</legend>
+    <p class="bloco">
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" id="nome">
+    </p>
+    <p class="bloco">
+      <label for="cobertura">Cobertura da pizza:</label>
+      <select name="cobertura" id="cobertura">
+        <option value="1">Calabreza</option>
+        <option value="2" selected>Queijo</option>
+        <option value="3">Napolitano</option>
+        <option value="4">Cebola</option>
+        <option value="5">Doce</option>
+      </select>
+    </p>
+    
+    <p>
+      <p>Opções extras</p>
+      <label for="Gorgonzola">Gorgonzola:</label>
+      <input type="checkbox" name="Gorgonzola" id="Gorgonzola"> 
+      <label for="Pariziense">Pariziense:</label>
+      <input type="checkbox" name="Pariziense" id="Pariziense">
+      <label for="Picante">Picante:</label>
+      <input type="checkbox" name="Picante" id="Picante">
+      <label for="Strogonoff">Strogonoff:</label>
+      <input type="checkbox" name="Strogonoff" id="Strogonoff">
+    </p>
+    <p>
+      <label for="info">Informações de entrega</label>
+    </p>
+    
+    <textarea name="info" id="info" cols="30" rows="10">Instruções de entrega</textarea>
+  </form>
+</body>
+</html>
