@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizzaria AlexandreDev</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form id="formpizza" action="pizzaria.jsp" method="get" name="formpizza">
+    <legend>Pizzaria AlexandreDev</legend>
+    <p class="bloco">
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" id="nome">
+    </p>
+    <p class="bloco">
+      <label for="cobertura" id="lcobertura">Cobertura da pizza:</label>
+      <select name="cobertura" id="cobertura">
+        <option value="1">Calabreza</option>
+        <option value="2" selected>Queijo</option>
+        <option value="3">Napolitano</option>
+        <option value="4">Cebola</option>
+        <option value="5">Doce</option>
+      </select>
+    </p>
+    
+    <p>
+      <p>Opções extras</p>
+      <label for="Gorgonzola">Gorgonzola:</label>
+      <input type="checkbox" name="Gorgonzola" id="Gorgonzola"> 
+      <label for="Pariziense">Pariziense:</label>
+      <input type="checkbox" name="Pariziense" id="Pariziense">
+      <label for="Picante">Picante:</label>
+      <input type="checkbox" name="Picante" id="Picante">
+      <label for="Strogonoff">Strogonoff:</label>
+      <input type="checkbox" name="Strogonoff" id="Strogonoff">
+    </p>
+    <p>
+      <label for="info">Informações de entrega</label>
+    </p>
+    <textarea name="info" id="info" cols="30" rows="10">Instruções de entrega</textarea>
+    <p>
+      <input type="submit" value="Enviar">
+    </p>
+    <p>Tamanho:</p>
+    <p>
+      <label for="tamanho1">Família R$: 45,00</label>
+      <input type="radio" name="tam" id="tamanho1">
+      <label for="tamanho2">Grande R$: 25,00</label>
+      <input type="radio" name="tam" id="tamanho2">
+      <label for="tamanho3">Média R$: 20,00</label>
+      <input type="radio" name="tam" id="tamanho3">
+      <label for="tamanho4">Pequena R$: 15,00</label>
+      <input type="radio" name="tam" id="tamanho4">
+    </p>
+    <p><label for="qtde">Quantidade</label></p>
+    <input type="number" name="qtde" id="qtde">
+  </form>
+</body>
+</html>
