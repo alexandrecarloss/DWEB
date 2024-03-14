@@ -22,4 +22,5 @@ urlpatterns = [
     path('', adocaoViews.home, name='home'),
     path('about/', adocaoViews.about, name='about'),
     path('adocao/', adocaoViews.adocao, name='adocao'),
+    path('vizualizarpet/', adocaoViews.vizualizarpet, name='vizualizarpet'),
 ]

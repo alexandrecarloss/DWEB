@@ -3,17 +3,17 @@ from django.http import HttpResponse
 from .models import Pet, PetRaca, PetTipo
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'index.html')
 
 def adocao(request):
     pets = Pet.objects.all()
     pettipos = PetTipo.objects.all()
     petracas = PetRaca.objects.filter(pet_tipo_pttid = 1)
     return render(request, 'adocao.html', {'pets': pets, 'petracas': petracas, 'pettipos': pettipos})
-    #pets = petteste.objects.all()
-    #pets = pet.objects.all()
-    #return render(request, 'home.html', {'pets': pets})
 
 def about(request):
     return render(request, 'about.html')
+
+def vizualizarpet(request, Pet):
+    return render(request, 'vizualizarpet.html', {'Pet': Pet})
 # Create your views here.

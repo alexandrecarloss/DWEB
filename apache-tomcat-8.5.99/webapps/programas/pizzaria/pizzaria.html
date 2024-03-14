@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizzaria AlexandreDev</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form id="formpizza" action="pizzaria.jsp" method="get" name="formpizza">
+    <legend>Pizzaria AlexandreDev</legend>
+    <p class="bloco">
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" id="nome" required>
+    </p>
+    <p class="bloco">
+      <label for="cobertura" id="lcobertura">Cobertura da pizza:</label>
+      <select name="cobertura" id="cobertura">
+        <option value="Calabreza">Calabreza</option>
+        <option value="Queijo" selected>Queijo</option>
+        <option value="Napolitano">Napolitano</option>
+        <option value="Cebola">Cebola</option>
+        <option value="Doce">Doce</option>
+        <option value="Portuguesa">Portuguesa</option>
+      </select>
+    </p>
+    
+    <p>
+      <p class="centralizar">Opções extras</p>
+      <label for="Gorgonzola">Gorgonzola:</label>
+      <input type="checkbox" name="Gorgonzola" id="Gorgonzola" value="Gorgonzola"> 
+      <label for="Pariziense">Pariziense:</label>
+      <input type="checkbox" name="Pariziense" id="Pariziense" value="Pariziense">
+      <label for="Picante">Picante:</label>
+      <input type="checkbox" name="Picante" id="Picante" value="Picante">
+      <label for="Strogonoff">Strogonoff:</label>
+      <input type="checkbox" name="Strogonoff" id="Strogonoff" value="Strogonoff">
+    </p>
+    <p>
+      <label for="info">Informações de entrega</label>
+    </p>
+    <textarea name="info" id="info" cols="30" rows="10"></textarea>
+    <p>Tamanho:</p>
+    <p>
+      <label for="tamanho1">Família R$: 45,00</label>
+      <input type="radio" name="unidade" id="tamanho1" value="45.50">
+      <label for="tamanho2">Grande R$: 25,00</label>
+      <input type="radio" name="unidade" id="tamanho2" value="25">
+      <label for="tamanho3">Média R$: 20,00</label>
+      <input type="radio" name="unidade" id="tamanho3" value="20">
+      <label for="tamanho4">Pequena R$: 15,00</label>
+      <input type="radio" name="unidade" id="tamanho4" value="15">
+      <label for="tamanho5">Brotinho R$: 10,00</label>
+      <input type="radio" name="unidade" id="tamanho5" value="10">
+    </p>
+    <p><label for="qtde">Quantidade</label></p>
+    <input type="number" name="qtde" id="qtde" required>
+    <p class="centralizar">
+        <input type="submit" value="Enviar">
+    </p>
+  </form>
+</body>
+</html>
