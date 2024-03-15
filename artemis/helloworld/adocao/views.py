@@ -8,7 +8,7 @@ def home(request):
 def adocao(request):
     pets = Pet.objects.all()
     pettipos = PetTipo.objects.all()
-    petracas = PetRaca.objects.filter(pet_tipo_pttid = 1)
+    petracas = PetRaca.objects.all().select_related('pet_tipo_pttid')
     return render(request, 'adocao.html', {'pets': pets, 'petracas': petracas, 'pettipos': pettipos})
 
 def about(request):
