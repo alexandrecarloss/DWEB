@@ -20,10 +20,10 @@ from adocao import views as adocaoViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', adocaoViews.home, name='home'),
-    path('about/', adocaoViews.about, name='about'),
+    path('', adocaoViews.index, name='index'),
     path('adocao/', adocaoViews.adocao, name='adocao'),
-    path('vizualizarpet/', adocaoViews.vizualizarpet, name='vizualizarpet'),
+    path('adocao/load_racas/', adocaoViews.load_racas, name="load_racas"),
+    path('login/', adocaoViews.login, name="login"),
 ]
 
 if settings.DEBUG:

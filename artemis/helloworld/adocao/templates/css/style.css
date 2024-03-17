@@ -1,5 +1,6 @@
 :root {
     --bs-primary: #394ea1;
+    --bs-secondary: #fd5e41;
     --primary-color: #394ea1;
     --secondary-color: #89d8ce;
     --accent-color: #f7ae34;
@@ -293,3 +294,20 @@
 
 
 /*************************  ****************************************/
+
+
+.azul {
+    background-color: var(--primary-color);
+    color: white;
+}
+.laranja{
+    background-color: var(--bs-secondary);
+}
+
+.text-laranja{
+    color: var(--bs-secondary);
+}
+.azul:hover{
+    background-color: var(--bs-secondary);
+    color: white;
+}

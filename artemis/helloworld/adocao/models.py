@@ -213,6 +213,8 @@ class PetRaca(models.Model):
         managed = False
         db_table = 'pet_raca'
 
+    def __str__(self):
+        return self.ptrnome
 
 class PetTipo(models.Model):
     pttid = models.IntegerField(primary_key=True)
@@ -222,3 +224,5 @@ class PetTipo(models.Model):
         managed = False
         db_table = 'pet_tipo'
 
+    def __str__(self):
+        return self.pttnome

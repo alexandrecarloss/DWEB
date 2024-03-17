@@ -1,19 +1,26 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
 from .models import Pet, PetRaca, PetTipo
+from .forms import especieForm
 
-def home(request):
+def index(request):
     return render(request, 'index.html')
 
+def login(request):
+    return render(request, 'login.html')
+
 def adocao(request):
-    pets = Pet.objects.all()
-    pettipos = PetTipo.objects.all()
-    petracas = PetRaca.objects.all().select_related('pet_tipo_pttid')
-    return render(request, 'adocao.html', {'pets': pets, 'petracas': petracas, 'pettipos': pettipos})
+    form = especieForm()
+    return render(request, 'adocao.html', {'form':form})
+    # pettipos = PetTipo.objects.all()
+    # pets = Pet.objects.all()
+    #petracas = PetRaca.objects.all().select_related
+    #searchTipo = request.GET.get('especie')('pet_tipo_pttid')
+    #return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'form': form})
 
-def about(request):
-    return render(request, 'about.html')
+def load_racas(request):
+    id_specie = request.GET.get('especie')
+    racas = PetRaca.objects.filter(pet_tipo_pttid = id_specie)
+    return render(request, "raca_options.html", {"racas": racas})
 
-def vizualizarpet(request, Pet):
-    return render(request, 'vizualizarpet.html', {'Pet': Pet})
 # Create your views here.
