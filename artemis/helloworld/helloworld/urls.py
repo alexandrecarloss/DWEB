@@ -17,14 +17,17 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from adocao import views as adocaoViews
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', adocaoViews.index, name='index'),
     path('adocao/', adocaoViews.adocao, name='adocao'),
-    path('adocao/load_racas/', adocaoViews.load_racas, name="load_racas"),
+    #path('adocao/load_racas/', adocaoViews.load_racas, name="load_racas"),
     path('login/', adocaoViews.login, name="login"),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
