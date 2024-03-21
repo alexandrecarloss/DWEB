@@ -74,9 +74,10 @@ class Pet(models.Model):
     petcastrado = models.CharField(max_length=12)
     petdtnascto = models.DateField()
     petpeso = models.FloatField()
-    pet_tipo_pttid = models.ForeignKey('PetTipo', models.DO_NOTHING, db_column='pet_tipo_pttid')
     pessoa_pesid = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='pessoa_pesid', blank=True, null=True)
     pet_porte_ptpid = models.ForeignKey('PetPorte', models.DO_NOTHING, db_column='pet_porte_ptpid')
+    pet_raca_ptrid = models.ForeignKey('PetRaca', models.DO_NOTHING, db_column='pet_raca_ptrid')
+    pet_tipo_pttid = models.ForeignKey('PetTipo', models.DO_NOTHING, db_column='pet_tipo_pttid')
 
     class Meta:
         managed = False
@@ -157,6 +158,9 @@ class Petshop(models.Model):
     class Meta:
         managed = False
         db_table = 'petshop'
+    
+    def __str__(self):
+        return self.ptsnome
 
 
 class Produto(models.Model):

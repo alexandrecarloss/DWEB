@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', adocaoViews.index, name='index'),
     path('adocao/', adocaoViews.adocao, name='adocao'),
-    #path('adocao/load_racas/', adocaoViews.load_racas, name="load_racas"),
+    path('adocao/load_racas/', adocaoViews.load_racas, name="load_racas"),
+    path('adocao/load_pets/', adocaoViews.load_pets, name="load_pets"),
     path('login/', adocaoViews.login, name="login"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
