@@ -23,53 +23,15 @@
                                 <button type="submit"><span id="search-icon-1" class="input-group-text p-3">
                                     <i class="fa fa-search"></i>
                                 </span></button>
-                                {{ form.as_p }}
+                                <!-- {{ form.as_p }} -->
                             </form>
-                            <!-- <form action="{% url 'adocao' %}" method="post">
-                                {% csrf_token %}
-                                <div class="col-xl-3">
-                                    <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                        <label for="especie">Espécie:</label>
-                                        <select
-                                            id="id_especie"
-                                            name="especie"
-                                            class="border-0 form-select-sm bg-light me-3"
-                                            hx-trigger="click"
-                                            hx-get="load_racas/"
-                                            hx-target="#id_raca"
-                                        >
-                                            <option value=""></option>                  {% for especie in especies %}
-                                            <option value="especie.pttid">{{especie.pttnome}}</option>
-                                            {% endfor %}    
-                                        </select>
-                                    </div>
-                                </div>
-                                <button type="submit">Buscar</button>
-                                <div class="col-xl-3">
-                                    <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                        <label for="especie">Raça:</label>
-                                        <select
-                                            id="id_raca"
-                                            name="raca"
-                                            class="border-0 form-select-sm bg-light me-3"
-                                            form="racaform"
-                                        >
-                                                        
-                                        </select>
-                                    </div>
-                                </div>
-                            </form> -->
-                    <!-- <form method="POST">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                    </form> -->
-                    <h1>Especie: {{ especie }} Raca: {{raca}}</h1>
+                            
                         </div>
                     </div>
-                    <!-- <form method="POST">
+                    <form method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
-                    </form> -->
+                    </form>
                     
                 </div>
                 {% if nomePesquisa %}

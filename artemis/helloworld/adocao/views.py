@@ -17,7 +17,7 @@ def adocao(request):
     pettipos = PetTipo.objects.all()
     if nomePesquisa:
         pets = Pet.objects.filter(petnome__icontains=nomePesquisa)
-    if especie:
+    elif especie:
         if raca:
             pets = Pet.objects.filter(pet_raca_ptrid = raca)
         else:
@@ -34,14 +34,11 @@ def load_racas(request):
 
 def load_pets(request):
     especie = request.GET.get('especie')
-    raca = request.GET.get('raca')
-    if especie:
-        if raca:
-            pets = Pet.objects.filter(pet_tipo_pttid = especie, pet_raca_ptrid = raca)
-        else:
-            pets = Pet.objects.filter(pet_tipo_pttid = especie)
-    #else:
-        #pets = Pet.objects.all()
+    raca = request.GET.get('raca')  
+    if raca:
+        pets = Pet.objects.filter(pet_raca_ptrid = raca)
+    else:
+        pets = Pet.objects.all()
     pftfotos = PetFoto.objects.all()
     
     return render(request, "load_pets.html", {"pets": pets, "raca": raca, "pftfotos": pftfotos, "especie": especie})
