@@ -27,3 +27,6 @@ def load_pets(request):
     pets = Pet.objects.filter(pet_raca_ptrid = raca)
     pftfotos = PetFoto.objects.filter(pet_petid = 1)
     return render(request, "load_pets.html", {"pets": pets, "raca": raca, "pftfotos": pftfotos})
+
+def petdetalhe(request):
+    return render(request, "adocaodetails.html")
