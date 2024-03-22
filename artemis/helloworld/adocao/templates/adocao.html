@@ -23,7 +23,7 @@
                                 <button type="submit"><span id="search-icon-1" class="input-group-text p-3">
                                     <i class="fa fa-search"></i>
                                 </span></button>
-                                
+                                {{ form.as_p }}
                             </form>
                             <!-- <form action="{% url 'adocao' %}" method="post">
                                 {% csrf_token %}
@@ -59,10 +59,11 @@
                                     </div>
                                 </div>
                             </form> -->
-                    <form method="POST">
+                    <!-- <form method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
-                    </form>
+                    </form> -->
+                    <h1>Especie: {{ especie }} Raca: {{raca}}</h1>
                         </div>
                     </div>
                     <!-- <form method="POST">
