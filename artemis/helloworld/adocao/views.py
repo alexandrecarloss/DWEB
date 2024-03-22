@@ -24,7 +24,7 @@ def adocao(request):
             pets = Pet.objects.filter(pet_tipo_pttid = especie)
     else:
         pets = Pet.objects.all()
-    pftfotos = PetFoto.objects.filter(pet_petid = 1)
+    pftfotos = PetFoto.objects.all()
     return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'form': form, 'pftfotos': pftfotos, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
 def load_racas(request):

@@ -5,12 +5,15 @@
         <div class="fruite-img">
             <div id="fotoPetSlider{{pet.petnome}}" class="carousel slide" data-ride="carousel">
                 {% for foto in pftfotos %}
+                {% if foto.pet_petid.petid == pet.petid %}               
                 <div class="carousel-inner">
-                    {% if foto.pftid == 1 %}
+                    
+                    <!-- {% if foto.pftid == 1 %} 
                     <div class="carousel-item active">
                     {% else %}
                     <div class="carousel-item">
-                    {% endif %}
+                    {% endif %} -->
+                    <div class="carousel-item active">
                     <img
                         src="{{ foto.pftfoto.url }}"
                         class="img-fluid w-100 rounded-top"
@@ -27,6 +30,7 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
