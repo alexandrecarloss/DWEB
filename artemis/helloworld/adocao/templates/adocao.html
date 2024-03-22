@@ -8,114 +8,129 @@
         <div class="row g-4">
             <div class="col-lg-12">
                 <!-- FILTROS -->
+                
                 <div class="row g-4">
                     <div class="col-xl-3">
                         <div class="input-group w-100 mx-auto d-flex">
-                            <input
-                                type="search"
-                                class="form-control p-3"
-                                placeholder="nome"
-                                aria-describedby="search-icon-1"
-                            >
-                            <span id="search-icon-1" class="input-group-text p-3">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
+                            <form action="" method="get">
+                                <input
+                                    name="nomepesquisa"
+                                    type="text"
+                                    class="form-control p-3"
+                                    placeholder="nome"
+                                    aria-describedby="search-icon-1"
+                                >
+                                <button type="submit"><span id="search-icon-1" class="input-group-text p-3">
+                                    <i class="fa fa-search"></i>
+                                </span></button>
+                                
+                            </form>
+                            <!-- <form action="{% url 'adocao' %}" method="post">
+                                {% csrf_token %}
+                                <div class="col-xl-3">
+                                    <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                                        <label for="especie">Espécie:</label>
+                                        <select
+                                            id="id_especie"
+                                            name="especie"
+                                            class="border-0 form-select-sm bg-light me-3"
+                                            hx-trigger="click"
+                                            hx-get="load_racas/"
+                                            hx-target="#id_raca"
+                                        >
+                                            <option value=""></option>                  {% for especie in especies %}
+                                            <option value="especie.pttid">{{especie.pttnome}}</option>
+                                            {% endfor %}    
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit">Buscar</button>
+                                <div class="col-xl-3">
+                                    <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                                        <label for="especie">Raça:</label>
+                                        <select
+                                            id="id_raca"
+                                            name="raca"
+                                            class="border-0 form-select-sm bg-light me-3"
+                                            form="racaform"
+                                        >
+                                                        
+                                        </select>
+                                    </div>
+                                </div>
+                            </form> -->
                     <form method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
                     </form>
-                    <div class="col-xl-3">
-                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                            <label for="especie">Espécie:</label>
-                            <select
-                                id="especie"
-                                name="especielist"
-                                class="border-0 form-select-sm bg-light me-3"
-                                form="especieform"
-                            >
-                                <option value="null"></option>
-                                <option value="cachorro">Cachorro</option>
-                                <option value="gato">Gato</option>
-                                <option value="hamster">Hamster</option>
-                                <option value="peixe">Peixe</option>
-                            </select>
                         </div>
                     </div>
-                    <div class="col-xl-3">
-                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                            <label for="especie">Raça:</label>
-                            <select
-                                id="raca"
-                                name="racalist"
-                                class="border-0 form-select-sm bg-light me-3"
-                                form="racaform"
-                            >
-                                <option value="null"></option>
-                                <option value="viralata">Vira-Lata</option>
-                                <option value="pug">Pug</option>
-                                <option value="alfa">Alfa</option>
-                                <option value="iamese">Siames</option>
-                            </select>
-                        </div>
-                    </div>
+                    <!-- <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </form> -->
+                    
                 </div>
+                {% if nomePesquisa %}
+                <h2>Buscando por: {{ nomePesquisa }}</h2>
+                {% endif %}
                 <!-- FIM FILTROS -->
                 <div class="row g-4">
                     <div class="col-lg-12">
-                        <div class="row g-4 justify-content-left">
-                {% for pet in pets %}
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="rounded position-relative fruite-item">
-                            <div class="fruite-img">
-                                <div id="fotoPetSlider{{pet.petnome}}" class="carousel slide" data-ride="carousel">
-                                    {% for foto in pftfotos %}
-                                    <div class="carousel-inner">
-                                        {% if foto.pftid == 1 %}
-                                        <div class="carousel-item active">
-                                        {% else %}
-                                        <div class="carousel-item">
-                                        {% endif %}
-                                        <img
-                                            src="{{ foto.pftfoto.url }}"
-                                            class="img-fluid w-100 rounded-top"
-                                            style="max-height: 200px;"
-                                            alt="Foto de {{ pet.petnome }}"
-                                        > 
-                                        </div>
-                                    <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-prev" role="button" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-next" role="button" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Cachorro</div>
-                            <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column justify-content-between">
-                                <div>
-                                    <div class="d-flex">
-                                        <div>
-                                            <p class="text-secondary" style="font-size: 10px;margin-bottom: 3px;">MARCUS VINICIUS SOARES CORREIA</p>
-                                            <h4>{{ pet.petnome }}</h4>
-                                            <p>Manaus, AM</p>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="#" class="btn azul btn-block rounded-pill px-3"> Quero adotar</a>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="containercardspets" class="row g-4 justify-content-left">
+                            
+{% for pet in pets %}
+<div class="col-md-6 col-lg-6 col-xl-3">
+    <div class="rounded position-relative fruite-item">
+        <div class="fruite-img">
+            <div id="fotoPetSlider{{pet.petnome}}" class="carousel slide" data-ride="carousel">
+                {% for foto in pftfotos %}
+                <div class="carousel-inner">
+                    {% if foto.pftid == 1 %}
+                    <div class="carousel-item active">
+                    {% else %}
+                    <div class="carousel-item">
+                    {% endif %}
+                    <img
+                        src="{{ foto.pftfoto.url }}"
+                        class="img-fluid w-100 rounded-top"
+                        style="max-height: 200px;"
+                        alt="Foto de {{ pet.petnome }}"
+                    > 
                     </div>
-                    {% endfor %}
+                <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-prev" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-next" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Cachorro</div>
+        <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column justify-content-between">
+            <div>
+                <div class="d-flex">
+                    <div>
+                        <p class="text-secondary" style="font-size: 10px;margin-bottom: 3px;">MARCUS VINICIUS SOARES CORREIA</p>
+                        <h4>{{ pet.petnome }}</h4>
+                        <p>Manaus, AM</p>
+                    </div>
+                    
                 </div>
+            </div>
+            <div class="mt-auto">
+                <a href="#" class="btn azul btn-block rounded-pill px-3"> Quero adotar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+            
+                        </div>
                     </div>
                 </div>
             </div>
