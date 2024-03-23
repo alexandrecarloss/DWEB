@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Pet, PetRaca, PetTipo, PetFoto
+from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa
 from .forms import especieForm
 
 def index(request):
@@ -15,6 +15,7 @@ def adocao(request):
     especie = request.GET.get('especie')
     raca = request.GET.get('raca')
     pettipos = PetTipo.objects.all()
+    pessoas = Pessoa.objects.all()
     if nomePesquisa:
         pets = Pet.objects.filter(petnome__icontains=nomePesquisa)
     elif especie:
@@ -25,7 +26,7 @@ def adocao(request):
     else:
         pets = Pet.objects.all()
     pftfotos = PetFoto.objects.all()
-    return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'form': form, 'pftfotos': pftfotos, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
+    return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'form': form, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
 def load_racas(request):
     id_specie = request.GET.get('especie')
@@ -44,4 +45,4 @@ def load_pets(request):
     return render(request, "load_pets.html", {"pets": pets, "raca": raca, "pftfotos": pftfotos, "especie": especie})
 
 def petdetalhe(request):
-    return render(request, "adocaodetails.html")
+    return render(request, "pagDetalheAdocao.html")
