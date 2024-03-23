@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block titulo %}Adoção {% endblock %}
 {% block content %}
 
 <!-- Fruits Shop Start-->
@@ -93,7 +94,7 @@
                 </div>
             </div>
             <div class="mt-auto">
-                <a href="{% url 'petdetalhe' %}" class="btn azul btn-block rounded-pill px-3"> Quero adotar</a>
+                <a href="{% url 'petdetalhe' pet.petid %}" class="btn azul btn-block rounded-pill px-3"> Quero adotar</a>
             </div>
         </div>
     </div>

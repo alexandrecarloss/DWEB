@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa
 from .forms import especieForm
+from django.views import View
 
 def index(request):
     return render(request, 'index.html')
@@ -44,5 +45,8 @@ def load_pets(request):
     
     return render(request, "load_pets.html", {"pets": pets, "raca": raca, "pftfotos": pftfotos, "especie": especie})
 
-def petdetalhe(request):
-    return render(request, "pagDetalheAdocao.html")
+class petdetalhe(View):
+    def get(self, request, petid):
+        pet = Pet.objects.filter(petid = petid).first()
+        pftfotos = PetFoto.objects.filter(pet_petid = petid)
+        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos})
