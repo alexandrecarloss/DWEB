@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa
+from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte
 from .forms import especieForm
 from django.views import View
 
@@ -50,3 +50,27 @@ class petdetalhe(View):
         pet = Pet.objects.filter(petid = petid).first()
         pftfotos = PetFoto.objects.filter(pet_petid = petid)
         return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos})
+    
+def cadastropet(request):
+    return render(request, "pagCadastroPet.html")
+
+def salvarpet(request):
+    petnome = request.POST.get('petnome')
+    petsexo = request.POST.get('petsexo')
+    petcastrado = request.POST.get('petcastrado')
+    petdtnascto = request.POST.get('petdtnascto')
+    petpeso = request.POST.get('petpeso')
+    pessoa_pesid = request.POST.get('petsexo')
+    pet_porte_ptpid = request.POST.get('petporte')
+    pet_raca_ptrid = request.POST.get('petraca')
+    pet_tipo_pttid = request.POST.get('pettipo')
+
+    
+    porte = PetPorte.objects.filter(ptpid = pet_porte_ptpid).first()
+    raca = PetRaca.objects.filter(ptrid = pet_raca_ptrid).first()
+    tipo = PetTipo.objects.filter(pttid = pet_tipo_pttid).first()
+
+
+    Pet.objects.create(petnome = petnome, petsexo = petsexo, petcastrado = petcastrado, petdtnascto = petdtnascto, petpeso = petpeso, pet_porte_ptpid = porte, pet_raca_ptrid = raca, pet_tipo_pttid = tipo)
+
+    return render(request, "adocao.html")

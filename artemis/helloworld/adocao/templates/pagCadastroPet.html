@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block titulo %}Cadastro pet {% endblock %}
+{% block content %}
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header primaria text-white text-center">
+                            <h3 class="card-title mb-0">Cadastro de Pets</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="{% url 'salvarpet' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="pettipo" class="form-label">Tipo do Pet (Espécie)</label>
+                                    <select
+                                        class="form-select"
+                                        id="pettipo"
+                                        name="pettipo"
+                                        required
+                                    >
+                                        <option value="1">Cachorro</option>
+                                        <option value="2">Gato</option>
+                                        <option value="1">Outro</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="petnome" class="form-label">Nome</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="petnome"
+                                        name="petnome"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Sexo</label>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="petsexo"
+                                            id="sexoM"
+                                            value="M"
+                                            checked
+                                        >
+                                        <label class="form-check-label" for="sexoM">
+                                            Macho
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="petsexo"
+                                            id="sexoF"
+                                            value="F"
+                                        >
+                                        <label class="form-check-label" for="sexoF">
+                                            Fêmea
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="petdtnascto" class="form-label">Data de nascimento (aproximada)</label>
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        id="petdtnascto"
+                                        name="petdtnascto"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="petporte" class="form-label">Porte do Pet</label>
+                                    <div class="d-flex align-items-center">
+                                        <select
+                                            class="form-select"
+                                            id="petporte"
+                                            name="petporte"
+                                            required
+                                        >
+                                            <option value="1">Pequeno</option>
+                                            <option value="2">Médio</option>
+                                            <option value="3">Grande</option>
+                                        </select>
+                                        <button
+                                            class="btn btn-link"
+                                            type="button"
+                                            id="btnInfoPorte"
+                                            data-bs-toggle="popover"
+                                            title="Porte do Pet"
+                                            data-bs-content="Pequeno: Geralmente até 30 cm de altura.Médio: Costuma ter entre 30 cm e 60 cm de altura.Grande: Geralmente mais de 60 cm de altura."
+                                        >
+                                            <i class="bi bi-question-circle"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="petpeso" class="form-label">Peso (em kg)</label>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        class="form-control"
+                                        id="petpeso"
+                                        name="petpeso"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="petraca" class="form-label">Raça do Pet</label>
+                                    <select class="form-select" id="petraca" name="petraca" required>
+                                        <option value="">Selecione a raça</option>
+                                        <option value="1">Raça 1</option>
+                                        <option value="2">Raça 2</option>
+                                        <option value="3">Raça 3</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="petcastrado" class="form-label">Castrado</label>
+                                    <select
+                                        class="form-select"
+                                        id="petcastrado"
+                                        name="petcastrado"
+                                        required
+                                    >
+                                        <option value="Castrado">Castrado</option>
+                                        <option value="Não Castrado">Não Castrado</option>
+                                        <option value="Não sei">Não sei</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Escolha as fotos do Pet</label>
+                                    <input
+                                        class="form-control"
+                                        type="file"
+                                        id="formFile"
+                                        name="fotos_pet"
+                                        multiple
+                                    >
+                                </div>
+                                <button type="submit" class="btn primaria">Cadastrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock content %}

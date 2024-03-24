@@ -28,6 +28,8 @@ urlpatterns = [
     path('adocao/load_pets/', adocaoViews.load_pets, name="load_pets"),
     path('login/', adocaoViews.login, name="login"),
     path('adocao/petdetalhe/<int:petid>', adocaoViews.petdetalhe.as_view(), name="petdetalhe"),
+    path('adocao/cadastropet', adocaoViews.cadastropet, name="cadastropet"),
+    path('adocao/salvarpet', adocaoViews.salvarpet, name="salvarpet"),
     #path('adocao/petdetalhe/', include('urlsAdocao')),
     # path('<int: petid', adocaoViews.petdetalhe, name='petdetalhe'),
 ]
