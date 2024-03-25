@@ -9,20 +9,26 @@
                             <h3 class="card-title mb-0">Cadastro de Pets</h3>
                         </div>
                         <div class="card-body">
-                            <form action="{% url 'salvarpet' %}" method="POST">
+                            <form action="{% url 'salvarpet' %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="mb-3">
-                                    <label for="pettipo" class="form-label">Tipo do Pet (Espécie)</label>
+                                    <label for="especie" class="form-label">Tipo do Pet (Espécie)</label>
                                     <select
+                                        id="especie"
+                                        name="especie"
                                         class="form-select"
                                         id="pettipo"
                                         name="pettipo"
                                         required
+                                        hx-get="load_racas/"
+                                        hx-target="#id_raca"
                                     >
-                                        <option value="1">Cachorro</option>
-                                        <option value="2">Gato</option>
-                                        <option value="1">Outro</option>
+                                        <option value="" selected></option>
+                                        {% for tipo in pettipos %}
+                                        <option value="{{ tipo.pttid }}" >{{ tipo.pttnome }}</option>
+                                        {% endfor %}
                                     </select>
+                                    
                                 </div>
                                 <div class="mb-3">
                                     <label for="petnome" class="form-label">Nome</label>
@@ -81,9 +87,9 @@
                                             name="petporte"
                                             required
                                         >
-                                            <option value="1">Pequeno</option>
-                                            <option value="2">Médio</option>
-                                            <option value="3">Grande</option>
+                                        {% for porte in petportes %}
+                                            <option value="{{porte.ptpid }}">{{ porte.ptpnome }}: {{ porte.ptpdescricao }}</option>
+                                        {% endfor %}
                                         </select>
                                         <button
                                             class="btn btn-link"
@@ -109,12 +115,8 @@
                                     >
                                 </div>
                                 <div class="mb-3">
-                                    <label for="petraca" class="form-label">Raça do Pet</label>
-                                    <select class="form-select" id="petraca" name="petraca" required>
-                                        <option value="">Selecione a raça</option>
-                                        <option value="1">Raça 1</option>
-                                        <option value="2">Raça 2</option>
-                                        <option value="3">Raça 3</option>
+                                    <label for="id_raca" class="form-label">Raça do Pet</label>
+                                    <select class="form-select" id="id_raca" name="petraca" required>          
                                     </select>
                                 </div>
                                 
