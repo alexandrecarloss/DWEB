@@ -1,51 +1,32 @@
-
 {% for pet in pets %}
-<div class="col-md-6 col-lg-6 col-xl-3">
-    <div class="rounded position-relative fruite-item">
-        <div class="fruite-img">
-            <div id="fotoPetSlider{{pet.petnome}}" class="carousel slide" data-ride="carousel">
-                {% for foto in pftfotos %}
-                {% if foto.pet_petid.petid == pet.petid %}               
-                <div class="carousel-inner">
-                    
-                    <!-- {% if foto.pftid == 1 %} 
-                    <div class="carousel-item active">
-                    {% else %}
-                    <div class="carousel-item">
-                    {% endif %} -->
-                    <div class="carousel-item active">
-                    <img
-                        src="{{ foto.pftfoto.url }}"
-                        class="img-fluid w-100 rounded-top"
-                        style="max-height: 200px;"
-                        alt="Foto de {{ pet.petnome }}"
-                    > 
-                    </div>
-                <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-prev" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-next" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-                {% endif %}
-                {% endfor %}
-            </div>
+<div class="col-md-6 col-lg-6 col-xl-3" 
+hx-get="fotopet/{{pet.petid}}/0"
+hx-target="#fotopet{{pet.petid}}"
+hx-trigger="load">
+    <div class="rounded position-relative fruite-item" >
+        <div class="fruite-img" id="fotopet{{pet.petid}}">
+               
         </div>
-        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Cachorro</div>
+        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{pet.pet_tipo_pttid.pttnome}}</div>
         <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column justify-content-between">
             <div>
                 <div class="d-flex">
                     <div>
-                        <p class="text-secondary" style="font-size: 10px;margin-bottom: 3px;">MARCUS VINICIUS SOARES CORREIA</p>
+                        {% if pet.pessoa_pesid %}
+                        <p class="text-secondary" style="font-size: 10px;margin-bottom: 3px;">{{ pet.pessoa_pesid.pesnome }}</p>
+                        {% else %}
+                        <p class="text-secondary" style="font-size: 10px;margin-bottom: 3px;"> Sem responsável cadastrado</p>
+                        {% endif %}
                         <h4>{{ pet.petnome }}</h4>
+                        {% if pet.pessoa_pesid %}
+                        <p>{{ pet.pessoa_pesid.pesbairro }}, {{ pet.pessoa_pesid.pescidade }}</p>
+                        {% else %}
                         <p>Manaus, AM</p>
-                    </div>
-                    
+                        {% endif %}
+                    </div>                   
                 </div>
             </div>
+           
             <div class="mt-auto">
                 <a href="{% url 'petdetalhe' pet.petid %}" class="btn azul btn-block rounded-pill px-3"> Quero adotar</a>
             </div>
@@ -53,4 +34,3 @@
     </div>
 </div>
 {% endfor %}
-            
