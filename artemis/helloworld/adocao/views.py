@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte
 from .forms import especieForm
@@ -104,7 +104,7 @@ def salvarpet(request):
     # img = Image.open(petfotosnovo)
     # path = os.path.join(settings.BASE_DIR, f'media/adocao/images/pet{date.today()}-{petfotosnovo.name}')
     # img = img.save(path)
-    return render(request, "adocao.html", {"petidnovo": petidnovo})
+    return redirect(adocao)
     # for foto in petfotosnovo:
     #     PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
     # fotosnovo = PetFoto.objects.filter(pet_petid = petidnovo)
