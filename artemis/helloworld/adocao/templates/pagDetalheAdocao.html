@@ -4,28 +4,12 @@
 {% load static %}
         <div class="container-fluid detalhes">
             <div class="row g-4 mb-5 ">
-                <div class="col-lg-6 d-flex justify-content-center align-items-center">
-                <div class="fruite-img">
-                {% for foto in pftfotos %}              
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                        <img
-                            src="{{ foto.pftfoto.url }}"
-                            class="img-fluid w-100 rounded-top"
-                            style="max-height: 200px;"
-                            alt="Foto de {{ pet.petnome }}"
-                        > 
-                        </div>
-                    <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-prev" role="button" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a href="#fotoPetSlider{{pet.petnome}}" class="carousel-control-next" role="button" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>                
-                {% endfor %}
+                <div class="col-lg-6 d-flex justify-content-center align-items-center"
+                hx-get="../fotopet/{{pet.petid}}/1"
+                hx-target="#fotopet{{pet.petid}}"
+                hx-trigger="load">
+                <div class="fruite-img" id="fotopet{{pet.petid}}">
+                
                 </div>
                 </div>
                 <div class="col-lg-6 mt-5">
@@ -41,7 +25,7 @@
                     {% if pet.pessoa_pesid != None %}
                     <p class="text-secondary mb-1">{{pet.pessoa_pesid.pesrua}}, {{pet.pessoa_pesid.pesnumero}}, {{pet.pessoa_pesid.pesbairro}}. {{pet.pessoa_pesid.pescidade}} - AM</p>
                     {% endif %}
-                    <p class="mb-4">Susp endisse ultricies nisi vel quam suscipit. Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish</p>
+                    <!-- <p class="mb-4">Susp endisse ultricies nisi vel quam suscipit. Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish</p> -->
                     <div class="text-center">
                         <a href="{% url 'adocao' %}" class="btn secundaria btn-block rounded px-3"> Voltar</a>
                         <button

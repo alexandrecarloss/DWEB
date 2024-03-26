@@ -1,0 +1,33 @@
+{% if multiplo  == 0 %}
+    <img src="{{pftfoto.pftfoto.url}}" alt="Foto de {{ pet.petnome }}"
+    class="img-fluid w-100 rounded-top"
+    >
+{% elif multiplo == 1 %}
+    {% if varias %}
+    <div id="pftpetslider" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+    {% for foto in pftfoto %}
+        {% if foto.pftid == pftfotoprimeira.pftid %}
+        <div class="carousel-item active">
+        {% else %}
+        <div class="carousel-item">
+        {% endif %}
+            <img src="{{ foto.pftfoto.url}}" alt="Foto de {{ pet.petnome }}" class="img-fluid w-300 rounded-top">
+        </div>
+        <a href="#pftpetslider" class="carousel-control-prev" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a href="#pftpetslider" class="carousel-control-next" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        {% endfor %}
+    </div>
+    </div>
+    {% else %}
+        {% for foto in pftfoto %}
+            <img src="{{foto.pftfoto.url}}" alt="Foto de {{ pet.petnome }}" class="img-fluid w-100 rounded-top">
+        {% endfor %}
+    {% endif %}
+{% endif %}

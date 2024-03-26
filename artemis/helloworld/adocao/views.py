@@ -56,6 +56,19 @@ class petdetalhe(View):
         pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
         return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos})
     
+class fotopet(View):
+    def get(self, request, petid, multiplo):
+        pet = Pet.objects.filter(petid = petid).first()
+        if multiplo == 0:
+            pftfoto = PetFoto.objects.filter(pet_petid = pet.petid).first()
+        else:
+            pftfoto = PetFoto.objects.filter(pet_petid = pet.petid)
+            if len(pftfoto) > 1:
+                pftfotoprimeira = PetFoto.objects.filter(pet_petid = pet.petid).first()
+                varias = 1
+                return render(request, "load_foto_pet.html", {"pet": pet, "petid": petid, "pftfoto": pftfoto, "multiplo": multiplo, "varias": varias, "pftfotoprimeira": pftfotoprimeira})
+        return render(request, "load_foto_pet.html", {"pet": pet, "petid": petid, "pftfoto": pftfoto, "multiplo": multiplo})
+
 def cadastropet(request):
     pettipos = PetTipo.objects.all()
     petportes = PetPorte.objects.all()
