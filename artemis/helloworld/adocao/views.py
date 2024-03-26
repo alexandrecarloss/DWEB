@@ -53,8 +53,10 @@ def load_pets(request):
 class petdetalhe(View):
     def get(self, request, petid):
         pet = Pet.objects.filter(petid = petid).first()
+        today = date.today() 
+        petidade = today.year - pet.petdtnascto.year - ((today.month, today.day) < (pet.petdtnascto.month, pet.petdtnascto.day))
         pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
-        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos})
+        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade})
     
 class fotopet(View):
     def get(self, request, petid, multiplo):

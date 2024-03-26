@@ -20,7 +20,7 @@
                     <p class="mb-1">Raça: {{pet.pet_raca_ptrid.ptrnome}}</p>
                     <p class="mb-1">Peso: {{pet.petpeso}}</p>
                     <p class="mb-1">Porte: {{pet.pet_porte_ptpid.ptpnome}}: {{pet.pet_porte_ptpid.ptpdescricao}}</p>
-                    <p class="mb-1">Idade: {{pet.petdtnascto}}</p>
+                    <p class="mb-1">Idade: {{petidade}} Anos</p>
                     <p class="mb-1">Castrado: {{pet.petcastrado}}</p>
                     {% if pet.pessoa_pesid != None %}
                     <p class="text-secondary mb-1">{{pet.pessoa_pesid.pesrua}}, {{pet.pessoa_pesid.pesnumero}}, {{pet.pessoa_pesid.pesbairro}}. {{pet.pessoa_pesid.pescidade}} - AM</p>
