@@ -30,9 +30,8 @@ urlpatterns = [
     path('adocao/petdetalhe/<int:petid>', adocaoViews.petdetalhe.as_view(), name="petdetalhe"),
     path('adocao/cadastropet', adocaoViews.cadastropet, name="cadastropet"),
     path('adocao/salvarpet', adocaoViews.salvarpet, name="salvarpet"),
-    path('adocao/fotopet/<int:petid>/<int:multiplo>', adocaoViews.fotopet.as_view(), name="fotopet")
-    #path('adocao/petdetalhe/', include('urlsAdocao')),
-    # path('<int: petid', adocaoViews.petdetalhe, name='petdetalhe'),
+    path('adocao/fotopet/<int:petid>/<int:multiplo>', adocaoViews.fotopet.as_view(), name="fotopet"),
+    path('accounts/', include('accounts.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

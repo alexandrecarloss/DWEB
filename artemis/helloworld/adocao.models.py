@@ -15,9 +15,6 @@ class Formapagamento(models.Model):
     class Meta:
         managed = False
         db_table = 'formapagamento'
-    
-    def __str__(self):
-        return self.fpgdescricao
 
 
 class Itemvenda(models.Model):
@@ -29,6 +26,7 @@ class Itemvenda(models.Model):
         managed = False
         db_table = 'itemvenda'
         unique_together = (('produto_proid', 'venda_venid'),)
+
 
 class Ong(models.Model):
     ongid = models.AutoField(primary_key=True)
@@ -43,9 +41,6 @@ class Ong(models.Model):
     class Meta:
         managed = False
         db_table = 'ong'
-
-    def __str__(self):
-        return self.ongnome
 
 
 class Pessoa(models.Model):
@@ -66,9 +61,6 @@ class Pessoa(models.Model):
         managed = False
         db_table = 'pessoa'
 
-    def __str__(self):
-        return self.pesnome
-
 
 class Pet(models.Model):
     petid = models.AutoField(primary_key=True)
@@ -86,8 +78,6 @@ class Pet(models.Model):
         managed = False
         db_table = 'pet'
 
-    def __str__(self):
-        return self.petnome
 
 class PetAdocao(models.Model):
     ong_ongid = models.ForeignKey(Ong, models.DO_NOTHING, db_column='ong_ongid', blank=True, null=True)
@@ -100,15 +90,12 @@ class PetAdocao(models.Model):
 
 class PetFoto(models.Model):
     pftid = models.AutoField(primary_key=True)
-    pftfoto = models.ImageField(upload_to='adocao/images/pet')
+    pftfoto = models.CharField(max_length=100)
     pet_petid = models.ForeignKey(Pet, models.DO_NOTHING, db_column='pet_petid')
 
     class Meta:
         managed = False
         db_table = 'pet_foto'
-
-    def __str__(self):
-        return self.pftfoto.name
 
 
 class PetPorte(models.Model):
@@ -120,9 +107,6 @@ class PetPorte(models.Model):
         managed = False
         db_table = 'pet_porte'
 
-    def __str__(self):
-        return self.ptpnome
-
 
 class PetRaca(models.Model):
     ptrid = models.AutoField(primary_key=True)
@@ -133,8 +117,6 @@ class PetRaca(models.Model):
         managed = False
         db_table = 'pet_raca'
 
-    def __str__(self):
-        return self.ptrnome
 
 class PetTipo(models.Model):
     pttid = models.AutoField(primary_key=True)
@@ -144,8 +126,6 @@ class PetTipo(models.Model):
         managed = False
         db_table = 'pet_tipo'
 
-    def __str__(self):
-        return self.pttnome
 
 class Petshop(models.Model):
     ptsid = models.AutoField(primary_key=True)
@@ -162,9 +142,6 @@ class Petshop(models.Model):
         managed = False
         db_table = 'petshop'
 
-    def __str__(self):
-        return self.ptsnome
-
 
 class Produto(models.Model):
     proid = models.AutoField(primary_key=True)
@@ -178,21 +155,15 @@ class Produto(models.Model):
         managed = False
         db_table = 'produto'
 
-    def __str__(self):
-        return self.pronome
-
 
 class ProdutoFoto(models.Model):
     prfid = models.AutoField(primary_key=True)
-    prffoto = models.ImageField(upload_to='adocao/images/produto')
+    prffoto = models.CharField(max_length=100)
     produto_proid = models.ForeignKey(Produto, models.DO_NOTHING, db_column='produto_proid')
 
     class Meta:
         managed = False
         db_table = 'produto_foto'
-
-    def __str__(self):
-        return self.prffoto.name
 
 
 class Servico(models.Model):
@@ -217,9 +188,6 @@ class Tiposervico(models.Model):
     class Meta:
         managed = False
         db_table = 'tiposervico'
-    
-    def __str__(self):
-        return self.tpsnome
 
 
 class Venda(models.Model):
