@@ -21,3 +21,20 @@ def cadastropessoa(request):
         else:
             return render(request, 'cadastropessoa.html', {'form': UserCreateForm, 'error': 'Senhas não coincidem'})
 
+def cadastro(request):
+    if request.method == 'GET':
+        print('get')
+        return render(request, 'cadastro2.html', {'form': UserCreateForm})
+    else:
+        print('post')
+        if request.POST['password'] == request.POST['confirmPassword']:
+            try:
+                user = User.objects.create_user(request.POST['name'], password= request.POST['password'])
+                user.save()
+                login(request, user)
+                return redirect('index')
+            except IntegrityError:
+                return render(request, 'cadastro2.html', {'form': UserCreateForm, 'error': 'Usuário já existe. Escolha um novo usuário.'})
+        else:
+            return render(request, 'cadastro2.html', {'form': UserCreateForm, 'error': 'Senhas não coincidem'})
+
