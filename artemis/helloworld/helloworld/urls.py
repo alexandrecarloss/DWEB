@@ -23,14 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', adocaoViews.index, name='index'),
-    path('adocao/', adocaoViews.adocao, name='adocao'),
-    path('adocao/load_racas/', adocaoViews.load_racas, name="load_racas"),
-    path('adocao/load_pets/', adocaoViews.load_pets, name="load_pets"),
+    path('adocao/', include('adocao.urls')),
     #path('login/', adocaoViews.login, name="login"),
-    path('adocao/petdetalhe/<int:petid>', adocaoViews.petdetalhe, name="petdetalhe"),
-    path('adocao/cadastropet', adocaoViews.cadastropet, name="cadastropet"),
-    path('adocao/salvarpet', adocaoViews.salvarpet, name="salvarpet"),
-    path('adocao/fotopet/<int:petid>/<int:multiplo>', adocaoViews.fotopet.as_view(), name="fotopet"),
     path('accounts/', include('accounts.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
