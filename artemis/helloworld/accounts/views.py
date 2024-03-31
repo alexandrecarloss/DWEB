@@ -51,5 +51,8 @@ def loginaccount(request):
             return render(request, 'loginaccount.html', {'form': AuthenticationForm(), 'error': 'Usuário e senha não coincidem'})
         else:
             login(request, user)
-            return redirect('index')
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:
+                return redirect('index')
 

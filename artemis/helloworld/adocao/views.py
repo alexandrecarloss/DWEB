@@ -8,6 +8,8 @@ from PIL import Image
 import os
 from django.conf import settings
 from datetime import date
+from django.contrib.auth.decorators import login_required
+from accounts import views as viewsAccount
 
 def index(request):
     return render(request, 'index.html')
@@ -50,13 +52,13 @@ def load_pets(request):
     
     return render(request, "load_pets.html", {"pets": pets, "raca": raca, "pftfotos": pftfotos, "especie": especie})
 
-class petdetalhe(View):
-    def get(self, request, petid):
-        pet = Pet.objects.filter(petid = petid).first()
-        today = date.today() 
-        petidade = today.year - pet.petdtnascto.year - ((today.month, today.day) < (pet.petdtnascto.month, pet.petdtnascto.day))
-        pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
-        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade})
+@login_required(login_url="/accounts/login")
+def petdetalhe(request, petid):
+    pet = Pet.objects.filter(petid = petid).first()
+    today = date.today() 
+    petidade = today.year - pet.petdtnascto.year - ((today.month, today.day) < (pet.petdtnascto.month, pet.petdtnascto.day))
+    pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
+    return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade})
     
 class fotopet(View):
     def get(self, request, petid, multiplo):

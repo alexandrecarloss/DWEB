@@ -13,6 +13,9 @@
                 <p class="card-text">
                     <form method="post">
                         {% csrf_token %}
+                        {% if request.GET.next %}
+                            <input type="hidden" name="next" value="{{ request.GET.next }}">
+                        {% endif %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
