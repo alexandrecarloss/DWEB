@@ -46,10 +46,11 @@ def load_pets(request):
     raca = request.GET.get('raca')  
     if raca:
         pets = Pet.objects.filter(pet_raca_ptrid = raca)
+    elif especie:
+        pets = Pet.objects.filter(pet_tipo_pttid = especie)
     else:
         pets = Pet.objects.all()
     pftfotos = PetFoto.objects.all()
-    
     return render(request, "load_pets.html", {"pets": pets, "raca": raca, "pftfotos": pftfotos, "especie": especie})
 
 @login_required(login_url="/accounts/login")

@@ -36,14 +36,20 @@
                                 id="especie"
                                 name="especie"
                                 class="border-0 form-select-sm bg-light me-3"
-                                form="especieform"
+                                form="especieform" 
                                 hx-get="load_racas/"
-                                hx-target="#id_raca"
+                                hx-target="#id_raca"                         
+                                
                             >
-                                <option value="" selected></option>
-                                {% for tipo in pettipos %}
-                                <option value="{{ tipo.pttid }}" >{{ tipo.pttnome }}</option>
-                                {% endfor %}
+                            <option value="" selected hx-get="load_pets/?especie=1"
+                            hx-target="#containercardspets" ></option> 
+                            {% for tipo in pettipos %} 
+                            
+                                <option value="{{ tipo.pttid }}" 
+                                >
+                                    {{ tipo.pttnome }}
+                                </option>
+                            {% endfor %}
                             </select>
                         </div>
                     </div>
