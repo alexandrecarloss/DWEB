@@ -25,7 +25,16 @@
                                 </span></button>
                                 <!-- {{ form.as_p }} -->
                             </form>
-                            
+                        </div>
+                        <div class="tudo-info" id="info-container-1">
+                            <h3>Tutorial adoção 1</h3>
+                            <div class="texto-info">Encontre um pet pelo nome</div>
+                            <div class="triangulo-info" id="trg-info">
+                                aa
+                            </div>
+                            <div class="controlers">
+                                <button class="btn btn-info" class="final-info">Pular</button><button class="btn btn-info" id="prox-segunda-info">Próximo</button>
+                            </div>
                         </div>
                         
                     </div>
@@ -39,8 +48,8 @@
                                 form="especieform" 
                                 hx-get="load_racas/"
                                 hx-target="#id_raca"                         
-                                
                             >
+                            
                             <option value="" selected hx-get="load_pets/?especie=1"
                             hx-target="#containercardspets" ></option> 
                             {% for tipo in pettipos %} 
@@ -51,6 +60,17 @@
                                 </option>
                             {% endfor %}
                             </select>
+                    
+                        </div>
+                        <div class="tudo-info" id="info-container-2">
+                            <h3>Tutorial adoção 2</h3>
+                            <div class="texto-info">Encontre um pet pela espécie: cachorro, gato, etc...</div>
+                            <div class="triangulo-info" id="trg-info-2">
+                                aa
+                            </div>
+                            <div class="controlers">
+                                <button class="btn btn-info" class="final-info">Pular</button><button class="btn btn-info" id="prox-segundo-info">Próximo</button>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-3">
@@ -65,6 +85,16 @@
                                 hx-target="#containercardspets"
                             >
                             </select>
+                        </div>
+                        <div class="tudo-info" id="info-container-3">
+                            <h3>Tutorial adoção 3</h3>
+                            <div class="texto-info">Após escolher uma espécie, encontre um pet pela raça: Vira lata, Persa, etc...</div>
+                            <div class="triangulo-info" id="trg-info-3">
+                                aa
+                            </div>
+                            <div class="controlers">
+                                <button class="btn btn-info" class="final-info">Pular</button><button class="btn btn-info" id="prox-terceiro-info">Próximo</button>
+                            </div>
                         </div>
                     </div>
                     <!-- <form method="POST">

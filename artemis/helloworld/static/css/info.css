@@ -1,0 +1,73 @@
+:root {
+    --bs-primary: #394ea1;
+    --bs-secondary: #fd5e41;
+    --primary-color: #394ea1;
+    --secondary-color: #89d8ce;
+    --accent-color: #f7ae34;
+    --tertiary-color: #f294a0;
+    --quaternary-color: #fd5e41;
+}
+
+.tudo-info {
+    background-color: var(--bs-primary);
+    position: relative;       
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid var(--bs-primary);
+    box-shadow: 3px 2px 2px black;
+    color: white;
+    display: none;
+}
+
+#info-container-1 {
+    top: 5%;
+}
+
+.tudo-info .triangulo-info {
+    border: 10px solid #ffffff;
+    border-radius: 33% 0;
+    box-shadow: inherit;
+    position: absolute;
+    margin-left: 85%;
+    top: 0;
+    transform: translateY(-50%) rotate(60deg) skew(12deg, 12deg);
+    /* width: 0; */
+    z-index: -1;
+    background-color: var(--bs-primary);
+    color: var(--bs-primary);
+}
+
+.tudo-info #trg-info {
+    margin-left: 0;
+}
+
+.tudo-info #trg-info-2 {
+    margin-left: 70%;
+    
+}
+
+.tudo-info #trg-info-3 {
+    margin-left: 70%;    
+}
+
+.tudo-info h3 {
+    margin: 5px;
+    text-align: center;
+}
+
+.tudo-info .texto-info {
+    margin: 5px;
+}
+
+.tudo-info .controlers {
+    text-align: right;
+}
+
+.btn-info {
+    margin: 5px;
+    background-color: var(--bs-primary);
+}
+
+.btn-info:hover {
+    background-color: var(--bs-secondary);
+}
