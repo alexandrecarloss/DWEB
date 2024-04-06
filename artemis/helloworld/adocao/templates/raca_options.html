@@ -1,4 +1,7 @@
 <option value=""></option>
+<div hx-get="load_pets/?especie={{ id_specie }}"                                
+hx-target="#containercardspets"
+hx-trigger="load"></div>
 {% for raca in racas %}
 <option value="{{ raca.ptrid }}">{{ raca.ptrnome }}</option>
 {% endfor %}
