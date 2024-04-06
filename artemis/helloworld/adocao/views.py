@@ -39,7 +39,7 @@ def adocao(request):
 def load_racas(request):
     id_specie = request.GET.get('especie')
     racas = PetRaca.objects.filter(pet_tipo_pttid = id_specie)
-    return render(request, "raca_options.html", {"racas": racas})
+    return render(request, "raca_options.html", {"racas": racas, "id_specie": id_specie})
 
 def load_pets(request):
     especie = request.GET.get('especie')
