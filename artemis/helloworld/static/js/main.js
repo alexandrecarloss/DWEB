@@ -32,5 +32,22 @@ $(window).scroll(function () {
     }
 });
 
+$('input[type=radio][name=tipoPessoa]').change(function () {
+    if (this.value === 'pessoaFisica') {
+        $('#camposPessoaFisica').show();
+        $('#camposONG').hide();
+        $('#camposPessoaJuridica').hide();
+    }
+    else if (this.value === 'ong') {
+        $('#camposPessoaFisica').hide();
+        $('#camposONG').show();
+        $('#camposPessoaJuridica').hide();
+    }
+    else if (this.value === 'pessoaJuridica') {
+        $('#camposPessoaFisica').hide();
+        $('#camposONG').hide();
+        $('#camposPessoaJuridica').show();
+    }
+});
 
 //Filtro

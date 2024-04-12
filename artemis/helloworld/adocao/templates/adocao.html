@@ -8,6 +8,11 @@
         <h1 class="mb-4">Filtro</h1>
         <div class="row g-4">
             <div class="col-lg-12">
+                {% if response %}
+                <div class="alert alert-success">
+                    <p>{{ response }}</p>
+                </div>
+                {% endif %}
                 <!-- FILTROS -->
                 <div class="row g-4">
                     <div class="col-xl-3">

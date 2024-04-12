@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% block titulo %}Cadastro{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                  {% if error %}
+                  <div class="alert alert-danger mt-3" role="alert">
+                    {{ error }}
+                  </div>
+                  {% endif %}
+                  <div id="camposPessoaFisica">
+                    <form id="cadastroForm" method="post">
+                      {% csrf_token %}
+                      <label for="">Selecione seu tipo:</label>
+                        <div class="form-group">                                   
+                          <div class="form-check form-check-inline ">
+                            <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaFisica" value="pessoaFisica" checked>
+                            <label class="form-check-label" for="pessoaFisica">
+                              Pessoa Física
+                            </label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tipoPessoa" id="ong" value="ong">
+                            <label class="form-check-label" for="ong">
+                              ONG
+                            </label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaJuridica" value="pessoaJuridica">
+                            <label class="form-check-label" for="pessoaJuridica">
+                              Pet Shop
+                            </label>
+                          </div>
+                        </div>
+                        <!-- Início pessoa física                          -->
+                       
+                          <h4 class="mb-3">Informações de Pessoa Física</h4>                         
+                          <div class="form-group">
+                            <label for="pesnome">Nome:</label>
+                            <input type="text" class="form-control" id="pesnome" name="pesnome" placeholder="Nome" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pescpf">CPF:</label>
+                            <input type="text" class="form-control" id="pescpf" name="pescpf" placeholder="CPF" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pesdtnascto">Data de Nascimento:</label>
+                            <input type="date" class="form-control" id="pesdtnascto" name="pesdtnascto" placeholder="Data de Nascimento"
+                              required>
+                          </div>
+                          <div class="form-group">
+                            <label>Sexo:</label><br>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="pessexo" id="masculino" value="M" required>
+                              <label class="form-check-label" for="masculino">Masculino</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="pessexo" id="feminino" value="F" required>
+                              <label class="form-check-label" for="feminino">Feminino</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="pesestado">Estado:</label>
+                            <input type="text" class="form-control" id="pesestado" name="pesestado" placeholder="Estado" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pescidade">Cidade:</label>
+                            <input type="text" class="form-control" id="pescidade" name="pescidade" placeholder="Cidade" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pesbairro">Bairro:</label>
+                            <input type="text" class="form-control" id="pesbairro" name="pesbairro" placeholder="Bairro" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pesrua">Rua:</label>
+                            <input type="text" class="form-control" id="pesrua" name="pesrua" placeholder="Rua" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pesnumero">Número:</label>
+                            <input type="number" class="form-control" id="pesnumero" name="pesnumero" placeholder="Número" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pesemail">Email:</label>
+                            <input type="email" class="form-control" id="pesemail" name="pesemail" placeholder="Email" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="pestelefone">Telefone:</label>
+                            <input type="tel" class="form-control" id="pestelefone" name="pestelefone" placeholder="Telefone" required>
+                          </div> 
+                          <div class="mb-3">
+                            <label for="cadastroSenhaFisica" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="cadastroSenhaFisica" placeholder="Digite sua senha" name="password1" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="cadastroConfirmarSenhaFisica" class="form-label">Confirmar a senha</label>
+                              <input type="password" class="form-control" id="cadastroConfirmarSenhaFisica" placeholder="Confirme sua senha" name="password2" required>
+                          </div> 
+                          <!-- Fim pessoa física                         -->
+                          <button type="submit" class="btn primaria btn-block mt-4">Enviar</button>
+                        </form>
+                      </div>
+                      <div id="camposONG" style="display:none;">
+                        <form id="cadastroForm" method="post">
+                          {% csrf_token %}                       
+                          <label for="">Selecione seu tipo:</label>
+                          <div class="form-group">                                   
+                            <div class="form-check form-check-inline ">
+                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaFisica" value="pessoaFisica">
+                              <label class="form-check-label" for="pessoaFisica">
+                                Pessoa Física
+                              </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="tipoPessoa" id="ong" value="ong" checked>
+                              <label class="form-check-label" for="ong">
+                                ONG
+                              </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaJuridica" value="pessoaJuridica">
+                              <label class="form-check-label" for="pessoaJuridica">
+                                Pet Shop
+                              </label>
+                            </div>
+                          </div>                       
+                          <!-- Início ONG -->
+                          <h4 class="mb-3">Informações de ONG</h4>
+                          <div class="form-group">
+                            <label for="nomeONG">Nome da ONG:</label>
+                            <input type="text" class="form-control" id="nomeONG" placeholder="Nome da ONG" required name="nomeONG">
+                          </div>
+                          <div class="form-group">
+                            <label for="cidadeONG">Cidade:</label>
+                            <input type="text" class="form-control" id="cidadeONG" name="cidadeONG" placeholder="Cidade" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="bairroONG">Bairro:</label>
+                            <input type="text" class="form-control" name="bairroONG" id="bairroONG" placeholder="Bairro" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="ruaONG">Rua:</label>
+                            <input type="text" class="form-control" id="ruaONG" name="ruaONG" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="numONG">Número:</label>
+                            <input type="number" class="form-control" id="numONG" name="numONG" placeholder="Número" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="telefoneONG">Telefone:</label>
+                            <input type="tel" class="form-control" name="telefoneONG" id="telefoneONG" placeholder="Telefone">
+                          </div>
+                          <div class="form-group">
+                            <label for="emailONG">Email:</label>
+                            <input type="email" class="form-control" name="emailONG" id="emailONG" placeholder="Email">
+                          </div>
+                          <div class="mb-3">
+                            <label for="cadastroSenhaFisica" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="cadastroSenhaFisica" placeholder="Digite sua senha" name="password1" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="cadastroConfirmarSenhaFisica" class="form-label">Confirmar a senha</label>
+                              <input type="password" class="form-control" id="cadastroConfirmarSenhaFisica" placeholder="Confirme sua senha" name="password2" required>
+                          </div>
+                          <button type="submit" class="btn primaria btn-block mt-4">Enviar</button>
+                        </form>
+                      </div>        
+                        <!-- Fim ONG -->
+                        <!-- Início pessoa jurídica   -->
+                        <div id="camposPessoaJuridica" style="display:none;">
+                          <form id="cadastroForm" method="post">
+                            {% csrf_token %}
+                            <label for="">Selecione seu tipo:</label>
+                          <div class="form-group">                                   
+                            <div class="form-check form-check-inline ">
+                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaFisica" value="pessoaFisica">
+                              <label class="form-check-label" for="pessoaFisica">
+                                Pessoa Física
+                              </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="tipoPessoa" id="ong" value="ong">
+                              <label class="form-check-label" for="ong">
+                                ONG
+                              </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaJuridica" value="pessoaJuridica" checked>
+                              <label class="form-check-label" for="pessoaJuridica">
+                                Pet Shop
+                              </label>
+                            </div>
+                          </div>
+                          <h4 class="mb-3">Informações de Pet Shop</h4>
+                          <div class="form-group">
+                              <label for="ptsnome">Nome do Petshop:</label>
+                              <input type="text" class="form-control" id="ptsnome" name="ptsnome" placeholder="Nome da Petshop">
+                          </div>
+                          <div class="form-group">
+                              <label for="ptscnpj">CNPJ:</label>
+                              <input type="text" class="form-control" id="ptscnpj" name="ptscnpj" placeholder="CNPJ" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="ptscidade">Cidade:</label>
+                              <input type="text" class="form-control" name="ptscidade" id="ptscidade" placeholder="Cidade">
+                          </div>
+                          <div class="form-group">
+                              <label for="ptsbairro">Bairro:</label>
+                              <input type="text" class="form-control" name="ptsbairro" id="ptsbairro" placeholder="Bairro">
+                          </div>
+                          <div class="form-group">
+                              <label for="ptsrua">Rua:</label>
+                              <input type="text" class="form-control" id="ptsrua" name="ptsrua" placeholder="Rua">
+                          </div>
+                          <div class="form-group">
+                              <label for="ptsnumero">Número:</label>
+                              <input type="number" class="form-control" name="ptsnumero" id="ptsnumero" placeholder="Número">
+                          </div>
+                          <div class="form-group">
+                              <label for="ptstelefone">Telefone:</label>
+                              <input type="tel" class="form-control" name="ptstelefone" id="ptstelefone" placeholder="Telefone">
+                          </div>
+                          <div class="form-group">
+                              <label for="ptsemail">Email:</label>
+                              <input type="email" class="form-control" name="ptsemail" id="ptsemail" placeholder="Email">
+                          </div>
+                          <div class="mb-3">
+                            <label for="cadastroSenhaFisica" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="cadastroSenhaFisica" placeholder="Digite sua senha" name="password1" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="cadastroConfirmarSenhaFisica" class="form-label">Confirmar a senha</label>
+                              <input type="password" class="form-control" id="cadastroConfirmarSenhaFisica" placeholder="Confirme sua senha" name="password2" required>
+                          </div>
+                          <button type="submit" class="btn primaria btn-block mt-4">Enviar</button>
+                        </form>
+                      </div>                                                      
+                      <!-- Fim pessoa jurídica -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>      
+{% endblock content %}

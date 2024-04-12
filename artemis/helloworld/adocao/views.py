@@ -10,14 +10,26 @@ from django.conf import settings
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from accounts import views as viewsAccount
+from django.db import connection
+
+cursor = connection.cursor()
 
 def index(request):
-    return render(request, 'index.html')
+    try:
+        response = request.session.get('response')
+    finally:
+        request.session['response'] = None
+    return render(request, 'index.html', {'response': response})
 
 def login(request):
     return render(request, 'login.html')
 
 def adocao(request):
+    try:
+        response = request.session.get('response')
+    finally:
+        request.session['response'] = None
+   
     form = especieForm()
     nomePesquisa = request.GET.get('nomepesquisa')
     especie = request.GET.get('especie')
@@ -34,7 +46,7 @@ def adocao(request):
     else:
         pets = Pet.objects.all()
     pftfotos = PetFoto.objects.all()
-    return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'form': form, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
+    return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'form': form, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa, 'response': response})
 
 def load_racas(request):
     id_specie = request.GET.get('especie')
@@ -74,12 +86,38 @@ class fotopet(View):
                 return render(request, "load_foto_pet.html", {"pet": pet, "petid": petid, "pftfoto": pftfoto, "multiplo": multiplo, "varias": varias, "pftfotoprimeira": pftfotoprimeira})
         return render(request, "load_foto_pet.html", {"pet": pet, "petid": petid, "pftfoto": pftfoto, "multiplo": multiplo})
 
+@login_required(login_url="/accounts/login")
 def cadastropet(request):
+    print(request)
     pettipos = PetTipo.objects.all()
     petportes = PetPorte.objects.all()
     return render(request, "pagCadastroPet.html", {"pettipos": pettipos, "petportes": petportes})
 
 def salvarpet(request):
+    # if request.method == 'GET':
+    #     return render(request, 'pagCadastroPet.html')
+    # else:
+    #     petnome = request.POST.get('petnome')
+    #     petsexo = request.POST.get('petsexo')
+    #     petcastrado = request.POST.get('petcastrado')
+    #     petdtnascto = request.POST.get('petdtnascto')
+    #     petpeso = request.POST.get('petpeso')
+    #     #pessoa_pesid = request.POST.get('petsexo')
+    #     pessoa_pesid = 'Null'
+    #     vpet_porte_ptpid = request.POST.get('petporte')
+    #     vpet_raca_ptrid = request.POST.get('petraca')
+    #     vpet_tipo_pttid = request.POST.get('especie')
+
+    #     porte = PetPorte.objects.filter(ptpid = vpet_porte_ptpid).first()
+    #     raca = PetRaca.objects.filter(ptrid = vpet_raca_ptrid).first()
+    #     tipo = PetTipo.objects.filter(pttid = vpet_tipo_pttid).first()
+
+    #     try:
+    #         cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
+    #         result = cursor.fetchall()
+    #         print(result)
+    #     finally:
+    #         cursor.close()
     petnome = request.POST.get('petnome')
     petsexo = request.POST.get('petsexo')
     petcastrado = request.POST.get('petcastrado')
@@ -107,8 +145,11 @@ def salvarpet(request):
     # img = Image.open(petfotosnovo)
     # path = os.path.join(settings.BASE_DIR, f'media/adocao/images/pet{date.today()}-{petfotosnovo.name}')
     # img = img.save(path)
+    request.session['response'] = "Pet cadastrado com sucesso!"
     return redirect(adocao)
+    #return render(request, "adocao.html", {"response": "Pet cadastrado com sucesso!", "pets": pets})
     # for foto in petfotosnovo:
     #     PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
     # fotosnovo = PetFoto.objects.filter(pet_petid = petidnovo)
     # return render(request, "adocao.html", {"petnovo": petidnovo, "petfotosnovo": fotosnovo})
+    
