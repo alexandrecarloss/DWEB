@@ -33,9 +33,11 @@
     border-color: var(--primary-color);
 }
 
+
 body {
     padding-top: 119px;
 }
+
 
 @media (max-width: 992px) {
     body {
@@ -145,6 +147,7 @@ body {
     opacity: 1;
 }
 
+
 /*** Navbar End ***/
 
 .page-header {
@@ -167,3 +170,42 @@ footer {
     left: 0;
     width: 100%;
 }
+
+  /* Remover bordas do card */
+  .card {
+    border: none;
+}
+/* Estilo dos botões de opções */
+.list-group-item {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.list-group-item.active {
+    background-color: var(--primary-color);
+    font-weight: bold;
+}
+/* Ocultar conteúdos não selecionados por padrão */
+.conteudo {
+    display: none;
+}
+
+/* botao de adicionar pet na pag ususario*/
+.btn-floating {
+    border-radius: 50%;
+}
+
+/* imagem pet na pag usuario */
+.img-circle {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    height: 100px; /* Ajuste o tamanho conforme necessário */
+}
+
+/* Remove o sublinhado do link */
+.card-body a {
+    text-decoration: none;
+}
+
+

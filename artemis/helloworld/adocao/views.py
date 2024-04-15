@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from accounts import views as viewsAccount
 from django.db import connection
 
-cursor = connection.cursor()
+
 
 def index(request):
     try:
@@ -76,8 +76,9 @@ def petdetalhe(request, petid):
 class fotopet(View):
     def get(self, request, petid, multiplo):
         pet = Pet.objects.filter(petid = petid).first()
-        if multiplo == 0:
+        if multiplo == 0 or multiplo == 2:
             pftfoto = PetFoto.objects.filter(pet_petid = pet.petid).first()
+           
         else:
             pftfoto = PetFoto.objects.filter(pet_petid = pet.petid)
             if len(pftfoto) > 1:
@@ -88,42 +89,22 @@ class fotopet(View):
 
 @login_required(login_url="/accounts/login")
 def cadastropet(request):
-    print(request)
+    #print('Pessoa', Pessoa.objects.filter(pesemail = request.user.username).first().pesid)
+    #print('tipo: ', request.user.groups.all()[0])
+    # if(request.user.groups.all()[0].name == 'Pessoa'):
+    #     print('Sim')
     pettipos = PetTipo.objects.all()
     petportes = PetPorte.objects.all()
     return render(request, "pagCadastroPet.html", {"pettipos": pettipos, "petportes": petportes})
 
 def salvarpet(request):
-    # if request.method == 'GET':
-    #     return render(request, 'pagCadastroPet.html')
-    # else:
-    #     petnome = request.POST.get('petnome')
-    #     petsexo = request.POST.get('petsexo')
-    #     petcastrado = request.POST.get('petcastrado')
-    #     petdtnascto = request.POST.get('petdtnascto')
-    #     petpeso = request.POST.get('petpeso')
-    #     #pessoa_pesid = request.POST.get('petsexo')
-    #     pessoa_pesid = 'Null'
-    #     vpet_porte_ptpid = request.POST.get('petporte')
-    #     vpet_raca_ptrid = request.POST.get('petraca')
-    #     vpet_tipo_pttid = request.POST.get('especie')
-
-    #     porte = PetPorte.objects.filter(ptpid = vpet_porte_ptpid).first()
-    #     raca = PetRaca.objects.filter(ptrid = vpet_raca_ptrid).first()
-    #     tipo = PetTipo.objects.filter(pttid = vpet_tipo_pttid).first()
-
-    #     try:
-    #         cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
-    #         result = cursor.fetchall()
-    #         print(result)
-    #     finally:
-    #         cursor.close()
+    cursor = connection.cursor()
     petnome = request.POST.get('petnome')
     petsexo = request.POST.get('petsexo')
     petcastrado = request.POST.get('petcastrado')
     petdtnascto = request.POST.get('petdtnascto')
     petpeso = request.POST.get('petpeso')
-    #pessoa_pesid = request.POST.get('petsexo')
+    pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.username).first().pesid
     vpet_porte_ptpid = request.POST.get('petporte')
     vpet_raca_ptrid = request.POST.get('petraca')
     vpet_tipo_pttid = request.POST.get('especie')
@@ -131,8 +112,14 @@ def salvarpet(request):
     porte = PetPorte.objects.filter(ptpid = vpet_porte_ptpid).first()
     raca = PetRaca.objects.filter(ptrid = vpet_raca_ptrid).first()
     tipo = PetTipo.objects.filter(pttid = vpet_tipo_pttid).first()
+    try:
+        cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
 
-    Pet.objects.create(petnome = petnome, petsexo = petsexo, petcastrado = petcastrado, petdtnascto = petdtnascto, petpeso = petpeso, pet_porte_ptpid = porte, pet_raca_ptrid = raca, pet_tipo_pttid = tipo)
+        # result = cursor.fetchall()
+        # print(result)
+    finally:
+        cursor.close()
+    #Pet.objects.create(petnome = petnome, petsexo = petsexo, petcastrado = petcastrado, petdtnascto = petdtnascto, petpeso = petpeso, pessoa_pesid = pessoa_pesid, pet_porte_ptpid = porte, pet_raca_ptrid = raca, pet_tipo_pttid = tipo)
 
     #petnovo = Pet.objects.aggregate(Max('petid'))
     petidnovo = Pet.objects.order_by('-petid')[0]
@@ -147,9 +134,56 @@ def salvarpet(request):
     # img = img.save(path)
     request.session['response'] = "Pet cadastrado com sucesso!"
     return redirect(adocao)
-    #return render(request, "adocao.html", {"response": "Pet cadastrado com sucesso!", "pets": pets})
     # for foto in petfotosnovo:
     #     PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
     # fotosnovo = PetFoto.objects.filter(pet_petid = petidnovo)
     # return render(request, "adocao.html", {"petnovo": petidnovo, "petfotosnovo": fotosnovo})
     
+@login_required(login_url="/accounts/login")
+def usuario(request):
+    pettipos = PetTipo.objects.all()
+    petportes = PetPorte.objects.all()
+    #pet = Pet.objects.filter(petid = petid).first()
+    #petfoto = PetFoto.objects.filter(pet_petid = petid).first()
+    pesid = Pessoa.objects.filter(pesemail = request.user.username).first().pesid
+    pets = Pet.objects.filter(pessoa_pesid = pesid)
+    pftfotos = PetFoto.objects.all()
+    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes})
+
+def modalpet(request, petid):
+    pettipos = PetTipo.objects.all()
+    petportes = PetPorte.objects.all()
+    pet = Pet.objects.filter(petid = petid).first()
+    petfoto = PetFoto.objects.filter(pet_petid = petid).first()
+    return render(request, "modalpet.html", {"pet": pet, "petfoto": petfoto, "pettipos": pettipos, "petportes": petportes})
+
+def atualizarpet(request, petid):
+    cursor = connection.cursor()
+    petnome = request.POST.get('petnome')
+    petsexo = request.POST.get('petsexo')
+    petcastrado = request.POST.get('petcastrado')
+    petdtnascto = request.POST.get('petdtnascto')
+    petpeso = request.POST.get('petpeso')
+    pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.username).first().pesid
+    vpet_porte_ptpid = request.POST.get('petporte')
+    vpet_raca_ptrid = request.POST.get('petraca')
+    vpet_tipo_pttid = request.POST.get('especie')
+    pet = Pet.objects.filter(petid = petid).first()
+
+    try:
+        cursor.execute('call sp_alterapet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s, %(cod)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid, 'cod': petid})
+        print(cursor)
+    finally:
+        cursor.close()
+    #Desassociando fotos antigas
+    petfotoantigas = PetFoto.objects.filter(pet_petid_id = petid)
+    for foto in petfotoantigas:
+        foto.delete()
+    petfotosnovo = request.FILES.getlist("fotos_pet")
+    if petfotosnovo:
+        for foto in petfotosnovo:
+            petnovo = PetFoto(pftfoto = foto, pet_petid = pet)
+            petnovo.save()
+
+    request.session['response'] = "Pet atualizado com sucesso!"
+    return redirect(adocao)

@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', adocaoViews.index, name='index'),
     path('adocao/', include('adocao.urls')),
+    path('usuario', adocaoViews.usuario, name="usuario"),
     #path('login/', adocaoViews.login, name="login"),
     path('accounts/', include('accounts.urls')),
 ]

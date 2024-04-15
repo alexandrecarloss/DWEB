@@ -91,12 +91,12 @@
                                     <a href="#" class="dropdown-item text-white">Tosa</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contato</a>
+                            <a href="{% url 'usuario' %}" class="nav-item nav-link">Usuário</a>
                         </div>
                         {% if user.is_authenticated %}
                         <div class="d-flex m-3 me-0">
                             <a href="{% url 'logoutaccount' %}" class="btn btn-secondary rounded-pill border border-secondary bg-white px-4 py-2 align-self-center text-secondary">
-                                Logout ({{ user.username }})
+                                Logout ({{ user.first_name }})
                                 <i class="bi bi-person"></i>
                             </a>
                         </div>

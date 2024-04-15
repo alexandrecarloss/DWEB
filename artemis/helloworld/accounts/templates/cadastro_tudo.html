@@ -7,8 +7,8 @@
             <div class="card">
                 <div class="card-body">
                   {% if error %}
-                  <div class="alert alert-danger mt-3" role="alert">
-                    {{ error }}
+                    <div class="alert alert-danger mt-3" role="alert">
+                  {{ error }}
                   </div>
                   {% endif %}
                   <div id="camposPessoaFisica">
@@ -63,8 +63,48 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <label for="pesestado">Estado:</label>
-                            <input type="text" class="form-control" id="pesestado" name="pesestado" placeholder="Estado" required>
+                            <!-- <label for="pesestado">Estado:</label>
+                            <input type="text" class="form-control" id="pesestado" name="pesestado" placeholder="Estado" required> -->
+                            <label for="iest">Estado</label>
+                            <select name="estado" id="iest"> 
+                                <option value="" selected>---Escolha---</option>
+                                <optgroup label="Região Norte">
+                                    <option value="AC">Acre</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="TO">Tocantins</option>
+                                </optgroup>
+                                <optgroup label="Região Nordeste">
+                                    <option value="AL">Alagoas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="SE">Sergipe</option>
+                                </optgroup>
+                                <optgroup label="Região centro-oeste">
+                                    <option value="GO">Goiás</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                </optgroup>
+                                <optgroup label="Região Sudeste">
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="SP">São Paulo</option>
+                                </optgroup>
+                                <optgroup label="Região Sul">
+                                    <option value="PR">Paraná</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="SC">Santa Catarina</option>
+                                </optgroup>
+                            </select>
                           </div>
                           <div class="form-group">
                             <label for="pescidade">Cidade:</label>

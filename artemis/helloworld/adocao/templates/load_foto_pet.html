@@ -3,6 +3,8 @@
     class="img-fluid w-100 rounded-top"
     style="height: 300px;"
     >
+{% elif multiplo == 2 %}
+    <img src="{{pftfoto.pftfoto.url}}" class="card-img-top img-fluid img-circle" alt="Foto de {{ pet.petnome }}">
 {% elif multiplo == 1 %}
     {% if varias %}
     <div id="pftpetslider" class="carousel slide" data-ride="carousel">
@@ -26,6 +28,7 @@
         {% endfor %}
     </div>
     </div>
+
     {% else %}
         {% for foto in pftfoto %}
             <img src="{{foto.pftfoto.url}}" alt="Foto de {{ pet.petnome }}" class="img-fluid w-100 rounded-top" style="min-width: 500px;">
