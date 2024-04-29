@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block titulo %}Email enviado{% endblock %}
+{% block content %}
+
+{% if response %}
+<div class="alert alert-success">
+    <p>{{ response }}</p>
+</div>
+{% endif %}
+
+{% endblock %}

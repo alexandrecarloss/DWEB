@@ -11,6 +11,17 @@
                   {{ error }}
                   </div>
                   {% endif %}
+                  {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                      <div class="alert alert-danger mt-3" role="alert">
+                        {{message}}
+                      </div>
+                    {% else %}
+                      <div class="alert alert-{{message.tags}}">
+                        {{message}}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
                   <div id="camposPessoaFisica">
                     <form id="cadastroForm" method="post">
                       {% csrf_token %}
@@ -63,11 +74,8 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <!-- <label for="pesestado">Estado:</label>
-                            <input type="text" class="form-control" id="pesestado" name="pesestado" placeholder="Estado" required> -->
                             <label for="iest">Estado</label>
-                            <select name="estado" id="iest"> 
-                                <option value="" selected>---Escolha---</option>
+                            <select name="pesestado" id="iest" required>                                 
                                 <optgroup label="Região Norte">
                                     <option value="AC">Acre</option>
                                     <option value="AP">Amapá</option>

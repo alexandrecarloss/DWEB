@@ -11,15 +11,16 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from accounts import views as viewsAccount
 from django.db import connection
-
+from django.contrib import messages
 
 
 def index(request):
+    mensagens_para_exibir = messages.get_messages(request)
     try:
         response = request.session.get('response')
     finally:
         request.session['response'] = None
-    return render(request, 'index.html', {'response': response})
+    return render(request, 'index.html', {'response': response, "messages": mensagens_para_exibir})
 
 def login(request):
     return render(request, 'login.html')
@@ -148,7 +149,8 @@ def usuario(request):
     pesid = Pessoa.objects.filter(pesemail = request.user.username).first().pesid
     pets = Pet.objects.filter(pessoa_pesid = pesid)
     pftfotos = PetFoto.objects.all()
-    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes})
+    pessoa = Pessoa.objects.filter(pesemail = request.user.username).first()
+    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa})
 
 def modalpet(request, petid):
     pettipos = PetTipo.objects.all()

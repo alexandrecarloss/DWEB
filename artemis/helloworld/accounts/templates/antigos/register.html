@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block titulo %}Registro {% endblock %}
+{% block content %}
+<div class="center">
+    {% for message in messages %}
+    <div class="message {{message.tags}}">
+        {{message}}
+    </div>
+    {% endfor %}
+    <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Registrar</button>
+    </form>
+</div>
+
+{% endblock content %}

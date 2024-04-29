@@ -233,7 +233,7 @@ hx-trigger="load"
 </div>
                             {% endfor %}
                             {% else %}
-                            <p>Voçê ainda não possui pets cadastrados</p>
+                            <p>Você ainda não possui pets cadastrados</p>
                             {% endif %}
 
                             <!-- Adicione mais colunas conforme necessário para cada pet -->
@@ -259,12 +259,12 @@ hx-trigger="load"
                     <div class="card-body">
                         <!-- Aqui você pode listar as configurações da conta -->
                             <div class="form-group">
-                              <label for="pesnome">Nome:</label>
-                              <input type="text" class="form-control" id="pesnome" name="pesnome" placeholder="Nome" required>
+                              <label for="pesnome">Nome: </label>
+                              <input type="text" class="form-control" id="pesnome" name="pesnome" placeholder="Nome" value="{{ pessoa.pesnome }}" required>
                             </div>
                             <div class="form-group">
                               <label for="pescpf">CPF:</label>
-                              <input type="text" class="form-control" id="pescpf" name="pescpf" placeholder="CPF" required>
+                              <input type="text" class="form-control" id="pescpf" name="pescpf" placeholder="CPF" value="{{ pessoa.pescpf }}" required>
                             </div>
                             <div class="form-group">
                               <label for="pesdtnascto">Data de Nascimento:</label>
@@ -283,32 +283,70 @@ hx-trigger="load"
                               </div>
                             </div>
                             <div class="form-group">
-                              <label for="pesestado">Estado:</label>
-                              <input type="text" class="form-control" id="pesestado" name="pesestado" placeholder="Estado" required>
-                            </div>
+                                <label for="iest">Estado</label>
+                                <select name="pesestado" id="iest"> 
+                                    <option value="" selected>---Escolha---</option>
+                                    <optgroup label="Região Norte">
+                                        <option value="AC">Acre</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="TO">Tocantins</option>
+                                    </optgroup>
+                                    <optgroup label="Região Nordeste">
+                                        <option value="AL">Alagoas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="SE">Sergipe</option>
+                                    </optgroup>
+                                    <optgroup label="Região centro-oeste">
+                                        <option value="GO">Goiás</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                    </optgroup>
+                                    <optgroup label="Região Sudeste">
+                                        <option value="ES">Espírito Santo</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="SP">São Paulo</option>
+                                    </optgroup>
+                                    <optgroup label="Região Sul">
+                                        <option value="PR">Paraná</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="SC">Santa Catarina</option>
+                                    </optgroup>
+                                </select>
+                              </div>
                             <div class="form-group">
                               <label for="pescidade">Cidade:</label>
-                              <input type="text" class="form-control" id="pescidade" name="pescidade" placeholder="Cidade" required>
+                              <input type="text" class="form-control" id="pescidade" name="pescidade" placeholder="Cidade" required value="{{ pessoa.pescidade }}">
                             </div>
                             <div class="form-group">
                               <label for="pesbairro">Bairro:</label>
-                              <input type="text" class="form-control" id="pesbairro" name="pesbairro" placeholder="Bairro" required>
+                              <input type="text" class="form-control" id="pesbairro" name="pesbairro" placeholder="Bairro" required value="{{ pessoa.pesbairro }}">
                             </div>
                             <div class="form-group">
                               <label for="pesrua">Rua:</label>
-                              <input type="text" class="form-control" id="pesrua" name="pesrua" placeholder="Rua" required>
+                              <input type="text" class="form-control" id="pesrua" name="pesrua" placeholder="Rua" required value="{{ pessoa.pesrua }}">
                             </div>
                             <div class="form-group">
                               <label for="pesnumero">Número:</label>
-                              <input type="number" class="form-control" id="pesnumero" name="pesnumero" placeholder="Número" required>
+                              <input type="number" class="form-control" id="pesnumero" name="pesnumero" placeholder="Número" required value="{{ pessoa.pesnumero }}">
                             </div>
                             <div class="form-group">
                               <label for="pesemail">Email:</label>
-                              <input type="email" class="form-control" id="pesemail" name="pesemail" placeholder="Email" required>
+                              <input type="email" class="form-control" id="pesemail" name="pesemail" placeholder="Email" required value="{{ pessoa.pesemail }}">
                             </div>
                             <div class="form-group">
                               <label for="pestelefone">Telefone:</label>
-                              <input type="tel" class="form-control" id="pestelefone" name="pestelefone" placeholder="Telefone" required>
+                              <input type="tel" class="form-control" id="pestelefone" name="pestelefone" placeholder="Telefone" required value="{{ pessoa.pestelefone }}">
                             </div>
                             <button type="submit" class="btn primaria btn-block mt-4">Atualizar</button>
                     </div>
