@@ -6,7 +6,6 @@ urlpatterns = [
     # path('cadastro/', views.cadastro, name='cadastro'),
     path('logout/', views.logoutaccount, name='logoutaccount'),
     path('login/', views.loginaccount, name='loginaccount'),
-    path('enviaemail/', views.enviaemail, name='enviaemail'),
     path('register/', views.register_user, name='register'),
     path('activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
     path('accountsdjango/', include("django.contrib.auth.urls")),

@@ -55,7 +55,7 @@
                           </div>
                           <div class="form-group">
                             <label for="pescpf">CPF:</label>
-                            <input type="text" class="form-control" id="pescpf" name="pescpf" placeholder="CPF" required>
+                            <input type="text" class="form-control" id="pescpf" name="pescpf" placeholder="CPF" required onkeydown="javascript: fMasc( this, mCPF );" maxlength="14">
                           </div>
                           <div class="form-group">
                             <label for="pesdtnascto">Data de Nascimento:</label>
@@ -73,47 +73,49 @@
                               <label class="form-check-label" for="feminino">Feminino</label>
                             </div>
                           </div>
-                          <div class="form-group">
-                            <label for="iest">Estado</label>
-                            <select name="pesestado" id="iest" required>                                 
-                                <optgroup label="Região Norte">
-                                    <option value="AC">Acre</option>
-                                    <option value="AP">Amapá</option>
-                                    <option value="AM">Amazonas</option>
-                                    <option value="PA">Pará</option>
-                                    <option value="RO">Rondônia</option>
-                                    <option value="RR">Roraima</option>
-                                    <option value="TO">Tocantins</option>
-                                </optgroup>
-                                <optgroup label="Região Nordeste">
-                                    <option value="AL">Alagoas</option>
-                                    <option value="BA">Bahia</option>
-                                    <option value="CE">Ceará</option>
-                                    <option value="MA">Maranhão</option>
-                                    <option value="PB">Paraíba</option>
-                                    <option value="PE">Pernambuco</option>
-                                    <option value="PI">Piauí</option>
-                                    <option value="RN">Rio Grande do Norte</option>
-                                    <option value="SE">Sergipe</option>
-                                </optgroup>
-                                <optgroup label="Região centro-oeste">
-                                    <option value="GO">Goiás</option>
-                                    <option value="MT">Mato Grosso</option>
-                                    <option value="MS">Mato Grosso do Sul</option>
-                                </optgroup>
-                                <optgroup label="Região Sudeste">
-                                    <option value="ES">Espírito Santo</option>
-                                    <option value="RJ">Rio de Janeiro</option>
-                                    <option value="MG">Minas Gerais</option>
-                                    <option value="SP">São Paulo</option>
-                                </optgroup>
-                                <optgroup label="Região Sul">
-                                    <option value="PR">Paraná</option>
-                                    <option value="RS">Rio Grande do Sul</option>
-                                    <option value="SC">Santa Catarina</option>
-                                </optgroup>
-                            </select>
-                          </div>
+                          <p>
+                            <div class="form-group">
+                              <label for="iest">Estado</label>
+                              <select name="pesestado" id="iest" required>
+                                  <optgroup label="Região Norte">
+                                      <option value="AC">Acre</option>
+                                      <option value="AP">Amapá</option>
+                                      <option value="AM">Amazonas</option>
+                                      <option value="PA">Pará</option>
+                                      <option value="RO">Rondônia</option>
+                                      <option value="RR">Roraima</option>
+                                      <option value="TO">Tocantins</option>
+                                  </optgroup>
+                                  <optgroup label="Região Nordeste">
+                                      <option value="AL">Alagoas</option>
+                                      <option value="BA">Bahia</option>
+                                      <option value="CE">Ceará</option>
+                                      <option value="MA">Maranhão</option>
+                                      <option value="PB">Paraíba</option>
+                                      <option value="PE">Pernambuco</option>
+                                      <option value="PI">Piauí</option>
+                                      <option value="RN">Rio Grande do Norte</option>
+                                      <option value="SE">Sergipe</option>
+                                  </optgroup>
+                                  <optgroup label="Região centro-oeste">
+                                      <option value="GO">Goiás</option>
+                                      <option value="MT">Mato Grosso</option>
+                                      <option value="MS">Mato Grosso do Sul</option>
+                                  </optgroup>
+                                  <optgroup label="Região Sudeste">
+                                      <option value="ES">Espírito Santo</option>
+                                      <option value="RJ">Rio de Janeiro</option>
+                                      <option value="MG">Minas Gerais</option>
+                                      <option value="SP">São Paulo</option>
+                                  </optgroup>
+                                  <optgroup label="Região Sul">
+                                      <option value="PR">Paraná</option>
+                                      <option value="RS">Rio Grande do Sul</option>
+                                      <option value="SC">Santa Catarina</option>
+                                  </optgroup>
+                              </select>
+                            </div>
+                          </p>
                           <div class="form-group">
                             <label for="pescidade">Cidade:</label>
                             <input type="text" class="form-control" id="pescidade" name="pescidade" placeholder="Cidade" required>
@@ -136,7 +138,7 @@
                           </div>
                           <div class="form-group">
                             <label for="pestelefone">Telefone:</label>
-                            <input type="tel" class="form-control" id="pestelefone" name="pestelefone" placeholder="Telefone" required>
+                            <input type="tel" class="form-control" id="pestelefone" name="pestelefone" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14">
                           </div> 
                           <div class="mb-3">
                             <label for="cadastroSenhaFisica" class="form-label">Senha</label>
@@ -198,7 +200,7 @@
                           </div>
                           <div class="form-group">
                             <label for="telefoneONG">Telefone:</label>
-                            <input type="tel" class="form-control" name="telefoneONG" id="telefoneONG" placeholder="Telefone">
+                            <input type="tel" class="form-control" name="telefoneONG" id="telefoneONG" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14">
                           </div>
                           <div class="form-group">
                             <label for="emailONG">Email:</label>
@@ -248,7 +250,7 @@
                           </div>
                           <div class="form-group">
                               <label for="ptscnpj">CNPJ:</label>
-                              <input type="text" class="form-control" id="ptscnpj" name="ptscnpj" placeholder="CNPJ" required>
+                              <input type="text" class="form-control" id="ptscnpj" name="ptscnpj" placeholder="CNPJ" required onkeydown="javascript: fMasc( this, mCNPJ );" maxlength="18">
                           </div>
                           <div class="form-group">
                               <label for="ptscidade">Cidade:</label>
@@ -268,7 +270,7 @@
                           </div>
                           <div class="form-group">
                               <label for="ptstelefone">Telefone:</label>
-                              <input type="tel" class="form-control" name="ptstelefone" id="ptstelefone" placeholder="Telefone">
+                              <input type="tel" class="form-control" name="ptstelefone" id="ptstelefone" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14">
                           </div>
                           <div class="form-group">
                               <label for="ptsemail">Email:</label>

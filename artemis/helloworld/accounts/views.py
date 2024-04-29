@@ -18,6 +18,7 @@ from django.urls import reverse
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import re
 
 
 
@@ -69,11 +70,6 @@ def activate(request, uidb64, token):
         messages.error(request, "O link de ativação é inválido ou expirou")
         return redirect("index")
 
-def enviaemail(request):
-    send_mail('Recuperação de senha', 'Você está recebendo esta mensagem para recuperação de senha no site ARTEMIS, por favor clique no link para recuperar sua senha.', 'site.artemis.project@gmail.com', ['karurosualexandresouza123456@gmail.com'])
-    return render(request, 'email_enviado.html', {'response': 'Verifique as instruções no seu email.'})
-
-
 ################# Fim accounts
 
 
@@ -91,6 +87,7 @@ def cadastro_account(request):
             #Inserir pessoa na tabela pessoa no banco por procedimento
             if tipoPessoa == 'pessoaFisica':
                 pescpf = request.POST.get('pescpf')
+                pescpf = re.sub('[^a-zA-Z0-9]', '', pescpf)
                 pesdtnascto = request.POST.get('pesdtnascto')
                 pessexo = request.POST.get('pessexo')
                 pescidade = request.POST.get('pescidade')
@@ -99,6 +96,7 @@ def cadastro_account(request):
                 pesemail = request.POST.get('pesemail')
                 pesnumero = request.POST.get('pesnumero')
                 pestelefone = request.POST.get('pestelefone')
+                pestelefone = re.sub('[^a-zA-Z0-9]', '', pestelefone)
                 pesnome = request.POST.get('pesnome')
                 pesestado = request.POST.get('pesestado')
                 first_name = pesnome.split()[0]
@@ -152,6 +150,7 @@ def cadastro_account(request):
                 ruaONG = request.POST.get('ruaONG')
                 numONG = request.POST.get('numONG')
                 telefoneONG = request.POST.get('telefoneONG')
+                telefoneONG = re.sub('[^a-zA-Z0-9]', '', telefoneONG)
                 emailONG = request.POST.get('emailONG')
                 antuser = User.objects.filter(email=emailONG).first()
                 #antuser = get_object_or_404(User, username=pesemail)
@@ -200,11 +199,13 @@ def cadastro_account(request):
             elif tipoPessoa == 'pessoaJuridica':
                 ptsnome = request.POST.get('ptsnome')
                 ptscnpj = request.POST.get('ptscnpj')
+                ptscnpj = re.sub('[^a-zA-Z0-9]', '', ptscnpj)
                 ptscidade = request.POST.get('ptscidade')
                 ptsbairro = request.POST.get('ptsbairro')
                 ptsrua = request.POST.get('ptsrua')
                 ptsnumero = request.POST.get('ptsnumero')
                 ptstelefone = request.POST.get('ptstelefone')
+                ptstelefone = re.sub('[^a-zA-Z0-9]', '', ptstelefone)
                 ptsemail = request.POST.get('ptsemail')
                 #antuser = get_object_or_404(User, username=pesemail)
                 antuser = User.objects.filter(email=ptsemail).first()
