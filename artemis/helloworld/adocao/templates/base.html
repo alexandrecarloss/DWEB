@@ -91,7 +91,18 @@
                                     <a href="#" class="dropdown-item text-white">Tosa</a>
                                 </div>
                             </div>
-                            <a href="{% url 'usuario' %}" class="nav-item nav-link">Usuário</a>
+                            {% if 'grupo_usuario' in request.session.keys %}
+                                {% if 'Pessoa' in request.session.values %}
+                                    <a href="{% url 'usuario' %}" class="nav-item nav-link">Usuário</a>
+                                {% elif 'Ong' in request.session.values %}
+                                    <a href="{% url 'usuario' %}" class="nav-item nav-link">Ong</a>
+                                {% elif 'Pet shop' in request.session.values %}
+                                    <a href="{% url 'usuario' %}" class="nav-item nav-link">Pet shop</a>
+                                {% endif %}
+                            {% endif %}
+                            {% if grupo_usuario == 'Ong' %}
+                                {{ grupo_usuario }}
+                            {% endif %}
                         </div>
                         {% if user.is_authenticated %}
                         <div class="d-flex m-3 me-0">

@@ -12,18 +12,19 @@ from django.contrib.auth.decorators import login_required
 from accounts import views as viewsAccount
 from django.db import connection
 from django.contrib import messages
+from django.contrib.auth.models import User, Group
 
-
+from helloworld.context_processors import context_grupo_usuario
 def index(request):
+    # print(context_grupo_usuario(request))
+    # print(type(context_grupo_usuario(request)['grupo_usuario']))
+    # print(str(context_grupo_usuario(request)['grupo_usuario']) == 'Ong')
     mensagens_para_exibir = messages.get_messages(request)
     try:
         response = request.session.get('response')
     finally:
         request.session['response'] = None
     return render(request, 'index.html', {'response': response, "messages": mensagens_para_exibir})
-
-def login(request):
-    return render(request, 'login.html')
 
 def adocao(request):
     try:

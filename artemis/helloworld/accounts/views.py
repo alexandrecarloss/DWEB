@@ -20,8 +20,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import re
 
-
-
 ################# Accountsdjango
 
 def register_user(request):
@@ -84,7 +82,7 @@ def cadastro_account(request):
         tipoPessoa = request.POST.get('tipoPessoa')
         #Verificação de confirmação de senha
         if(request.POST['password1'] == request.POST['password2']):
-            #Inserir pessoa na tabela pessoa no banco por procedimento
+            #Verificação do tipo de cadastro
             if tipoPessoa == 'pessoaFisica':
                 pescpf = request.POST.get('pescpf')
                 pescpf = re.sub('[^a-zA-Z0-9]', '', pescpf)
@@ -111,37 +109,41 @@ def cadastro_account(request):
                         #grupo = get_list_or_404(Group, name="Pessoa")                        
                         user = User.objects.create_user(first_name, password=request.POST['password1'], first_name = first_name, email=pesemail)
                         user.groups.add(1)
-                        user.is_active = False
                         user.save()
                         #Envio de email
-                        current_site = get_current_site(request)
-                        mail_subject = "Ative sua conta"
-                        message = render_to_string("account_activate_email.html", { 
-                            "user": user,
-                            "domain": current_site.domain,
-                            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                            "token": account_activation_token.make_token(user)
-                        })
+                        # current_site = get_current_site(request)
+                        # mail_subject = "Ative sua conta"
+                        # message = render_to_string("account_activate_email.html", { 
+                        #     "user": user,
+                        #     "domain": current_site.domain,
+                        #     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        #     "token": account_activation_token.make_token(user)
+                        # })
+                        # try:
+                        #     to_email = request.POST.get('pesemail')
+                        #     email = EmailMessage(
+                        #         mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
+                        #     )
+                        #     email.send()
+                        #     messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.")               
+                        # finally:
+                        #     #login_django(request, user)
+                        #     messages.success(request, 'Usuário cadastrado com sucesso!')
+                        #Inserindo objeto no banco
                         try:
-                            to_email = request.POST.get('pesemail')
-                            email = EmailMessage(
-                                mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
-                            )
-                            email.send()
-                            messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.")               
-                        finally:
-                            #login_django(request, user)
-                            messages.success(request, 'Usuário cadastrado com sucesso!')
-                            #Inserindo objeto no banco
-                            try:
+                            #Verificando se alterar ou inserir
+                            antpessoa = Pessoa.objects.filter(pesemail = pesemail).first()
+                            if antpessoa:
+                                cursor.execute('call sp_alterapessoa (%(cpf)s, %(dtnascto)s, %(sexo)s, %(cidade)s, %(bairro)s, %(rua)s, %(email)s, %(numero)s, %(telefone)s, %(nome)s, %(estado)s, %(cod)s)', {'cpf': pescpf, 'dtnascto': pesdtnascto, 'sexo': pessexo, 'cidade': pescidade, 'bairro': pesbairro, 'rua': pesrua, 'email': pesemail, 'numero': pesnumero, 'telefone': pestelefone, 'nome': pesnome, 'estado': pesestado, 'cod': antpessoa.pesid})
+                            else:
                                 cursor.execute('call sp_inserepessoa (%(cpf)s, %(dtnascto)s, %(sexo)s, %(cidade)s, %(bairro)s, %(rua)s, %(email)s, %(numero)s, %(telefone)s, %(nome)s, %(estado)s)', {'cpf': pescpf, 'dtnascto': pesdtnascto, 'sexo': pessexo, 'cidade': pescidade, 'bairro': pesbairro, 'rua': pesrua, 'email': pesemail, 'numero': pesnumero, 'telefone': pestelefone, 'nome': pesnome, 'estado': pesestado})
                                 result = cursor.fetchall()
-                            finally:
-                                cursor.close()
-                    except IntegrityError:                   
-                        messages.error(request, 'Usuário com esse e-mail já existe. Escolha um novo e-mail ou faça login neste.')
-                        return render(request, 'cadastro_tudo.html', {"messages": mensagens_para_exibir})
-                    return redirect("index")
+                        finally:
+                            cursor.close()
+                            #login_django(request, user)
+                            messages.success(request, 'Usuário cadastrado com sucesso!')
+                    finally:
+                        return redirect("loginaccount")
             elif tipoPessoa == 'ong':
                 #Inserir ong no banco
                 nomeONG = request.POST.get('nomeONG')
@@ -152,6 +154,7 @@ def cadastro_account(request):
                 telefoneONG = request.POST.get('telefoneONG')
                 telefoneONG = re.sub('[^a-zA-Z0-9]', '', telefoneONG)
                 emailONG = request.POST.get('emailONG')
+                ongestado = request.POST.get('ongestado')
                 antuser = User.objects.filter(email=emailONG).first()
                 #antuser = get_object_or_404(User, username=pesemail)
                 if(antuser):
@@ -165,37 +168,51 @@ def cadastro_account(request):
                         user.groups.add(2)
                         user.save()
                         ####   Envio de email
-                        current_site = get_current_site(request)
-                        mail_subject = "Ative sua conta"
-                        message = render_to_string("account_activate_email.html", { 
-                            "user": user,
-                            "domain": current_site.domain,
-                            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                            "token": account_activation_token.make_token(user)
-                        })
+                        # current_site = get_current_site(request)
+                        # mail_subject = "Ative sua conta"
+                        # message = render_to_string("account_activate_email.html", { 
+                        #     "user": user,
+                        #     "domain": current_site.domain,
+                        #     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        #     "token": account_activation_token.make_token(user)
+                        # })
+                        # try:
+                        #     to_email = request.POST.get('emailONG')
+                        #     email = EmailMessage(
+                        #         mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
+                        #     )
+                        #     email.send()
+                        #     messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.")               
+                        # finally:                           
+                        #     #login_django(request, user)
+                        #     messages.success(request, 'Usuário cadastrado com sucesso!')
+                        #Inserindo objeto no banco
                         try:
-                            to_email = request.POST.get('emailONG')
-                            email = EmailMessage(
-                                mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
-                            )
-                            email.send()
-                            messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.")               
-                        finally:                           
-                            #login_django(request, user)
-                            messages.success(request, 'Usuário cadastrado com sucesso!')
-                            #Inserindo objeto no banco
-                            try:
-                                cursor.execute('call sp_insere_ong (%(nome)s, %(cidade)s, %(bairro)s, %(rua)s, %(num)s, %(telefone)s, %(email)s)', {'nome': nomeONG, 'cidade': cidadeONG, 'bairro': bairroONG, 'rua': ruaONG, 'num': numONG, 'telefone': telefoneONG, 'email': emailONG})
-                                result = cursor.fetchall()
-                            finally:
-                                cursor.close()
-                            ongnovo = Ong.objects.order_by('-ongid')[0]
-                            return redirect("index")
-                        
-                    except IntegrityError:                   
-                        messages.error(request, 'Usuário com esse e-mail já existe. Escolha um novo e-mail ou faça login neste.')
-                        return render(request, 'cadastro_tudo.html', {"messages": mensagens_para_exibir})
-
+                            ant_ong = Ong.objects.filter(ongemail = emailONG).first()
+                            #Verificar se inserir ou alterar ong
+                            if ant_ong:
+                                ant_ong.ongnome = nomeONG
+                                ant_ong.ongcidade = cidadeONG
+                                ant_ong.ongbairro = bairroONG
+                                ant_ong.ongrua = ruaONG
+                                ant_ong.ongnum = numONG
+                                ant_ong.ongtelefone = telefoneONG
+                                ant_ong.ongemail = emailONG
+                                
+                                ant_ong.save()
+                            else:
+                                Ong.objects.create(ongnome = nomeONG, ongcidade = cidadeONG, ongbairro = bairroONG, ongrua = ruaONG, ongnum = numONG, ongtelefone = telefoneONG, ongemail = emailONG, ongestado = ongestado) 
+                                #cursor.execute('call sp_insere_ong (%(nome)s, %(cidade)s, %(bairro)s, %(rua)s, %(num)s, %(telefone)s, %(email)s)', {'nome': nomeONG, 'cidade': cidadeONG, 'bairro': bairroONG, 'rua': ruaONG, 'num': numONG, 'telefone': telefoneONG, 'email': emailONG})
+                                #result = cursor.fetchall()
+                        except Exception as erro:
+                            print("Erro: ", erro) 
+                        finally:
+                            cursor.close()
+                        ongnovo = Ong.objects.order_by('-ongid')[0]
+                        messages.success(request, 'Usuário cadastrado com sucesso!')
+                    finally:
+                        return redirect("loginaccount")
+              
             elif tipoPessoa == 'pessoaJuridica':
                 ptsnome = request.POST.get('ptsnome')
                 ptscnpj = request.POST.get('ptscnpj')
@@ -207,7 +224,7 @@ def cadastro_account(request):
                 ptstelefone = request.POST.get('ptstelefone')
                 ptstelefone = re.sub('[^a-zA-Z0-9]', '', ptstelefone)
                 ptsemail = request.POST.get('ptsemail')
-                #antuser = get_object_or_404(User, username=pesemail)
+                ptsestado = request.POST.get('ptsestado')
                 antuser = User.objects.filter(email=ptsemail).first()
                 if(antuser):
                     messages.error(request, 'Usuário com esse e-mail já existe. Escolha um novo e-mail ou faça login neste.')
@@ -219,40 +236,46 @@ def cadastro_account(request):
                         user.groups.add(3)
 
                         # Envio de email
-                        current_site = get_current_site(request)
-                        mail_subject = "Ative sua conta"
-                        message = render_to_string("account_activate_email.html", { 
-                            "user": user,
-                            "domain": current_site.domain,
-                            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                            "token": account_activation_token.make_token(user)
-                        })
-                        try:
-                            to_email = ptsemail
-                            email = EmailMessage(
-                                mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
-                            )
-                            email.send()
-                            messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.")               
-                        finally:
-                            #login_django(request, user)
-                            messages.success(request, 'Usuário cadastrado com sucesso!')
-                            return redirect("index")
-                    except IntegrityError:   
-                        messages.error(request, 'Usuário com esse e-mail já existe. Escolha um novo e-mail ou faça login neste.')                
-                        return render(request, 'cadastro_tudo.html', {"messages": mensagens_para_exibir})
-                    
-                    finally:
+                        # current_site = get_current_site(request)
+                        # mail_subject = "Ative sua conta"
+                        # message = render_to_string("account_activate_email.html", { 
+                        #     "user": user,
+                        #     "domain": current_site.domain,
+                        #     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        #     "token": account_activation_token.make_token(user)
+                        # })
+                        # try:
+                        #     to_email = ptsemail
+                        #     email = EmailMessage(
+                        #         mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
+                        #     )
+                        #     email.send()
+                        #     messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.")               
+                        # finally:
                         #login_django(request, user)
                         messages.success(request, 'Usuário cadastrado com sucesso!')
+                    finally:
                         #Inserindo objeto no banco
-                        try:
-                            cursor.execute('call sp_insere_petshop (%(nome)s, %(cnpj)s, %(cidade)s, %(bairro)s, %(rua)s, %(num)s, %(telefone)s, %(email)s)', {'nome': ptsnome, 'cnpj': ptscnpj, 'cidade': ptscidade, 'bairro': ptsbairro, 'rua': ptsrua, 'num': ptsnumero, 'telefone': ptstelefone, 'email': ptsemail})
-                            result = cursor.fetchall()
-                        finally:
-                            cursor.close()
-                        #Petshop.objects.create(ptsnome = ptsnome, ptscnpj = ptscnpj, ptscidade = ptscidade, ptsbairro = ptsbairro, ptsrua = ptsrua, ptsnumero = ptsnumero, ptstelefone = ptstelefone, ptsemail = ptsemail)    
-                            return redirect('index')           
+                        
+                        ant_pet_shop = Petshop.objects.filter(ptsemail = ptsemail).first()
+                        if ant_pet_shop:
+                            ant_pet_shop.ptsnome = ptsnome
+                            ant_pet_shop.ptscnpj = ptscnpj
+                            ant_pet_shop.ptscidade = ptscidade
+                            ant_pet_shop.ptsbairro = ptsbairro
+                            ant_pet_shop.ptsrua = ptsrua
+                            ant_pet_shop.ptsnumero = ptsnumero
+                            ant_pet_shop.ptstelefone = ptstelefone
+                            ant_pet_shop.ptsemail = ptsemail
+                            ant_pet_shop.ptsestado = ptsestado
+                            ant_pet_shop.save()
+                        else:
+                            Petshop.objects.create(ptsnome = ptsnome, ptscnpj = ptscnpj, ptscidade = ptscidade, ptsbairro = ptsbairro, ptsrua = ptsrua, ptsnumero = ptsnumero, ptstelefone = ptstelefone, ptsemail = ptsemail, ptsestado = ptsestado)    
+                            #cursor.execute('call sp_insere_petshop (%(nome)s, %(cnpj)s, %(cidade)s, %(bairro)s, %(rua)s, %(num)s, %(telefone)s, %(email)s)', {'nome': ptsnome, 'cnpj': ptscnpj, 'cidade': ptscidade, 'bairro': ptsbairro, 'rua': ptsrua, 'num': ptsnumero, 'telefone': ptstelefone, 'email': ptsemail})
+                            #result = cursor.fetchall()
+                        
+                        cursor.close()
+                        return redirect('loginaccount')                          
         else:
             messages.error(request, 'Senhas não coincidem')                
             return render(request, 'cadastro_tudo.html', {"messages": mensagens_para_exibir})
@@ -262,16 +285,19 @@ def logoutaccount(request):
     return redirect('index')
 
 def loginaccount(request):
+    mensagens_para_exibir = messages.get_messages(request)
     if request.method == 'GET':
-        return render(request, 'login.html')
+        return render(request, 'login.html', {"messages": mensagens_para_exibir})
     else:
         email = request.POST.get('email')
         senha = request.POST.get('password')
         user = authenticate(request, username=email, password=senha)
         if user is None:
-            return render(request, 'login.html', {'error': 'Usuário e senha não coincidem'})
+            return render(request, 'login.html', {'error': 'Usuário e senha não coincidem', "messages": mensagens_para_exibir})
         else:
             login_django(request, user)
+            request.session['grupo_usuario'] = str(request.user.groups.all().first())
+            #grupo_usuario = request.user.groups.all().first()
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
             else:

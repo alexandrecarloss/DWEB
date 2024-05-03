@@ -73,6 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Apps
+                'helloworld.context_processors.context_grupo_usuario',
             ],
         },
     },

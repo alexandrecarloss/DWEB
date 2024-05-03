@@ -7,6 +7,17 @@
             {{ error }}
             </div>
         {% endif %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger mt-3" role="alert">
+                {{message}}
+                </div>
+            {% else %}
+                <div class="alert alert-{{message.tags}}">
+                {{message}}
+                </div>
+            {% endif %}
+        {% endfor %}
         <form action="" method="post">
             {% csrf_token %}
             <section class="container-fluid py-5">
