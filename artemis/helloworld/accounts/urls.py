@@ -9,7 +9,10 @@ urlpatterns = [
     path('register/', views.register_user, name='register'),
     path('activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
     path('accountsdjango/', include("django.contrib.auth.urls")),
-    
+    path('usuario/', views.usuario, name='usuario'),
+    path('ong/', views.ong, name='ong'),
+    path('atualizar_pessoa/<int:pesid>', views.atualizar_pessoa, name='atualizar_pessoa'),
+
     path('password_reset/', views.password_reset, name='password_reset'),
     path('password_reset/done/', views.password_reset_done, name='password_reset_done'),
     path('reset/<str:uidb64>/<str:token>/', views.password_reset_confirm, name='password_reset_confirm'),

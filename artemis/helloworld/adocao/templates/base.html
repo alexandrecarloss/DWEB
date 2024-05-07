@@ -95,9 +95,9 @@
                                 {% if 'Pessoa' in request.session.values %}
                                     <a href="{% url 'usuario' %}" class="nav-item nav-link">Usuário</a>
                                 {% elif 'Ong' in request.session.values %}
-                                    <a href="{% url 'usuario' %}" class="nav-item nav-link">Ong</a>
+                                    <a href="{% url 'ong' %}" class="nav-item nav-link">Ong</a>
                                 {% elif 'Pet shop' in request.session.values %}
-                                    <a href="{% url 'usuario' %}" class="nav-item nav-link">Pet shop</a>
+                                    <a href="#" class="nav-item nav-link">Pet shop</a>
                                 {% endif %}
                             {% endif %}
                             {% if grupo_usuario == 'Ong' %}

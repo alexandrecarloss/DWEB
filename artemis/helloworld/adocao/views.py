@@ -91,7 +91,7 @@ class fotopet(View):
 
 @login_required(login_url="/accounts/login")
 def cadastropet(request):
-    #print('Pessoa', Pessoa.objects.filter(pesemail = request.user.username).first().pesid)
+    #print('Pessoa', Pessoa.objects.filter(pesemail = request.user.email).first().pesid)
     #print('tipo: ', request.user.groups.all()[0])
     # if(request.user.groups.all()[0].name == 'Pessoa'):
     #     print('Sim')
@@ -106,7 +106,10 @@ def salvarpet(request):
     petcastrado = request.POST.get('petcastrado')
     petdtnascto = request.POST.get('petdtnascto')
     petpeso = request.POST.get('petpeso')
-    pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.username).first().pesid
+    if str(request.user.groups.all()[0]) == 'Pessoa':
+        pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
+    else: 
+        pessoa_pesid = 0
     vpet_porte_ptpid = request.POST.get('petporte')
     vpet_raca_ptrid = request.POST.get('petraca')
     vpet_tipo_pttid = request.POST.get('especie')
@@ -116,7 +119,7 @@ def salvarpet(request):
     tipo = PetTipo.objects.filter(pttid = vpet_tipo_pttid).first()
     try:
         cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
-
+        
         # result = cursor.fetchall()
         # print(result)
     finally:
@@ -128,30 +131,23 @@ def salvarpet(request):
     petfotosnovo = request.FILES.getlist("fotos_pet")
     if petfotosnovo:
         for foto in petfotosnovo:
+            print('foto', foto)
+            #petnovo = PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
             petnovo = PetFoto(pftfoto = foto, pet_petid = petidnovo)
             petnovo.save()
+            if petnovo:
+                print('Novo')
+    messages.success(request, 'Pet cadastrado com sucesso!')
 
     # img = Image.open(petfotosnovo)
     # path = os.path.join(settings.BASE_DIR, f'media/adocao/images/pet{date.today()}-{petfotosnovo.name}')
     # img = img.save(path)
-    request.session['response'] = "Pet cadastrado com sucesso!"
+    
     return redirect(adocao)
     # for foto in petfotosnovo:
     #     PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
     # fotosnovo = PetFoto.objects.filter(pet_petid = petidnovo)
     # return render(request, "adocao.html", {"petnovo": petidnovo, "petfotosnovo": fotosnovo})
-    
-@login_required(login_url="/accounts/login")
-def usuario(request):
-    pettipos = PetTipo.objects.all()
-    petportes = PetPorte.objects.all()
-    #pet = Pet.objects.filter(petid = petid).first()
-    #petfoto = PetFoto.objects.filter(pet_petid = petid).first()
-    pesid = Pessoa.objects.filter(pesemail = request.user.username).first().pesid
-    pets = Pet.objects.filter(pessoa_pesid = pesid)
-    pftfotos = PetFoto.objects.all()
-    pessoa = Pessoa.objects.filter(pesemail = request.user.username).first()
-    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa})
 
 def modalpet(request, petid):
     pettipos = PetTipo.objects.all()
@@ -167,7 +163,7 @@ def atualizarpet(request, petid):
     petcastrado = request.POST.get('petcastrado')
     petdtnascto = request.POST.get('petdtnascto')
     petpeso = request.POST.get('petpeso')
-    pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.username).first().pesid
+    pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
     vpet_porte_ptpid = request.POST.get('petporte')
     vpet_raca_ptrid = request.POST.get('petraca')
     vpet_tipo_pttid = request.POST.get('especie')
@@ -187,6 +183,5 @@ def atualizarpet(request, petid):
         for foto in petfotosnovo:
             petnovo = PetFoto(pftfoto = foto, pet_petid = pet)
             petnovo.save()
-
-    request.session['response'] = "Pet atualizado com sucesso!"
+    messages.success(request, 'Pet atualizado com sucesso!')
     return redirect(adocao)

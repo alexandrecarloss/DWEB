@@ -13,6 +13,17 @@
                     <p>{{ response }}</p>
                 </div>
                 {% endif %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-{{message.tags}}">
+                            {{message}}
+                        </div>
+                    {% endif %}
+                {% endfor %}
                 <!-- FILTROS -->
                 <div class="row g-4">
                     <div class="col-xl-3">

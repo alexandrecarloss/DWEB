@@ -248,7 +248,7 @@ class PetAdocao(models.Model):
 
 class PetFoto(models.Model):
     pftid = models.AutoField(primary_key=True)
-    pftfoto = models.CharField(max_length=100)
+    pftfoto = models.ImageField(max_length=100)
     pet_petid = models.ForeignKey(Pet, models.DO_NOTHING, db_column='pet_petid')
 
     class Meta:

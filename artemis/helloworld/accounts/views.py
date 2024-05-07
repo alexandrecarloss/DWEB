@@ -19,6 +19,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import re
+from django.contrib.auth.decorators import login_required
+from adocao.models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte
 
 ################# Accountsdjango
 
@@ -369,3 +371,46 @@ def password_reset_confirm(request, uidb64, token):
     
 def reset_complete(request):
     return render(request, 'password_reset_complete.html')
+
+@login_required(login_url="/accounts/login")
+def usuario(request):
+    pettipos = PetTipo.objects.all()
+    petportes = PetPorte.objects.all()
+    #pet = Pet.objects.filter(petid = petid).first()
+    #petfoto = PetFoto.objects.filter(pet_petid = petid).first()
+    pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
+    print('email user ', request.user.email)
+    pets = Pet.objects.filter(pessoa_pesid = pesid)
+    pftfotos = PetFoto.objects.all()
+    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa})
+
+def ong(request):
+    return render(request, 'pagOng.html')
+
+def atualizar_pessoa(request, pesid):
+    if request.method == 'POST':
+        pessoa = Pessoa.objects.filter(pesid = pesid).first()
+        user = User.objects.filter(email = pessoa.pesemail).first()
+        pessoa.pescpf = request.POST.get('pescpf')
+        pessoa.pescpf = re.sub('[^a-zA-Z0-9]', '', pessoa.pescpf)
+        pessoa.pesdtnascto = request.POST.get('pesdtnascto')
+        pessoa.pessexo = request.POST.get('pessexo')
+        pessoa.pescidade = request.POST.get('pescidade')
+        pessoa.pesbairro = request.POST.get('pesbairro')
+        pessoa.pesrua = request.POST.get('pesrua')
+        pessoa.pesemail = request.POST.get('pesemail')
+        pessoa.pesnumero = request.POST.get('pesnumero')
+        pessoa.pestelefone = request.POST.get('pestelefone')
+        pessoa.pestelefone = re.sub('[^a-zA-Z0-9]', '', pessoa.pestelefone)
+        pessoa.pesnome = request.POST.get('pesnome')
+        pessoa.pesestado = request.POST.get('pesestado')
+        first_name = pessoa.pesnome.split()[0]
+        pessoa.save()
+        
+        user.username = first_name
+        user.email = pessoa.pesemail
+        user.save()
+        messages.success(request, 'Dados atualizados com sucesso!')
+    return redirect('index')
+    
