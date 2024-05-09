@@ -70,9 +70,15 @@ def load_pets(request):
 @login_required(login_url="/accounts/login")
 def petdetalhe(request, petid):
     pet = Pet.objects.filter(petid = petid).first()
-    today = date.today() 
+    today = date.today()
     petidade = today.year - pet.petdtnascto.year - ((today.month, today.day) < (pet.petdtnascto.month, pet.petdtnascto.day))
     pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
+    if petidade < 1:
+        if pet.petdtnascto.month > today.month:
+            petmes = 12 - pet.petdtnascto.month + today.month - (today.day < pet.petdtnascto.day)
+        else:
+            petmes = today.month - pet.petdtnascto.month - (today.day < pet.petdtnascto.day)
+        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petmes": petmes})
     return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade})
     
 class fotopet(View):
@@ -131,12 +137,9 @@ def salvarpet(request):
     petfotosnovo = request.FILES.getlist("fotos_pet")
     if petfotosnovo:
         for foto in petfotosnovo:
-            print('foto', foto)
             #petnovo = PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
             petnovo = PetFoto(pftfoto = foto, pet_petid = petidnovo)
             petnovo.save()
-            if petnovo:
-                print('Novo')
     messages.success(request, 'Pet cadastrado com sucesso!')
 
     # img = Image.open(petfotosnovo)
