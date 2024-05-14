@@ -20,7 +20,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import re
 from django.contrib.auth.decorators import login_required
-from adocao.models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte
+from adocao.models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte, PetAdocao,Ong
 
 ################# Accountsdjango
 
@@ -108,8 +108,11 @@ def cadastro_account(request):
                 else:                   
                     #Cadastro para autenticação
                     try:
-                        #grupo = get_list_or_404(Group, name="Pessoa")                        
-                        user = User.objects.create_user(first_name, password=request.POST['password1'], first_name = first_name, email=pesemail)
+                        senha = request.POST['password1']
+                        #grupo = get_list_or_404(Group, name="Pessoa")
+                        print(first_name, senha, pesemail)                        
+                        user = User.objects.create_user(pesemail, password=senha, first_name = first_name, email=pesemail)
+                        print('aqui')
                         user.groups.add(1)
                         user.save()
                         #Envio de email
@@ -144,6 +147,8 @@ def cadastro_account(request):
                             cursor.close()
                             #login_django(request, user)
                             messages.success(request, 'Usuário cadastrado com sucesso!')
+                    except Exception as  erro:
+                        print('Excessão: ', erro)
                     finally:
                         return redirect("loginaccount")
             elif tipoPessoa == 'ong':
@@ -166,7 +171,7 @@ def cadastro_account(request):
                     try:
                         #Cadastro para autenticação
                         #grupo = get_list_or_404(Group, name="Ong")
-                        user = User.objects.create_user(nomeONG, password=request.POST['password1'], first_name = nomeONG, email=emailONG)
+                        user = User.objects.create_user(emailONG, password=request.POST['password1'], first_name = nomeONG, email=emailONG)
                         user.groups.add(2)
                         user.save()
                         ####   Envio de email
@@ -234,7 +239,7 @@ def cadastro_account(request):
                 else:
                     try:
                         #Cadastro para autenticação
-                        user = User.objects.create_user(ptsnome, password=request.POST['password1'], first_name = ptsnome, email=ptsemail)
+                        user = User.objects.create_user(ptsemail, password=request.POST['password1'], first_name = ptsnome, email=ptsemail)
                         user.groups.add(3)
 
                         # Envio de email
@@ -379,38 +384,79 @@ def usuario(request):
     #pet = Pet.objects.filter(petid = petid).first()
     #petfoto = PetFoto.objects.filter(pet_petid = petid).first()
     pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
-    print('email user ', request.user.email)
+    #print('email user ', request.user.email)
     pets = Pet.objects.filter(pessoa_pesid = pesid)
     pftfotos = PetFoto.objects.all()
     pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
     return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa})
 
+@login_required(login_url="/accounts/login")
 def ong(request):
-    return render(request, 'pagOng.html')
+    pets = []
+    pettipos = PetTipo.objects.all()
+    petportes = PetPorte.objects.all()
+    ong = Ong.objects.filter(ongemail = request.user.email).first()
+    ongid = ong.ongid
+    pets_adocao = PetAdocao.objects.filter(ong_ongid = ongid)
+    # Obtendo os pets que possuem relação com a ong 
+    for adocao in pets_adocao:
+        pet = Pet.objects.filter(petid = adocao.pet_petid.petid).first()
+        pets.append(pet)
+    #     print('pet:', pet, 'pets: ', pets)
+    # print('Pets query aqui: ', pets)
+    return render(request, 'pagOng.html', {'pets': pets, 'pettipos': pettipos, 'petportes': petportes, 'ong': ong})
 
 def atualizar_pessoa(request, pesid):
     if request.method == 'POST':
-        pessoa = Pessoa.objects.filter(pesid = pesid).first()
-        user = User.objects.filter(email = pessoa.pesemail).first()
-        pessoa.pescpf = request.POST.get('pescpf')
-        pessoa.pescpf = re.sub('[^a-zA-Z0-9]', '', pessoa.pescpf)
-        pessoa.pesdtnascto = request.POST.get('pesdtnascto')
-        pessoa.pessexo = request.POST.get('pessexo')
-        pessoa.pescidade = request.POST.get('pescidade')
-        pessoa.pesbairro = request.POST.get('pesbairro')
-        pessoa.pesrua = request.POST.get('pesrua')
-        pessoa.pesemail = request.POST.get('pesemail')
-        pessoa.pesnumero = request.POST.get('pesnumero')
-        pessoa.pestelefone = request.POST.get('pestelefone')
-        pessoa.pestelefone = re.sub('[^a-zA-Z0-9]', '', pessoa.pestelefone)
-        pessoa.pesnome = request.POST.get('pesnome')
-        pessoa.pesestado = request.POST.get('pesestado')
-        first_name = pessoa.pesnome.split()[0]
-        pessoa.save()
-        
-        user.username = first_name
-        user.email = pessoa.pesemail
-        user.save()
-        messages.success(request, 'Dados atualizados com sucesso!')
+        try:
+            pessoa = Pessoa.objects.filter(pesid = pesid).first()
+            user = User.objects.filter(email = pessoa.pesemail).first()
+            pessoa.pescpf = request.POST.get('pescpf')
+            pessoa.pescpf = re.sub('[^a-zA-Z0-9]', '', pessoa.pescpf)
+            pessoa.pesdtnascto = request.POST.get('pesdtnascto')
+            pessoa.pessexo = request.POST.get('pessexo')
+            pessoa.pescidade = request.POST.get('pescidade')
+            pessoa.pesbairro = request.POST.get('pesbairro')
+            pessoa.pesrua = request.POST.get('pesrua')
+            pessoa.pesemail = request.POST.get('pesemail')
+            pessoa.pesnumero = request.POST.get('pesnumero')
+            pessoa.pestelefone = request.POST.get('pestelefone')
+            pessoa.pestelefone = re.sub('[^a-zA-Z0-9]', '', pessoa.pestelefone)
+            pessoa.pesnome = request.POST.get('pesnome')
+            pessoa.pesestado = request.POST.get('pesestado')
+            pessoa.save()
+            
+            user.username = pessoa.pesemail
+            user.email = pessoa.pesemail
+            user.save()
+            messages.success(request, 'Dados atualizados com sucesso!')
+        except Exception as erro:
+            print('Erro: ', erro)
+            messages.error(request, 'Erro ao atualizar dados!')
+    return redirect('index')
+
+def atualizar_ong(request, ongid):
+    if request.method == 'POST':
+        try:
+            ong = Ong.objects.filter(ongid = ongid).first()
+            user = User.objects.filter(email = ong.ongemail).first()
+            ong.ongnome = request.POST.get('nomeONG')
+            ong.ongcidade = request.POST.get('cidadeONG')
+            ong.ongbairro = request.POST.get('bairroONG')
+            ong.ongrua = request.POST.get('ruaONG')
+            ong.ongnum = request.POST.get('numONG')
+            telefoneONG = request.POST.get('telefoneONG')
+            ong.ongtelefone = re.sub('[^a-zA-Z0-9]', '', telefoneONG)
+            ong.ongemail = request.POST.get('emailONG')
+            ong.ongestado = request.POST.get('ongestado')
+            ong.save()
+
+            user.username = ong.ongemail
+            user.email = ong.ongemail
+            user.save()
+            messages.success(request, 'Dados atualizados com sucesso!')
+        except Exception as erro:
+            print('Erro: ', erro)
+            messages.error(request, 'Erro ao atualizar dados!')
     return redirect('index')
     

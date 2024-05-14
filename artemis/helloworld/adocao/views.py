@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte
+from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte, PetAdocao, Ong
 from .forms import especieForm
 from django.views import View
 from django.db.models import Max
@@ -98,7 +98,7 @@ class fotopet(View):
 @login_required(login_url="/accounts/login")
 def cadastropet(request):
     #print('Pessoa', Pessoa.objects.filter(pesemail = request.user.email).first().pesid)
-    #print('tipo: ', request.user.groups.all()[0])
+    #print('tipo: ', str(request.user.groups.all()[0]))
     # if(request.user.groups.all()[0].name == 'Pessoa'):
     #     print('Sim')
     pettipos = PetTipo.objects.all()
@@ -112,25 +112,38 @@ def salvarpet(request):
     petcastrado = request.POST.get('petcastrado')
     petdtnascto = request.POST.get('petdtnascto')
     petpeso = request.POST.get('petpeso')
-    if str(request.user.groups.all()[0]) == 'Pessoa':
-        pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
-    else: 
-        pessoa_pesid = 0
+    #FK número
     vpet_porte_ptpid = request.POST.get('petporte')
     vpet_raca_ptrid = request.POST.get('petraca')
     vpet_tipo_pttid = request.POST.get('especie')
-
+    #FK objeto
     porte = PetPorte.objects.filter(ptpid = vpet_porte_ptpid).first()
     raca = PetRaca.objects.filter(ptrid = vpet_raca_ptrid).first()
     tipo = PetTipo.objects.filter(pttid = vpet_tipo_pttid).first()
-    try:
-        cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
-        
-        # result = cursor.fetchall()
-        # print(result)
-    finally:
-        cursor.close()
-    #Pet.objects.create(petnome = petnome, petsexo = petsexo, petcastrado = petcastrado, petdtnascto = petdtnascto, petpeso = petpeso, pessoa_pesid = pessoa_pesid, pet_porte_ptpid = porte, pet_raca_ptrid = raca, pet_tipo_pttid = tipo)
+
+    if str(request.user.groups.all()[0]) == 'Pessoa':
+        pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
+        try:
+            cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
+            
+            # result = cursor.fetchall()
+            # print(result)
+        except Exception as erro:
+            print(erro)
+            messages.error(request, 'Erro ao cadastrar pet!')
+            return redirect(cadastropet)
+        finally:
+            cursor.close()
+    else: 
+        try:
+            ong = Ong.objects.filter(ongemail = request.user.email).first()
+            Pet.objects.create(petnome = petnome, petsexo = petsexo, petcastrado = petcastrado, petdtnascto = petdtnascto, petpeso = petpeso, pet_porte_ptpid = porte, pet_raca_ptrid = raca, pet_tipo_pttid = tipo)
+            idpet = Pet.objects.order_by('-petid')[0]
+            PetAdocao.objects.create(ong_ongid = ong, pet_petid = idpet)
+        except Exception as erro:
+            print(erro)
+            messages.error(request, 'Erro ao cadastrar pet!')
+            return redirect(cadastropet)    
 
     #petnovo = Pet.objects.aggregate(Max('petid'))
     petidnovo = Pet.objects.order_by('-petid')[0]

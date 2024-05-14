@@ -37,7 +37,7 @@
                         </small>
                         <small class="me-3">
                             <i class="fas fa-envelope me-2 text-laranja"></i>
-                            <a href="#" class="text-white">artemis@artemis.com</a>
+                            <a href="#" class="text-white">projeto.artemis@outlook.com</a>
                         </small>
                     </div>
                     <div class="top-link pe-2">
@@ -75,22 +75,28 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="{% url 'index' %}" class="nav-item nav-link ">Produtos</a>
-                            <div class="nav-item dropdown">
-                                <a href="{% url 'adocao' %}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Adoção</a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="{% url 'adocao' %}" class="dropdown-item text-white">Adotar</a>
-                                    <a href="{% url 'cadastropet' %}" class="dropdown-item text-white">Cadastrar pet</a>
+                            {% if 'Ong' not in request.session.values %}
+                                <a href="{% url 'index' %}" class="nav-item nav-link ">Produtos</a>
+                            {% endif %}
+                            {% if 'Pet shop' not in request.session.values %}
+                                <div class="nav-item dropdown">
+                                    <a href="{% url 'adocao' %}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Adoção</a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        <a href="{% url 'adocao' %}" class="dropdown-item text-white">Adotar</a>
+                                        <a href="{% url 'cadastropet' %}" class="dropdown-item text-white">Cadastrar pet</a>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
+                            {% if 'Ong' not in request.session.values %}
                             <!-- <a href="{% url 'adocao' %}" class="nav-item nav-link active">Adoção</a> -->
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Serviços</a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="#" class="dropdown-item text-white">Banho</a>
-                                    <a href="#" class="dropdown-item text-white">Tosa</a>
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Serviços</a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        <a href="#" class="dropdown-item text-white">Banho</a>
+                                        <a href="#" class="dropdown-item text-white">Tosa</a>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             {% if 'grupo_usuario' in request.session.keys %}
                                 {% if 'Pessoa' in request.session.values %}
                                     <a href="{% url 'usuario' %}" class="nav-item nav-link">Usuário</a>
