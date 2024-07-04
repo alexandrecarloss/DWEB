@@ -2,8 +2,8 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('cadastro_account/', views.cadastro_account, name='cadastro_account'),
-    # path('cadastro/', views.cadastro, name='cadastro'),
+    path('cadastro_dados/', views.cadastro_dados, name='cadastro_dados'),
+    path('cadastro_email_enviado/', views.cadastro_email_enviado, name='cadastro_email_enviado'),
     path('logout/', views.logoutaccount, name='logoutaccount'),
     path('login/', views.loginaccount, name='loginaccount'),
     path('activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
