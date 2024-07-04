@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import UserCreateForm, RegistrationForm
-from django.contrib.auth.models import User, Group
+from .forms import RegistrationForm
+from django.contrib.auth.models import User
 from django.contrib.auth import login as login_django, logout, authenticate, get_user_model
-from django.shortcuts import redirect, get_object_or_404
-from django.db import IntegrityError, connection
+from django.shortcuts import redirect
+from django.db import connection
 from adocao.models import Pessoa, Ong, Petshop
-from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string 
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,44 +12,11 @@ from django.utils.encoding import force_bytes, force_str
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.contrib import messages
-from django.urls import reverse
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 import re
 from django.contrib.auth.decorators import login_required
-from adocao.models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte, PetAdocao,Ong
+from adocao.models import *
 
-################# Accountsdjango
-
-def register_user(request):
-    form = RegistrationForm()
-    if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-
-            current_site = get_current_site(request)
-            mail_subject = "Ative sua conta"
-            message = render_to_string("account_activate_email.html", { 
-                "user": user,
-                "domain": current_site.domain,
-                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                "token": account_activation_token.make_token(user)
-            })
-            try:
-                to_email = form.cleaned_data.get("email")
-                email = EmailMessage(
-                    mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
-                )
-                email.send()
-                messages.success(request, "Por favor, cheque seu e-mail para completar o registro.")               
-            finally:
-                return redirect("index")
-    return render(request, "register.html", {"form": form})    
-
+#View para ativar a conta pelo link enviado no e-mail, é chamado pelo account_activate_email.html
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
@@ -61,22 +26,48 @@ def activate(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
-        user.save()
-
+        user.save() 
         login_django(request, user)
-        messages.success(request, 'Sua conta foi ativada com sucesso!')
-        return redirect("loginaccount")
+        messages.success(request, 'Usuário cadastrado com sucesso!')      
+        return redirect('index')
     else:
+        #Erro, token inválido
         messages.error(request, "O link de ativação é inválido ou expirou")
-        return redirect("index")
+        return redirect('cadastro_account')
 
-################# Fim accounts
+#Função que envia e-mail ao usuário, é chamada pela view cadastro_account
+def envia_email(request, user):
+    #Declaração das variáveis no e-mail
+    current_site = get_current_site(request)
+    mail_subject = "Ative sua conta"
+    message = render_to_string("account_activate_email.html", { 
+        "user": user,
+        "domain": current_site.domain,
+        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+        "token": account_activation_token.make_token(user)
+    }) 
+    #Envio do e-mail   
+    try:
+        to_email = request.POST.get('pesemail')
+        email = EmailMessage(
+            mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
+        )
+        email.send()
+        messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.") 
+    #Erro, retornar para cadastro_tudo
+    except Exception as  erro:
+        print('Excessão: ', erro)
+        messages.error(request, 'Ocorreu um erro ao enviar e-mail')
+        return render(request, 'cadastro_tudo.html')              
 
+# View para cadastrar conta de usuário
+def cadastro_user(request):
+    return render(request, 'cadastro_user.html')
 
+#View para cadastrar dados no banco
 def cadastro_account(request):
     cursor = connection.cursor()
     mensagens_para_exibir = messages.get_messages(request)
-    #print('tipo: ', user.groups.name)
     #Verificação do método de acesso
     if request.method == 'GET':
         return render(request, 'cadastro_tudo.html')
@@ -86,6 +77,7 @@ def cadastro_account(request):
         if(request.POST['password1'] == request.POST['password2']):
             #Verificação do tipo de cadastro
             if tipoPessoa == 'pessoaFisica':
+                #Declaração de variáveis do tipo pessoa física
                 pescpf = request.POST.get('pescpf')
                 pescpf = re.sub('[^a-zA-Z0-9]', '', pescpf)
                 pesdtnascto = request.POST.get('pesdtnascto')
@@ -99,58 +91,41 @@ def cadastro_account(request):
                 pestelefone = re.sub('[^a-zA-Z0-9]', '', pestelefone)
                 pesnome = request.POST.get('pesnome')
                 pesestado = request.POST.get('pesestado')
+                #Primeiro nome, usado para exibir o usuário
                 first_name = pesnome.split()[0]
                 antuser = User.objects.filter(email=pesemail).first()
-                #antuser = get_object_or_404(User, username=pesemail)
+                #Verificação se existe email cadastrado correspondente
                 if(antuser):
                     messages.error(request, 'Usuário com esse e-mail já existe. Escolha um novo e-mail ou faça login neste.')
                     return render(request, 'cadastro_tudo.html', {"messages": mensagens_para_exibir})
                 else:                   
                     #Cadastro para autenticação
                     try:
-                        senha = request.POST['password1']
-                        #grupo = get_list_or_404(Group, name="Pessoa")
-                        print(first_name, senha, pesemail)                        
-                        user = User.objects.create_user(pesemail, password=senha, first_name = first_name, email=pesemail)
-                        print('aqui')
+                        user = User.objects.create_user(pesemail, password=request.POST['password1'], first_name = first_name, email=pesemail)
                         user.groups.add(1)
                         user.save()
-                        #Envio de email
-                        # current_site = get_current_site(request)
-                        # mail_subject = "Ative sua conta"
-                        # message = render_to_string("account_activate_email.html", { 
-                        #     "user": user,
-                        #     "domain": current_site.domain,
-                        #     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                        #     "token": account_activation_token.make_token(user)
-                        # })
-                        # try:
-                        #     to_email = request.POST.get('pesemail')
-                        #     email = EmailMessage(
-                        #         mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
-                        #     )
-                        #     email.send()
-                        #     messages.success(request, "Por favor, cheque seu e-mail e caixa de spam para completar o registro.")               
-                        # finally:
-                        #     #login_django(request, user)
-                        #     messages.success(request, 'Usuário cadastrado com sucesso!')
+                        
                         #Inserindo objeto no banco
                         try:
-                            #Verificando se alterar ou inserir
+                            #Verificando se alterar ou inserir dados
                             antpessoa = Pessoa.objects.filter(pesemail = pesemail).first()
                             if antpessoa:
                                 cursor.execute('call sp_alterapessoa (%(cpf)s, %(dtnascto)s, %(sexo)s, %(cidade)s, %(bairro)s, %(rua)s, %(email)s, %(numero)s, %(telefone)s, %(nome)s, %(estado)s, %(cod)s)', {'cpf': pescpf, 'dtnascto': pesdtnascto, 'sexo': pessexo, 'cidade': pescidade, 'bairro': pesbairro, 'rua': pesrua, 'email': pesemail, 'numero': pesnumero, 'telefone': pestelefone, 'nome': pesnome, 'estado': pesestado, 'cod': antpessoa.pesid})
                             else:
                                 cursor.execute('call sp_inserepessoa (%(cpf)s, %(dtnascto)s, %(sexo)s, %(cidade)s, %(bairro)s, %(rua)s, %(email)s, %(numero)s, %(telefone)s, %(nome)s, %(estado)s)', {'cpf': pescpf, 'dtnascto': pesdtnascto, 'sexo': pessexo, 'cidade': pescidade, 'bairro': pesbairro, 'rua': pesrua, 'email': pesemail, 'numero': pesnumero, 'telefone': pestelefone, 'nome': pesnome, 'estado': pesestado})
-                                result = cursor.fetchall()
                         finally:
                             cursor.close()
-                            #login_django(request, user)
-                            messages.success(request, 'Usuário cadastrado com sucesso!')
+                        #Enviando e-mail ao usuário
+                        try:
+                            envia_email(request, user)
+                        except Exception as  erro:
+                            print('Excessão: ', erro)
+                            return render(request, 'cadastro_tudo.html')
                     except Exception as  erro:
                         print('Excessão: ', erro)
-                    finally:
-                        return redirect("loginaccount")
+                        messages.error(request, 'Ocorreu um erro ao cadastrar usuário')
+                        return render(request, 'cadastro_tudo.html')
+                    
             elif tipoPessoa == 'ong':
                 #Inserir ong no banco
                 nomeONG = request.POST.get('nomeONG')

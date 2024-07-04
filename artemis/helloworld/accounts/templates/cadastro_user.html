@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block titulo %}Cadastro{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                      <div class="alert alert-danger mt-3" role="alert">
+                        {{message}}
+                      </div>
+                    {% else %}
+                      <div class="alert alert-{{message.tags}}">
+                        {{message}}
+                      </div>
+                    {% endif %}
+                {% endfor %}
+                <form id="cadastroForm" method="post">
+                    {% csrf_token %}
+                    <label for="">Selecione seu tipo:</label>
+                    <div class="form-group">                                   
+                        <div class="form-check form-check-inline ">
+                        <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaFisica" value="pessoaFisica" checked>
+                        <label class="form-check-label" for="pessoaFisica">
+                            Pessoa Física
+                        </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="tipoPessoa" id="ong" value="ong">
+                        <label class="form-check-label" for="ong">
+                            ONG
+                        </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaJuridica" value="pessoaJuridica">
+                        <label class="form-check-label" for="pessoaJuridica">
+                            Pet Shop
+                        </label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="pesemail">Email:</label>
+                        <input type="email" class="form-control" id="pesemail" name="pesemail" placeholder="Email" required>
+                        <div class="mb-3">
+                            <label for="cadastroSenhaFisica" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="cadastroSenhaFisica" placeholder="Digite sua senha" name="password1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cadastroConfirmarSenhaFisica" class="form-label">Confirmar a senha</label>
+                            <input type="password" class="form-control" id="cadastroConfirmarSenhaFisica" placeholder="Confirme sua senha" name="password2" required>
+                        </div> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>      
+{% endblock content %}
