@@ -1,0 +1,67 @@
+:root {
+  --primary-color: #a13939;
+  --secondary-color: #fdfa41;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url(pizza.jpg);
+  color: white;
+}
+
+nav {
+  background-color: var(--primary-color);
+}
+
+.navbar-brand, .nav-link {
+  color: white;
+}
+
+.list-group-item {
+  background-color: var(--secondary-color);
+}
+
+.list-group-item {
+  background-color: var(--primary-color);
+}
+
+.list-group-item:hover {
+  background-color: var(--secondary-color);
+}
+
+nav a:hover {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+}
+
+.title-pizzaria {
+  color: var(--secondary-color);
+}
+
+main > p {
+  background-color: rgba(0, 0, 0, 0.596);
+}
+
+#formpizza {
+  background-color: rgba(0, 0, 0, 0.596);
+  align-items: center;
+  justify-content: center;
+}
+
+#formpizza p {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+legend {
+  text-align: center;
+}
+
+#lcobertura {
+  text-align: center;
+}
