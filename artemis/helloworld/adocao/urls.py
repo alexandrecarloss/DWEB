@@ -10,5 +10,6 @@ urlpatterns = [
     path('cadastropet', views.cadastropet, name="cadastropet"),
     path('salvarpet', views.salvarpet, name="salvarpet"),
     path('atualizarpet/<int:petid>', views.atualizarpet, name="atualizarpet"),
+    path('removerpet/<int:petid>', views.removerpet, name="removerpet"),
     path('fotopet/<int:petid>/<int:multiplo>', views.fotopet.as_view(), name="fotopet"),
 ]

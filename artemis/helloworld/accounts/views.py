@@ -143,11 +143,14 @@ def cadastro_dados(request):
                 #Verificando se alterar ou inserir dados
                 antpessoa = Pessoa.objects.filter(pesemail = pesemail).first()
                 if antpessoa:
+                    #Chama procedimento para alterar pessoa
                     cursor.execute('call sp_alterapessoa (%(cpf)s, %(dtnascto)s, %(sexo)s, %(cidade)s, %(bairro)s, %(rua)s, %(email)s, %(numero)s, %(telefone)s, %(nome)s, %(estado)s, %(cod)s)', {'cpf': pescpf, 'dtnascto': pesdtnascto, 'sexo': pessexo, 'cidade': pescidade, 'bairro': pesbairro, 'rua': pesrua, 'email': pesemail, 'numero': pesnumero, 'telefone': pestelefone, 'nome': pesnome, 'estado': pesestado, 'cod': antpessoa.pesid})
                 else:
+                    #Chama procedimento para inserir pessoa
                     cursor.execute('call sp_inserepessoa (%(cpf)s, %(dtnascto)s, %(sexo)s, %(cidade)s, %(bairro)s, %(rua)s, %(email)s, %(numero)s, %(telefone)s, %(nome)s, %(estado)s)', {'cpf': pescpf, 'dtnascto': pesdtnascto, 'sexo': pessexo, 'cidade': pescidade, 'bairro': pesbairro, 'rua': pesrua, 'email': pesemail, 'numero': pesnumero, 'telefone': pestelefone, 'nome': pesnome, 'estado': pesestado})
             except Exception as  erro:
                 print('Excessão: ', erro)
+                messages.error(request, 'Erro ao inserir/atualizar dados!')
                 return render(request, 'cadastro_tudo.html')
             finally:
                 cursor.close()
@@ -185,7 +188,9 @@ def cadastro_dados(request):
                     #cursor.execute('call sp_insere_ong (%(nome)s, %(cidade)s, %(bairro)s, %(rua)s, %(num)s, %(telefone)s, %(email)s)', {'nome': nomeONG, 'cidade': cidadeONG, 'bairro': bairroONG, 'rua': ruaONG, 'num': numONG, 'telefone': telefoneONG, 'email': emailONG})
                     #result = cursor.fetchall()
             except Exception as erro:
+                messages.error(request, 'Erro ao inserir/atualizar dados!')
                 print("Erro: ", erro) 
+                return render(request, 'cadastro_tudo.html')
             finally:
                 cursor.close()
             
@@ -207,22 +212,26 @@ def cadastro_dados(request):
 
             #Inserindo objeto no banco           
             ant_pet_shop = Petshop.objects.filter(ptsemail = ptsemail).first()
-            if ant_pet_shop:
-                ant_pet_shop.ptsnome = ptsnome
-                ant_pet_shop.ptscnpj = ptscnpj
-                ant_pet_shop.ptscidade = ptscidade
-                ant_pet_shop.ptsbairro = ptsbairro
-                ant_pet_shop.ptsrua = ptsrua
-                ant_pet_shop.ptsnumero = ptsnumero
-                ant_pet_shop.ptstelefone = ptstelefone
-                ant_pet_shop.ptsemail = ptsemail
-                ant_pet_shop.ptsestado = ptsestado
-                ant_pet_shop.save()
-            else:
-                Petshop.objects.create(ptsnome = ptsnome, ptscnpj = ptscnpj, ptscidade = ptscidade, ptsbairro = ptsbairro, ptsrua = ptsrua, ptsnumero = ptsnumero, ptstelefone = ptstelefone, ptsemail = ptsemail, ptsestado = ptsestado)    
-                #cursor.execute('call sp_insere_petshop (%(nome)s, %(cnpj)s, %(cidade)s, %(bairro)s, %(rua)s, %(num)s, %(telefone)s, %(email)s)', {'nome': ptsnome, 'cnpj': ptscnpj, 'cidade': ptscidade, 'bairro': ptsbairro, 'rua': ptsrua, 'num': ptsnumero, 'telefone': ptstelefone, 'email': ptsemail})
-                #result = cursor.fetchall()
-            
+            try:
+                if ant_pet_shop:
+                    ant_pet_shop.ptsnome = ptsnome
+                    ant_pet_shop.ptscnpj = ptscnpj
+                    ant_pet_shop.ptscidade = ptscidade
+                    ant_pet_shop.ptsbairro = ptsbairro
+                    ant_pet_shop.ptsrua = ptsrua
+                    ant_pet_shop.ptsnumero = ptsnumero
+                    ant_pet_shop.ptstelefone = ptstelefone
+                    ant_pet_shop.ptsemail = ptsemail
+                    ant_pet_shop.ptsestado = ptsestado
+                    ant_pet_shop.save()
+                else:
+                    Petshop.objects.create(ptsnome = ptsnome, ptscnpj = ptscnpj, ptscidade = ptscidade, ptsbairro = ptsbairro, ptsrua = ptsrua, ptsnumero = ptsnumero, ptstelefone = ptstelefone, ptsemail = ptsemail, ptsestado = ptsestado)    
+                    #cursor.execute('call sp_insere_petshop (%(nome)s, %(cnpj)s, %(cidade)s, %(bairro)s, %(rua)s, %(num)s, %(telefone)s, %(email)s)', {'nome': ptsnome, 'cnpj': ptscnpj, 'cidade': ptscidade, 'bairro': ptsbairro, 'rua': ptsrua, 'num': ptsnumero, 'telefone': ptstelefone, 'email': ptsemail})
+                    #result = cursor.fetchall()
+            except Exception as erro:
+                messages.error(request, 'Erro ao inserir/atualizar dados!')
+                print("Erro: ", erro) 
+                return render(request, 'cadastro_tudo.html')
             cursor.close()
         messages.success(request, 'Dados inseridos com sucesso!')
         return render(request, 'index.html')                        
@@ -255,6 +264,7 @@ def password_reset(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         try:
+            #Declaração de variáveis usadas no e-mail
             user = User.objects.get(email = email)
             current_site = get_current_site(request)
             mail_subject = "Redefinição de senha"
@@ -264,6 +274,7 @@ def password_reset(request):
                 "token": account_activation_token.make_token(user)
             })
             try:
+                #Envio do e-mail
                 to_email = email
                 email = EmailMessage(
                     mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
@@ -291,14 +302,17 @@ def password_reset_confirm(request, uidb64, token):
     if request.method == 'POST':
         User = get_user_model()
         try:
+            #Pega id do usuário e usuário
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
+            #Se o usuário foi encontrado e o token for válido declara variáveis de senha
             password1 = request.POST.get('password1')
             password2 = request.POST.get('password2')
             if password1 == password2:
+                #Atualiza senha e salva
                 user.set_password(password1)
                 user.save()
 
@@ -319,13 +333,10 @@ def reset_complete(request):
 
 @login_required(login_url="/accounts/login")
 def usuario(request):
-    print(request.user.groups)
+    #Obtém o usuário e seus dados associados de acordo com o e-mail autenticado
     pettipos = PetTipo.objects.all()
     petportes = PetPorte.objects.all()
-    #pet = Pet.objects.filter(petid = petid).first()
-    #petfoto = PetFoto.objects.filter(pet_petid = petid).first()
     pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
-    #print('email user ', request.user.email)
     pets = Pet.objects.filter(pessoa_pesid = pesid)
     pftfotos = PetFoto.objects.all()
     pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
@@ -343,13 +354,12 @@ def ong(request):
     for adocao in pets_adocao:
         pet = Pet.objects.filter(petid = adocao.pet_petid.petid).first()
         pets.append(pet)
-    #     print('pet:', pet, 'pets: ', pets)
-    # print('Pets query aqui: ', pets)
     return render(request, 'pagOng.html', {'pets': pets, 'pettipos': pettipos, 'petportes': petportes, 'ong': ong})
 
 def atualizar_pessoa(request, pesid):
     if request.method == 'POST':
         try:
+            #Atualização na tabela pessoa
             pessoa = Pessoa.objects.filter(pesid = pesid).first()
             user = User.objects.filter(email = pessoa.pesemail).first()
             pessoa.pescpf = request.POST.get('pescpf')
@@ -366,7 +376,7 @@ def atualizar_pessoa(request, pesid):
             pessoa.pesnome = request.POST.get('pesnome')
             pessoa.pesestado = request.POST.get('pesestado')
             pessoa.save()
-            
+            #Atualização na tabela usuário
             user.username = pessoa.pesemail
             user.email = pessoa.pesemail
             user.save()
@@ -379,6 +389,7 @@ def atualizar_pessoa(request, pesid):
 def atualizar_ong(request, ongid):
     if request.method == 'POST':
         try:
+            #Atualização na tabela ong
             ong = Ong.objects.filter(ongid = ongid).first()
             user = User.objects.filter(email = ong.ongemail).first()
             ong.ongnome = request.POST.get('nomeONG')
@@ -391,7 +402,7 @@ def atualizar_ong(request, ongid):
             ong.ongemail = request.POST.get('emailONG')
             ong.ongestado = request.POST.get('ongestado')
             ong.save()
-
+            #Atualização na tabela usuário
             user.username = ong.ongemail
             user.email = ong.ongemail
             user.save()

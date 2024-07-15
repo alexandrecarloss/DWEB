@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if response %}
-    <div class="alert alert-success">
-        <p>{{ response }}</p>
-    </div>
-    {% endif %}
     {% for message in messages %}
         {% if message.tags == 'error' %}
             <div class="alert alert-danger mt-3" role="alert">

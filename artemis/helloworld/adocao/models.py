@@ -248,12 +248,16 @@ class PetAdocao(models.Model):
 
 class PetFoto(models.Model):
     pftid = models.AutoField(primary_key=True)
-    pftfoto = models.ImageField(max_length=100)
+    pftfoto = models.ImageField(upload_to='adocao\images\pet', max_length=100)
     pet_petid = models.ForeignKey(Pet, models.DO_NOTHING, db_column='pet_petid')
 
     class Meta:
         managed = False
         db_table = 'pet_foto'
+
+    def delete(self, *args, **kwargs):
+        self.pftfoto.delete(save=False)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.pftfoto.name

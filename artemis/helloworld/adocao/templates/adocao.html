@@ -8,11 +8,6 @@
         <h1 class="mb-4">Filtro</h1>
         <div class="row g-4">
             <div class="col-lg-12">
-                {% if response %}
-                <div class="alert alert-success">
-                    <p>{{ response }}</p>
-                </div>
-                {% endif %}
                 {% for message in messages %}
                     {% if message.tags == 'error' %}
                         <div class="alert alert-danger mt-3" role="alert">
@@ -39,7 +34,7 @@
                                 <button type="submit"><span id="search-icon-1" class="input-group-text p-3">
                                     <i class="fa fa-search"></i>
                                 </span></button>
-                                <!-- {{ form.as_p }} -->
+                                
                             </form>
                         </div>
                         <div class="tudo-info" id="info-container-1">
@@ -110,12 +105,7 @@
                                 <button class="btn btn-info" class="final-info">Pular</button><button class="btn btn-info" id="prox-terceiro-info">Próximo</button>
                             </div>
                         </div>
-                    </div>
-                    <!-- <form method="POST">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                    </form> -->
-                    
+                    </div>                    
                 </div>
                 
                 {% if nomePesquisa %}

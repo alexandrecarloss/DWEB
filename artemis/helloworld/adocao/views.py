@@ -1,38 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
 from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte, PetAdocao, Ong
-from .forms import especieForm
 from django.views import View
-from django.db.models import Max
-from PIL import Image
-import os
 from django.conf import settings
 from datetime import date
 from django.contrib.auth.decorators import login_required
-from accounts import views as viewsAccount
 from django.db import connection
 from django.contrib import messages
-from django.contrib.auth.models import User, Group
 
-from helloworld.context_processors import context_grupo_usuario
 def index(request):
-    # print(context_grupo_usuario(request))
-    # print(type(context_grupo_usuario(request)['grupo_usuario']))
-    # print(str(context_grupo_usuario(request)['grupo_usuario']) == 'Ong')
-    mensagens_para_exibir = messages.get_messages(request)
-    try:
-        response = request.session.get('response')
-    finally:
-        request.session['response'] = None
-    return render(request, 'index.html', {'response': response, "messages": mensagens_para_exibir})
+    return render(request, 'index.html')
 
 def adocao(request):
-    try:
-        response = request.session.get('response')
-    finally:
-        request.session['response'] = None
-   
-    form = especieForm()
     nomePesquisa = request.GET.get('nomepesquisa')
     especie = request.GET.get('especie')
     raca = request.GET.get('raca')
@@ -48,7 +26,7 @@ def adocao(request):
     else:
         pets = Pet.objects.all()
     pftfotos = PetFoto.objects.all()
-    return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'form': form, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa, 'response': response})
+    return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
 def load_racas(request):
     id_specie = request.GET.get('especie')
@@ -85,8 +63,7 @@ class fotopet(View):
     def get(self, request, petid, multiplo):
         pet = Pet.objects.filter(petid = petid).first()
         if multiplo == 0 or multiplo == 2:
-            pftfoto = PetFoto.objects.filter(pet_petid = pet.petid).first()
-           
+            pftfoto = PetFoto.objects.filter(pet_petid = pet.petid).first()   
         else:
             pftfoto = PetFoto.objects.filter(pet_petid = pet.petid)
             if len(pftfoto) > 1:
@@ -97,10 +74,6 @@ class fotopet(View):
 
 @login_required(login_url="/accounts/login")
 def cadastropet(request):
-    #print('Pessoa', Pessoa.objects.filter(pesemail = request.user.email).first().pesid)
-    #print('tipo: ', str(request.user.groups.all()[0]))
-    # if(request.user.groups.all()[0].name == 'Pessoa'):
-    #     print('Sim')
     pettipos = PetTipo.objects.all()
     petportes = PetPorte.objects.all()
     return render(request, "pagCadastroPet.html", {"pettipos": pettipos, "petportes": petportes})
@@ -125,16 +98,13 @@ def salvarpet(request):
         pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
         try:
             cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
-            
-            # result = cursor.fetchall()
-            # print(result)
         except Exception as erro:
             print(erro)
             messages.error(request, 'Erro ao cadastrar pet!')
             return redirect(cadastropet)
         finally:
             cursor.close()
-    else: 
+    elif str(request.user.groups.all()[0]) == 'Ong':
         try:
             ong = Ong.objects.filter(ongemail = request.user.email).first()
             Pet.objects.create(petnome = petnome, petsexo = petsexo, petcastrado = petcastrado, petdtnascto = petdtnascto, petpeso = petpeso, pet_porte_ptpid = porte, pet_raca_ptrid = raca, pet_tipo_pttid = tipo)
@@ -143,27 +113,21 @@ def salvarpet(request):
         except Exception as erro:
             print(erro)
             messages.error(request, 'Erro ao cadastrar pet!')
-            return redirect(cadastropet)    
+            return redirect(cadastropet)   
+
+    else:
+        messages.error(request, 'Erro ao cadastrar pet!')
+        return redirect(cadastropet)
 
     #petnovo = Pet.objects.aggregate(Max('petid'))
     petidnovo = Pet.objects.order_by('-petid')[0]
     petfotosnovo = request.FILES.getlist("fotos_pet")
     if petfotosnovo:
         for foto in petfotosnovo:
-            #petnovo = PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
             petnovo = PetFoto(pftfoto = foto, pet_petid = petidnovo)
             petnovo.save()
-    messages.success(request, 'Pet cadastrado com sucesso!')
-
-    # img = Image.open(petfotosnovo)
-    # path = os.path.join(settings.BASE_DIR, f'media/adocao/images/pet{date.today()}-{petfotosnovo.name}')
-    # img = img.save(path)
-    
+    messages.success(request, 'Pet cadastrado com sucesso!')    
     return redirect(adocao)
-    # for foto in petfotosnovo:
-    #     PetFoto.objects.create(pftfoto = foto, pet_petid = petidnovo)
-    # fotosnovo = PetFoto.objects.filter(pet_petid = petidnovo)
-    # return render(request, "adocao.html", {"petnovo": petidnovo, "petfotosnovo": fotosnovo})
 
 def modalpet(request, petid):
     pettipos = PetTipo.objects.all()
@@ -190,7 +154,7 @@ def atualizarpet(request, petid):
         print(cursor)
     finally:
         cursor.close()
-    #Desassociando fotos antigas
+    # Removendo fotos antigas
     petfotoantigas = PetFoto.objects.filter(pet_petid_id = petid)
     for foto in petfotoantigas:
         foto.delete()
@@ -200,4 +164,19 @@ def atualizarpet(request, petid):
             petnovo = PetFoto(pftfoto = foto, pet_petid = pet)
             petnovo.save()
     messages.success(request, 'Pet atualizado com sucesso!')
+    return redirect(adocao)
+
+def removerpet(request, petid):
+    pet = Pet.objects.filter(petid = petid).first()
+    # Removendo fotos antigas
+    try:
+        petfotoantigas = PetFoto.objects.filter(pet_petid_id = petid)
+        for foto in petfotoantigas:
+            foto.pftfoto.delete()
+            foto.delete()
+        pet.delete()
+        messages.success(request, 'Pet removido com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao remover pet!')
     return redirect(adocao)
