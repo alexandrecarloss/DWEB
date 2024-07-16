@@ -86,7 +86,7 @@ def cadastro_user(request):
                     elif tipoPessoa == 'ong':
                         user.groups.add(2)
                     elif tipoPessoa == 'pessoaJuridica':
-                        user.groups.add(2)
+                        user.groups.add(3)
                     #Salvando usuário
                     user.save()
                 except Exception as  erro:
@@ -113,6 +113,7 @@ def cadastro_user(request):
 login_required(login_url="/accounts/login")
 def cadastro_dados(request):
     tipoPessoa = str(request.user.groups.first())
+    print(tipoPessoa)
     cursor = connection.cursor()
     #Verificação do método de acesso
     if request.method == 'GET':
