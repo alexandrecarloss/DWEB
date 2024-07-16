@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login as login_django, logout, authenticate, get_user_model
 from django.shortcuts import redirect
@@ -28,6 +27,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save() 
         login_django(request, user)
+        request.session['grupo_usuario'] = str(request.user.groups.all().first())
         messages.success(request, 'Usuário cadastrado com sucesso! Por favor, insira suas informações.')      
         return redirect('cadastro_dados')
     else:
@@ -112,14 +112,16 @@ def cadastro_user(request):
 #View para cadastrar dados de usuário no banco
 login_required(login_url="/accounts/login")
 def cadastro_dados(request):
+    tipoPessoa = str(request.user.groups.first())
     cursor = connection.cursor()
     #Verificação do método de acesso
     if request.method == 'GET':
-        return render(request, 'cadastro_tudo.html')
+        return render(request, 'cadastro_tudo.html', {'tipoPessoa': tipoPessoa})
     else:
-        tipoPessoa = request.POST.get('tipoPessoa')
+        #tipoPessoa = request.POST.get('tipoPessoa')
+        
         #Verificação do tipo de cadastro
-        if tipoPessoa == 'pessoaFisica':
+        if tipoPessoa == 'Pessoa':
             #Declaração de variáveis do tipo pessoa física
             pescpf = request.POST.get('pescpf')
             pescpf = re.sub('[^0-9]', '', pescpf)
@@ -128,7 +130,8 @@ def cadastro_dados(request):
             pescidade = request.POST.get('pescidade')
             pesbairro = request.POST.get('pesbairro')
             pesrua = request.POST.get('pesrua')
-            pesemail = request.POST.get('pesemail')
+            #pesemail = request.POST.get('pesemail')
+            pesemail = request.user.email
             pesnumero = request.POST.get('pesnumero')
             pestelefone = request.POST.get('pestelefone')
             pestelefone = re.sub('[^0-9]', '', pestelefone)
@@ -155,7 +158,7 @@ def cadastro_dados(request):
             finally:
                 cursor.close()
                 
-        elif tipoPessoa == 'ong':
+        elif tipoPessoa == 'Ong':
             #Inserir ong no banco
             nomeONG = request.POST.get('nomeONG')
             cidadeONG = request.POST.get('cidadeONG')
@@ -164,7 +167,8 @@ def cadastro_dados(request):
             numONG = request.POST.get('numONG')
             telefoneONG = request.POST.get('telefoneONG')
             telefoneONG = re.sub('[^0-9]', '', telefoneONG)
-            emailONG = request.POST.get('emailONG')
+            #emailONG = request.POST.get('emailONG')
+            emailONG = request.user.email
             ongestado = request.POST.get('ongestado')
             #Primeiro nome, usado para exibir o usuário
             first_name = nomeONG
@@ -194,7 +198,7 @@ def cadastro_dados(request):
             finally:
                 cursor.close()
             
-        elif tipoPessoa == 'pessoaJuridica':
+        elif tipoPessoa == 'Pet shop':
             ptsnome = request.POST.get('ptsnome')
             ptscnpj = request.POST.get('ptscnpj')
             ptscnpj = re.sub('[^0-9]', '', ptscnpj)
@@ -204,7 +208,8 @@ def cadastro_dados(request):
             ptsnumero = request.POST.get('ptsnumero')
             ptstelefone = request.POST.get('ptstelefone')
             ptstelefone = re.sub('[^0-9]', '', ptstelefone)
-            ptsemail = request.POST.get('ptsemail')
+            #ptsemail = request.POST.get('ptsemail')
+            ptsemail = request.user.email
             ptsestado = request.POST.get('ptsestado')   
             first_name = ptsnome
             request.user.first_name = first_name

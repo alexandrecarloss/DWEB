@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block titulo %}Cadastro{% endblock %}
 {% block content %}
+{% block navbar %}
+
+{% endblock navbar %}
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -22,31 +25,10 @@
                       </div>
                     {% endif %}
                   {% endfor %}
-                  <div id="camposPessoaFisica">
-                    <form id="cadastroForm" method="post">
-                      {% csrf_token %}
-                      <label for="">Selecione seu tipo:</label>
-                        <div class="form-group">                                   
-                          <div class="form-check form-check-inline ">
-                            <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaFisica" value="pessoaFisica" checked>
-                            <label class="form-check-label" for="pessoaFisica">
-                              Pessoa Física
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="tipoPessoa" id="ong" value="ong">
-                            <label class="form-check-label" for="ong">
-                              ONG
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaJuridica" value="pessoaJuridica">
-                            <label class="form-check-label" for="pessoaJuridica">
-                              Pet Shop
-                            </label>
-                          </div>
-                        </div>
-                        <!-- Início pessoa física -->                      
+                  {% if tipoPessoa == 'Pessoa' %}
+                  <!-- Início pessoa física -->  
+                  <form id="cadastroForm" method="post">
+                    {% csrf_token %}                    
                           <h4 class="mb-3">Informações de Pessoa Física</h4>                         
                           <div class="form-group">
                             <label for="pesnome">Nome:</label>
@@ -79,7 +61,7 @@
                                   <optgroup label="Região Norte">
                                       <option value="AC">Acre</option>
                                       <option value="AP">Amapá</option>
-                                      <option value="AM">Amazonas</option>
+                                      <option value="AM" selected>Amazonas</option>
                                       <option value="PA">Pará</option>
                                       <option value="RO">Rondônia</option>
                                       <option value="RR">Roraima</option>
@@ -132,43 +114,19 @@
                             <input type="number" class="form-control" id="pesnumero" name="pesnumero" placeholder="Número" required>
                           </div>
                           <div class="form-group">
-                            <label for="pesemail">Email:</label>
-                            <input type="email" class="form-control" id="pesemail" name="pesemail" placeholder="Email" required>
-                          </div>
-                          <div class="form-group">
                             <label for="pestelefone">Telefone:</label>
                             <input type="tel" class="form-control" id="pestelefone" name="pestelefone" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14">
                           </div> 
                           
-                          <!-- Fim pessoa física                         -->
                           <button type="submit" class="btn primaria btn-block mt-4">Enviar</button>
                         </form>
                       </div>
-                      <div id="camposONG" style="display:none;">
+                      <!-- Fim pessoa física                         -->
+                      {% elif tipoPessoa == 'Ong' %}                      
+                      <!-- Início ONG -->
+                      <div id="camposONG">
                         <form id="cadastroForm" method="post">
-                          {% csrf_token %}                       
-                          <label for="">Selecione seu tipo:</label>
-                          <div class="form-group">                                   
-                            <div class="form-check form-check-inline ">
-                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaFisica" value="pessoaFisica">
-                              <label class="form-check-label" for="pessoaFisica">
-                                Pessoa Física
-                              </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="tipoPessoa" id="ong" value="ong" checked>
-                              <label class="form-check-label" for="ong">
-                                ONG
-                              </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaJuridica" value="pessoaJuridica">
-                              <label class="form-check-label" for="pessoaJuridica">
-                                Pet Shop
-                              </label>
-                            </div>
-                          </div>                       
-                          <!-- Início ONG -->
+                          {% csrf_token %}                        
                           <h4 class="mb-3">Informações de ONG</h4>
                           <div class="form-group">
                             <label for="nomeONG">Nome da ONG:</label>
@@ -185,7 +143,7 @@
                                   <optgroup label="Região Norte">
                                       <option value="AC">Acre</option>
                                       <option value="AP">Amapá</option>
-                                      <option value="AM">Amazonas</option>
+                                      <option value="AM" selected>Amazonas</option>
                                       <option value="PA">Pará</option>
                                       <option value="RO">Rondônia</option>
                                       <option value="RR">Roraima</option>
@@ -237,39 +195,14 @@
                             <label for="telefoneONG">Telefone:</label>
                             <input type="tel" class="form-control" name="telefoneONG" id="telefoneONG" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14">
                           </div>
-                          <div class="form-group">
-                            <label for="emailONG">Email:</label>
-                            <input type="email" class="form-control" name="emailONG" id="emailONG" placeholder="Email">
-                          </div>
                           <button type="submit" class="btn primaria btn-block mt-4">Enviar</button>
                         </form>
                       </div>        
                         <!-- Fim ONG -->
-                        <!-- Início pessoa jurídica   -->
-                        <div id="camposPessoaJuridica" style="display:none;">
-                          <form id="cadastroForm" method="post">
-                            {% csrf_token %}
-                            <label for="">Selecione seu tipo:</label>
-                          <div class="form-group">                                   
-                            <div class="form-check form-check-inline ">
-                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaFisica" value="pessoaFisica">
-                              <label class="form-check-label" for="pessoaFisica">
-                                Pessoa Física
-                              </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="tipoPessoa" id="ong" value="ong">
-                              <label class="form-check-label" for="ong">
-                                ONG
-                              </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="tipoPessoa" id="pessoaJuridica" value="pessoaJuridica" checked>
-                              <label class="form-check-label" for="pessoaJuridica">
-                                Pet Shop
-                              </label>
-                            </div>
-                          </div>
+                        {% elif tipoPessoa == 'Pet shop' %}
+                        <!-- Início Pet shop   -->
+                        <form id="cadastroForm" method="post">
+                          {% csrf_token %}
                           <h4 class="mb-3">Informações de Pet Shop</h4>
                           <div class="form-group">
                               <label for="ptsnome">Nome do Petshop:</label>
@@ -290,7 +223,7 @@
                                   <optgroup label="Região Norte">
                                       <option value="AC">Acre</option>
                                       <option value="AP">Amapá</option>
-                                      <option value="AM">Amazonas</option>
+                                      <option value="AM" selected>Amazonas</option>
                                       <option value="PA">Pará</option>
                                       <option value="RO">Rondônia</option>
                                       <option value="RR">Roraima</option>
@@ -342,14 +275,11 @@
                               <label for="ptstelefone">Telefone:</label>
                               <input type="tel" class="form-control" name="ptstelefone" id="ptstelefone" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14">
                           </div>
-                          <div class="form-group">
-                              <label for="ptsemail">Email:</label>
-                              <input type="email" class="form-control" name="ptsemail" id="ptsemail" placeholder="Email">
-                          </div>
                           <button type="submit" class="btn primaria btn-block mt-4">Enviar</button>
                         </form>
                       </div>                                                      
-                      <!-- Fim pessoa jurídica -->
+                      <!-- Fim Pet shop -->
+                       {% endif %}
                 </div>
             </div>
         </div>

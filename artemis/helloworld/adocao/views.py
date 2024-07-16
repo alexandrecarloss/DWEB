@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from .models import Pet, PetRaca, PetTipo, PetFoto, Pessoa, PetPorte, PetAdocao, Ong
 from django.views import View
 from django.conf import settings
