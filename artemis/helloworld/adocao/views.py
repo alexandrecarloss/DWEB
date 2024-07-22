@@ -10,17 +10,9 @@ from helloworld.context_processors import *
 from accounts.views import cadastro_dados 
 
 def index(request):
-    contexto = context_grupo_usuario(request)
-    if contexto['dado_usuario'] == None:
-        messages.error(request, 'Termine seu cadastro')
-        return redirect(cadastro_dados)
     return render(request, 'index.html')
 
 def adocao(request):
-    contexto = context_grupo_usuario(request)
-    if contexto['dado_usuario'] == None:
-        messages.error(request, 'Termine seu cadastro')
-        return redirect(cadastro_dados)
     nomePesquisa = request.GET.get('nomepesquisa')
     especie = request.GET.get('especie')
     raca = request.GET.get('raca')

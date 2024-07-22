@@ -114,7 +114,6 @@ def cadastro_user(request):
 login_required(login_url="/accounts/login")
 def cadastro_dados(request):
     tipoPessoa = str(request.user.groups.first())
-    print(tipoPessoa)
     cursor = connection.cursor()
     #Verificação do método de acesso
     if request.method == 'GET':
