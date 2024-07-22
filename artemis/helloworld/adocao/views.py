@@ -6,25 +6,35 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.db import connection
 from django.contrib import messages
+from helloworld.context_processors import *
+from accounts.views import cadastro_dados 
 
 def index(request):
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
     return render(request, 'index.html')
 
 def adocao(request):
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
     nomePesquisa = request.GET.get('nomepesquisa')
     especie = request.GET.get('especie')
     raca = request.GET.get('raca')
     pettipos = PetTipo.objects.all()
     pessoas = Pessoa.objects.all()
     if nomePesquisa:
-        pets = Pet.objects.filter(petnome__icontains=nomePesquisa)
+        pets = Pet.objects.filter(petnome__icontains=nomePesquisa, pessoa_pesid = None)
     elif especie:
         if raca:
-            pets = Pet.objects.filter(pet_raca_ptrid = raca)
+            pets = Pet.objects.filter(pet_raca_ptrid = raca, pessoa_pesid = None)
         else:
-            pets = Pet.objects.filter(pet_tipo_pttid = especie)
+            pets = Pet.objects.filter(pet_tipo_pttid = especie, pessoa_pesid = None)
     else:
-        pets = Pet.objects.all()
+        pets = Pet.objects.all().filter(pessoa_pesid = None)
     pftfotos = PetFoto.objects.all()
     return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
@@ -74,9 +84,16 @@ class fotopet(View):
 
 @login_required(login_url="/accounts/login")
 def cadastropet(request):
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
+    if str(request.user.groups.first()) != 'Ong':
+        messages.error(request, 'Tipo de usuário não autorizado para cadastrar pets para adoção!')
+        return redirect(index)
     pettipos = PetTipo.objects.all()
     petportes = PetPorte.objects.all()
-    return render(request, "pagCadastroPet.html", {"pettipos": pettipos, "petportes": petportes})
+    return render(request, "pagCadastroPetAdocao.html", {"pettipos": pettipos, "petportes": petportes})
 
 def salvarpet(request):
     cursor = connection.cursor()
@@ -107,6 +124,7 @@ def salvarpet(request):
     elif str(request.user.groups.all()[0]) == 'Ong':
         try:
             ong = Ong.objects.filter(ongemail = request.user.email).first()
+            print(ong)
             Pet.objects.create(petnome = petnome, petsexo = petsexo, petcastrado = petcastrado, petdtnascto = petdtnascto, petpeso = petpeso, pet_porte_ptpid = porte, pet_raca_ptrid = raca, pet_tipo_pttid = tipo)
             idpet = Pet.objects.order_by('-petid')[0]
             PetAdocao.objects.create(ong_ongid = ong, pet_petid = idpet)
@@ -114,7 +132,6 @@ def salvarpet(request):
             print(erro)
             messages.error(request, 'Erro ao cadastrar pet!')
             return redirect(cadastropet)   
-
     else:
         messages.error(request, 'Erro ao cadastrar pet!')
         return redirect(cadastropet)

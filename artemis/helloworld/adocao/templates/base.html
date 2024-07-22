@@ -76,10 +76,10 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            {% if 'Ong' not in request.session.values %}
+                            {% if grupo_usuario != 'Ong' %}
                                 <a href="{% url 'index' %}" class="nav-item nav-link ">Produtos</a>
                             {% endif %}
-                            {% if 'Pet shop' not in request.session.values %}
+                            {% if grupo_usuario == 'Ong' %}
                                 <div class="nav-item dropdown">
                                     <a href="{% url 'adocao' %}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Adoção</a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -87,8 +87,10 @@
                                         <a href="{% url 'cadastropet' %}" class="dropdown-item text-white">Cadastrar pet</a>
                                     </div>
                                 </div>
+                            {% elif grupo_usuario == 'Pessoa' %} 
+                                <a href="{% url 'adocao' %}" class="nav-item nav-link ">Adoção</a>                           
                             {% endif %}
-                            {% if 'Ong' not in request.session.values %}
+                            {% if grupo_usuario != 'Ong' %}
                             <!-- <a href="{% url 'adocao' %}" class="nav-item nav-link active">Adoção</a> -->
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Serviços</a>
@@ -98,7 +100,7 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            {% if 'grupo_usuario' in request.session.keys %}
+                            {% if grupo_usuario %}
                                 {% if 'Pessoa' in request.session.values %}
                                     <a href="{% url 'usuario' %}" class="nav-item nav-link">Usuário</a>
                                 {% elif 'Ong' in request.session.values %}
@@ -106,9 +108,6 @@
                                 {% elif 'Pet shop' in request.session.values %}
                                     <a href="#" class="nav-item nav-link">Pet shop</a>
                                 {% endif %}
-                            {% endif %}
-                            {% if grupo_usuario == 'Ong' %}
-                                {{ grupo_usuario }}
                             {% endif %}
                         </div>
                         {% if user.is_authenticated %}

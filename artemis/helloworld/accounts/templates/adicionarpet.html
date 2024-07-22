@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block titulo %}Cadastro pet {% endblock %}
+{% block titulo %}Adicionar pet {% endblock %}
 {% block content %}
     {% for message in messages %}
         {% if message.tags == 'error' %}
@@ -31,7 +31,7 @@
                                         id="pettipo"
                                         name="pettipo"
                                         required
-                                        hx-get="load_racas/"
+                                        hx-get="/load_racas/"
                                         hx-target="#id_raca"
                                     >
                                         <option value="" selected></option>
