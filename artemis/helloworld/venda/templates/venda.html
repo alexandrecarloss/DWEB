@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block titulo %}Adoção {% endblock %}
+{% block content %}
+
+<!-- Fruits Shop Start-->
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Filtro</h1>
+        <div class="row g-4">
+            <div class="col-lg-12">
+                {% if response %}
+                <div class="alert alert-success">
+                    <p>{{ response }}</p>
+                </div>
+                {% endif %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-{{message.tags}}">
+                            {{message}}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <!-- FILTROS -->
+                <div class="row g-4">
+                    <div class="col-xl-3">
+                        <div class="input-group w-100 mx-auto d-flex">
+                            <form action="" method="get">
+                                <input
+                                    name="nomepesquisa"
+                                    type="text"
+                                    class="form-control p-3"
+                                    placeholder="nome"
+                                    aria-describedby="search-icon-1"
+                                >
+                                <button type="submit"><span id="search-icon-1" class="input-group-text p-3">
+                                    <i class="fa fa-search"></i>
+                                </span></button>
+                                <!-- {{ form.as_p }} -->
+                            </form>
+                        </div>
+                        
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                            <label for="especie">Espécie:</label>
+                            <select
+                                id="especie"
+                                name="especie"
+                                class="border-0 form-select-sm bg-light me-3"
+                                form="especieform"
+                                hx-get="load_racas/"                               
+                                hx-target="#id_raca"                        
+                            >
+                            
+                            <option value="" selected></option> 
+                            {% for tipo in pettipos %} 
+                                <option value="{{ tipo.pttid }}">                                   
+                                    {{ tipo.pttnome }}                                   
+                                </option>
+                                
+                            
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="tudo-info" id="info-container-2">
+                            <h3>Tutorial adoção 2</h3>
+                            <div class="texto-info">Encontre um pet pela espécie: cachorro, gato, etc...</div>
+                            <div class="controlers">
+                                <button class="btn btn-info" class="final-info">Pular</button><button class="btn btn-info" id="prox-segundo-info">Próximo</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                            <label for="id_raca">Raça:</label>
+                            <select
+                                id="id_raca"
+                                name="raca"
+                                class="border-0 form-select-sm bg-light me-3"
+                                form="racaform"
+                                hx-get="load_pets/"
+                                hx-target="#containercardspets"
+                            >
+                            </select>
+                        </div>
+                        <div class="tudo-info" id="info-container-3">
+                            <h3>Tutorial adoção 3</h3>
+                            <div class="texto-info">Após escolher uma espécie, encontre um pet pela raça: Vira lata, Persa, etc...</div>
+                            <div class="controlers">
+                                <button class="btn btn-info" class="final-info">Pular</button><button class="btn btn-info" id="prox-terceiro-info">Próximo</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </form> -->
+                    
+                </div>
+                
+                {% if nomePesquisa %}
+                <h2>Buscando por: {{ nomePesquisa }}</h2>
+                {% endif %}
+                <!-- FIM FILTROS -->
+                <div class="row g-4">
+                    <div class="col-lg-12">
+                        <div id="containercardspets" class="row g-4 justify-content-left">
+                            
+                            <div class="col-md-6 col-lg-6 col-xl-3">
+                                <div class="rounded position-relative fruite-item">
+                                    <div class="fruite-img">
+                                        <img src="/helloworld/adocao/templates/img/fruite-item-1.jpg" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column justify-content-between">
+                                        <div>
+                                            <h5 class="card-title">Coleira Personalizada</h5>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id urna elit.</p>
+                                            <h6 class="card-subtitle mb-2 text-muted">R$ 49,99</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-auto">
+                                            <a href="#" class="btn btn-primary flex-grow-1 me-1">Comprar</a>
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-3">
+                                <div class="rounded position-relative fruite-item">
+                                    <div class="fruite-img">
+                                        <img src="/helloworld/adocao/templates/img/fruite-item-1.jpg" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column justify-content-between">
+                                        <div>
+                                            <h5 class="card-title">Coleira Personalizada</h5>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id urna elit.</p>
+                                            <h6 class="card-subtitle mb-2 text-muted">R$ 49,99</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-auto">
+                                            <a href="#" class="btn btn-primary flex-grow-1 me-1">Comprar</a>
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End-->
+        
+{% endblock content %}

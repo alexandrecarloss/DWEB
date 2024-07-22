@@ -25,6 +25,7 @@ urlpatterns = [
     path('', adocaoViews.index, name='index'),
     path('adocao/', include('adocao.urls')),
     path('accounts/', include('accounts.urls')),
+    path('venda/', include('venda.urls')),
     path('load_racas/', adocaoViews.load_racas, name="load_racas"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

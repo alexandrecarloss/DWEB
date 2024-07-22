@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'adocao',
     'debug_toolbar',
     'accounts',
+    'venda',
 ]
 
 INTERNAL_IPS = [
