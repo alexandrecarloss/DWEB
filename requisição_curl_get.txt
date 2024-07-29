@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json Cookie: sessionid=ugnk98bs6tve8sp1qui6v68s8leri7tp" -X GET http://127.0.0.1:8000/api/v1/produtos/2

@@ -77,7 +77,7 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             {% if grupo_usuario != 'Ong' %}
-                                <a href="{% url 'index' %}" class="nav-item nav-link ">Produtos</a>
+                                <a href="{% url 'produtos' %}" class="nav-item nav-link ">Produtos</a>
                             {% endif %}
                             {% if grupo_usuario == 'Ong' %}
                                 <div class="nav-item dropdown">
@@ -92,13 +92,14 @@
                             {% endif %}
                             {% if grupo_usuario != 'Ong' %}
                             <!-- <a href="{% url 'adocao' %}" class="nav-item nav-link active">Adoção</a> -->
-                                <div class="nav-item dropdown">
+                            <a href="{% url 'servicos' %}" class="nav-item nav-link">Serviços</a>
+                                <!-- <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Serviços</a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                         <a href="#" class="dropdown-item text-white">Banho</a>
                                         <a href="#" class="dropdown-item text-white">Tosa</a>
                                     </div>
-                                </div>
+                                </div> -->
                             {% endif %}
                             {% if grupo_usuario %}
                                 {% if 'Pessoa' in request.session.values %}

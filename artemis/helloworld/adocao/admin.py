@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pet, PetRaca, PetTipo, PetFoto, PetPorte, Pessoa, Petshop, Ong, PetAdocao
+from .models import *
 admin.site.register(Pet)
 admin.site.register(PetRaca)
 admin.site.register(PetTipo)
@@ -9,6 +9,7 @@ admin.site.register(Pessoa)
 admin.site.register(Petshop)
 admin.site.register(Ong)
 admin.site.register(PetAdocao)
+admin.site.register(Produto)
 
 
 # Register your models here.

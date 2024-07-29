@@ -37,10 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adocao',
+
     'debug_toolbar',
+    'django_filters',
+    'rest_framework',
+    'rest_framework.authtoken', #Autenticação via token
+
+    'adocao',
     'accounts',
     'venda',
+    'udemydrf',
 ]
 
 INTERNAL_IPS = [
@@ -157,5 +163,30 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST = config('EMAIL_HOST')
 
-LOGOUT_REDIRECT_URL = "/"
+#Redirecionamento login/logout
 LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+# Definir auto incremento padrão
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '60/minute', #second, day, month, year
+        'user': '100/minute'
+    }
+}
+
+# 8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e

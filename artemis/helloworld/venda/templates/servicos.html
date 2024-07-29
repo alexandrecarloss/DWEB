@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block titulo %}Serviços{% endblock %}
+{% block content %}
+
+{% for message in messages %}
+    {% if message.tags == 'error' %}
+        <div class="alert alert-danger mt-3" role="alert">
+            {{message}}
+        </div>
+    {% else %}
+        <div class="alert alert-{{message.tags}}">
+            {{message}}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% for servico in servicos %}
+    {{ servico }}
+{% endfor %}
+Aqui terão serviços
+
+{% endblock %}

@@ -157,7 +157,6 @@ def atualizarpet(request, petid):
     vpet_raca_ptrid = request.POST.get('petraca')
     vpet_tipo_pttid = request.POST.get('especie')
     pet = Pet.objects.filter(petid = petid).first()
-
     try:
         cursor.execute('call sp_alterapet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s, %(cod)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid, 'cod': petid})
         print(cursor)
