@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>SGC - Versão 1.0</title>
+        <link href="clinica_medica.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body class="FundoPagina">
+        <p class="TituloAplicacao">SGC - Sistema de Gestão de Clínicas 1.0</p>
+        <p class="TituloPagina">Cadastro de Médicos - Inserção</p>
+        
+        <form name="formInsereMedico" method="post" action="InserirMedico" target="_parent">
+            <p>Nome do medico: <input name="txtMedico" type="text" size="20" maxlength="20" /></p>
+            <p>CRM: <input name="txtCRM" type="text" size="20" maxlength="20" /></p>
+            <p>Código da Especialidade<input name="intCodigoEspecialidade" type="number"/></p>
+            <p>Especialidades Registradas:</p>
+            <ol>
+                <li>Endócrino</li>
+                <li>Clínico Geral</li>
+                <li>Cirurgião Geral</li>
+            </ol>
+            <p><input name="btnGravar" type="submit" value="Gravar" />
+                <span class="LinkVoltar"><a href="javascript:history.back()">[Voltar]</a></span>
+            </p>
+        </form>
+        
+        <p class="RodapePagina">Copyright(c) 2024 - Editora IFAM.</p>
+    </body>
+</html>

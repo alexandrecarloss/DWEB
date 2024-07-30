@@ -1,0 +1,146 @@
+/* Estilos para a barra de navegação */
+nav {
+    background-color: #ffffff; /* Branco */
+    padding: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000000; /* Preto */
+}
+
+.navbar-brand {
+    margin-left: 35px;
+}
+
+.navbar-text {
+    margin-right: 35px;
+}
+
+.navbar-brand img {
+    width: 180px;
+}
+
+@media (max-width: 768px) {
+    .navbar-brand img {
+        width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand img {
+        width: 100px;
+    }
+}
+
+@media (max-width: 400px) {
+    .navbar-brand img {
+        width: 80px;
+    }
+}
+
+/* Estilos para o conteúdo */
+body {
+    background-color: #f0f0f0; /* Cinza claro */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos para o rodapé */
+footer {
+    background-color: #ffffff; /* Branco */
+    padding: 20px;
+    text-align: center;
+}
+
+/* Adicionando margem entre as colunas */
+.col-md-6 {
+    margin-bottom: 20px;
+}
+
+/* Diminuindo a largura da div do login */
+/* Ajustando o alinhamento do formulário */
+.login-container {
+    max-width: 450px;
+    margin: 0 auto 0; /* Centraliza a div e adiciona margem superior */
+}
+
+/* Adicionando espaço entre os inputs */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Estilizando o formulário de login */
+form {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px; /* Adiciona espaço acima do formulário */
+}
+
+@media (max-width: 768px) {
+    form {
+        margin-top: 20px; /* Reduz o espaço acima do formulário em telas menores */
+    }
+}
+
+
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-outline-secondary:hover {
+    color: white;
+    border-color: var(--bs-secondary);
+}
+
+/* Ajustando a margem superior do container do login e do novo cadastro */
+.new-acc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 35vh; /* Garante que a altura da div seja a mesma que a do pai */
+}
+
+.cadastro-container {
+    max-width: 450px;
+    margin: 20 auto 0; /* Centraliza a div e adiciona margem superior */
+}
+
+@media (min-width: 768px) {
+    .cadastro-container {
+        margin-top: 20px; /* Ajuste para alinhar com o título "Bem-vindo ao Meu Site" */
+    }
+}
+
+.text-titulo {
+    margin-top: 30px;
+    color: rgb(152, 152, 152);
+}
+
+.container-fluid.py-5 {
+    padding-top: 2rem; /* Ajuste o valor conforme desejado */
+}

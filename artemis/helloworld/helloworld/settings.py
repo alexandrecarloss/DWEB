@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'debug_toolbar',
-    'django_filters',
+    # 'django_filters',
     'rest_framework',
     'rest_framework.authtoken', #Autenticação via token
 
@@ -189,4 +189,5 @@ REST_FRAMEWORK = {
     }
 }
 
+API_BASE_URL = 'http://127.0.0.1:8000/api/v2'
 # 8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e

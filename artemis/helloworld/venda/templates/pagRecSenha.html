@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artemis</title>
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+        rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="pagina-login">
+    <!-- NAVBAR start -->
+    <nav class="navbar navbar-expand-lg bg-white">
+        <div class="container-fluid">
+            <a href="index.html" class="login-navbar-brand">
+                <img src="/img/logoazul-removebg.png" alt="Artemis" class="img-fluid">
+            </a>
+            <div class="login-navbar-text ml-auto">
+                Ambiente Seguro
+            </div>
+        </div>
+    </nav>
+    <!-- NAVBAR end -->
+    <div class="container d-flex align-items-center justify-content-center height-100">
+        <div class="row justify-content-center">
+            <div class="col-md-10 mt-5">
+                <h3 class="text-center login-text-titulo">Recuperar conta</h3>
+                <p class="text-center">Informe o seu endereço de e-mail abaixo e enviaremos um link para você redefinir
+                    sua senha.</p>
+                <form id="formRecuperarSenha">
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Endereço de E-mail</label>
+                        <input type="email" class="form-control" id="inputEmail" name="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Enviar Email de Recuperação</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

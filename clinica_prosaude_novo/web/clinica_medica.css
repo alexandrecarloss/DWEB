@@ -1,0 +1,68 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 29/07/2024, 17:32:15
+    Author     : PC
+*/
+/* Personalização do estilo CSS */
+
+/* Título da aplicação */
+.TituloAplicacao {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    color: #A86C50; /* Marrom-avermelhado */
+}
+
+/* Fundo da página */
+.FundoPagina {
+    background-color: #F5F5F5; /* Cinza claro */
+}
+
+/* Título da página */
+.TituloPagina {
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+    color: #FA4035; /* Vermelho-alaranjado */
+}
+
+/* Borda do menu */
+.BordaMenu {
+    background-color: #F5F5F5; /* Cinza claro */
+    border: 1px solid #A86C50; /* Marrom-avermelhado */
+    text-align: center;
+}
+
+/* Rodapé da página */
+.RodapePagina {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background-color: #F5F5F5; /* Cinza claro */
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    color: #37BD58; /* Verde */
+}
+
+/* Links de voltar */
+.LinkVoltar {
+    font-family: 'Verdana', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #37BD58; /* Verde */
+}
+
+/* Efeito hover para botão de voltar */
+.LinkVoltar:hover {
+    color: #F5F5F5; /* Cinza claro */
+    background-color: #37BD58; /* Verde (mais escuro) */
+}
+

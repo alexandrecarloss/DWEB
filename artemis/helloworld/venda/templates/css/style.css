@@ -1,0 +1,313 @@
+:root {
+    --bs-primary: #394ea1;
+    --bs-secondary: #fd5e41;
+    --primary-color: #394ea1;
+    --secondary-color: #89d8ce;
+    --accent-color: #f7ae34;
+    --tertiary-color: #f294a0;
+    --quaternary-color: #fd5e41;
+}
+
+/*** Topbar Start ***/
+.fixed-top {
+    transition: 0.5s;
+    background: white; 
+    border: 0;
+    
+}
+
+.cadastro-fixed-top {
+    transition: 0.5s;
+    background: white; 
+    border: 0;
+
+}
+
+.topbar {
+    padding: 20px;
+    border-radius: 230px 100px;
+}
+
+.topbar .top-info {
+    font-size: 15px;
+    line-height: 0;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+.topbar .top-link {
+    font-size: 15px;
+    line-height: 0;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+.topbar .top-link a {
+    letter-spacing: 1px;
+}
+
+.topbar .top-link a small:hover {
+    color: var(--tertiary-color) !important; /* #f294a0 */
+    transition: 0.5s;
+}
+
+.topbar .top-link a small:hover i {
+    color: var(--primary-color) !important; /* #394ea1 */
+}
+/*** Topbar End ***/
+
+/*** Navbar Start ***/
+.navbar .navbar-nav .nav-link {
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: .5s;
+}
+
+.navbar {
+    height: 100px;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    align-items: center;
+    padding-bottom: 20px;
+
+}
+
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link.active,
+.fixed-top.bg-white .navbar .navbar-nav .nav-link:hover,
+.fixed-top.bg-white .navbar .navbar-nav .nav-link.active {
+    color: var(--bs-secondary); /* #394ea1 */
+
+}
+
+#navbar a.active{
+    border-bottom: 1px solid var(--bs-secondary);
+}
+
+.navbar .dropdown-toggle::after {
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 700;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+@media (min-width: 1200px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        visibility: hidden;
+        top: 100%;
+        transform: rotateX(-75deg);
+        transform-origin: 0% 0%;
+        border: 0;
+        transition: .5s;
+        opacity: 0;
+    }
+}
+
+.dropdown .dropdown-menu a:hover {
+    background: var(--primary-color); /* #f294a0 */
+    color: var(--quaternary-color); /* #394ea1 */
+}
+
+.navbar .nav-item:hover .dropdown-menu {
+    transform: rotateX(0deg);
+    visibility: visible;
+    background: var(--quaternary-color) !important; /* #89d8ce */
+    border-radius: 10px !important;
+    transition: .5s;
+    opacity: 1;
+}
+
+#searchModal .modal-content {
+    background: rgba(255, 255, 255, .8);
+}
+/*** Navbar End ***/
+
+
+/*** Hero Header ***/
+.hero-header {
+    /*!background: linear-gradient(rgba(248, 223, 173, 0.1), rgba(248, 223, 173, 0.1)), url(../img/hero.jpg);*/
+    background-color: rgba(165, 190, 255, 0.21);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item a {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 25px;
+    background: linear-gradient(rgba(253, 93, 65, 0.614), rgba(253, 93, 65, 0.614));
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--bs-white);
+    background: var(--bs-primary);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-control-next {
+    margin-right: 20px;
+}
+
+.carousel-control-prev {
+    margin-left: 20px;
+}
+
+.page-header {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/bg_1.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media (min-width: 992px) {
+    .hero-header,
+    .page-header {
+        margin-top: 152px !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-header,
+    .page-header {
+        margin-top: 97px !important;
+    }
+}
+/*** Hero Header end ***/
+
+/******************************* LOGIN *********************************/
+.pagina-login {
+    background-color: #f0f0f0; /* Cinza claro */
+    margin: 0;
+    padding: 0;
+}
+
+.login-navbar-brand {
+    margin-left: 35px;
+}
+
+.login-navbar-brand img {
+    width: 180px;
+}
+
+@media (max-width: 768px) {
+    .login-navbar-brand img {
+        width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-navbar-brand img {
+        width: 100px;
+    }
+}
+
+@media (max-width: 400px) {
+    .login-navbar-brand img {
+        width: 80px;
+    }
+}
+
+
+.login-navbar-text {
+    margin-right: 35px;
+}
+
+
+.login-container {
+    max-width: 450px;
+    margin: 0 auto 0; /* Centraliza a div e adiciona margem superior */
+}
+
+.login-form-group {
+    margin-bottom: 20px;
+}
+
+.login-form {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px; /* Adiciona espaço acima do formulário */
+}
+
+@media (max-width: 768px) {
+    .login-form {
+        margin-top: 20px; /* Reduz o espaço acima do formulário em telas menores */
+    }
+}
+
+.login-cadastro-container {
+    max-width: 450px;
+    margin: 0 auto 0; /* Centraliza a div e adiciona margem superior */
+}
+
+@media (min-width: 768px) {
+    .login-cadastro-container {
+        margin-top: 20px; /* Ajuste para alinhar com o título "Bem-vindo ao Meu Site" */
+    }
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-outline-secondary:hover {
+    color: white;
+    border-color: var(--bs-secondary);
+}
+
+.login-text-titulo {
+    margin-top: 30px;
+    color: rgb(152, 152, 152);
+}
+
+.cadastro-container {
+    max-width: 700px;
+    margin: 0 auto 0; /* Centraliza a div e adiciona margem superior */
+}
+
+/* Adicionando margem entre as colunas */
+.col-md-6 {
+    margin-bottom: 40px;
+}
+
+
+/*************************  ****************************************/
+
+
+.azul {
+    background-color: var(--primary-color);
+    color: white;
+}
+.laranja{
+    background-color: var(--bs-secondary);
+}
+
+.text-laranja{
+    color: var(--bs-secondary);
+}
+.azul:hover{
+    background-color: var(--bs-secondary);
+    color: white;
+}

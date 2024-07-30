@@ -1,0 +1,20 @@
+ <div class="col-md-6 col-lg-6 col-xl-3">
+                                <div class="rounded position-relative fruite-item">
+                                    <div class="fruite-img">
+                                        <img src="/helloworld/adocao/templates/img/fruite-item-1.jpg" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column justify-content-between">
+                                        <div>
+                                            <h5 class="card-title">Coleira Personalizada</h5>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id urna elit.</p>
+                                            <h6 class="card-subtitle mb-2 text-muted">R$ 49,99</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-auto">
+                                            <a href="#" class="btn btn-primary flex-grow-1 me-1">Comprar</a>
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>

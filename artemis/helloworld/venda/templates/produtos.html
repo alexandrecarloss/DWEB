@@ -104,8 +104,13 @@
         });
     </script>
 
-    <form action="" method="post">
+    <form action="{% url 'post_produto' %}" method="post">
         {% csrf_token %}
+        <input type="text" name="pronome">
+        <input type="number" name="propreco">
+        <input type="number" name="prosaldo">
+        <input type="number" name="propetshop_ptsid">
+        <input type="date" name="prodtvalidade">
         <button type="submit">Inserir</button>
     </form>
 

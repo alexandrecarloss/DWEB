@@ -5,7 +5,13 @@ from adocao.views import *
 from adocao.models import *
 from udemydrf.views import *
 import requests
-from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.conf import settings
+token = '8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e'
+headers = {
+    'Authorization': f'Token {token}',
+    'Content-Type': 'application/json',
+}
 
 def produtos(request):
     # if request.method == 'POST':
@@ -163,3 +169,37 @@ def removerservico(request, cod):
         print(erro)
         messages.error(request, 'Erro ao remover serviço!')
     return redirect(servicos)
+
+@require_POST
+@login_required(login_url="/accounts/login")
+def post_produto(request):
+    if str(request.user.groups.first()) == 'Pet shop':
+        api_url = f"{settings.API_BASE_URL}/produtos/"
+        pet_shop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        data = {
+            "pronome": request.POST.get('pronome'),
+            "propreco": request.POST.get('propreco'),
+            "prosaldo": request.POST.get('prosaldo'),
+            "propetshop_ptsid": pet_shop.ptsid,
+            "prodtvalidade": request.POST.get('prodtvalidade'),    
+        }
+        response = requests.post(api_url, json=data, headers=headers)
+        
+        if response.status_code == 201:  # Created
+            messages.success(request, 'Produto adicionado com sucesso!')
+            return render(request, 'produtos.html')
+        else:
+            messages.error(request, 'Erro ao adicionar produto!')
+            return render(request, 'produtos.html')
+    else:
+        messages.error(request, 'Somente petshops podem adicionar produto!')
+        return render(request, 'produtos.html')
+    
+def lista_produtos(request):
+    produtos = Produto.objects.all()
+    
+
+    
+
+
+

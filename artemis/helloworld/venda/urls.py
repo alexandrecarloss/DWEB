@@ -9,4 +9,6 @@ urlpatterns = [
     path('servicos/', views.servicos, name="servicos"),
     path('alteraservico/<int:cod>/', views.alteraservico, name="alteraservico"),
     path('removerservico/<int:cod>/', views.removerservico, name="removerservico"),
+    path('post_produto/', views.post_produto, name="post_produto"),
+    
 ]

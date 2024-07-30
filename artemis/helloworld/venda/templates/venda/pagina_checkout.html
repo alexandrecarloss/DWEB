@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoção</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+    <!-- NavBar -->
+    <div class="container-fluid fixed-top">
+        <!-- TopBar -->
+        <div class="container topbar d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3">
+                        <i class="fas fa-map-marker-alt me-2 secondaria"></i>
+                        <a href="#" class="text-white">Manaus, Amazonas</a>
+                    </small>
+                    <small class="me-3">
+                        <i class="fas fa-envelope me-2 secondaria"></i>
+                        <a href="#" class="text-white">artemis@artemis.com</a>
+                    </small>
+                </div>
+                <div class="top-link pe-2">
+                    <a href="#" class="text-white">
+                        <small class="text-white mx-2">Privacy Policy</small>
+                        /
+                    </a>
+                    <a href="#" class="text-white">
+                        <small class="text-white mx-2">Terms of Use</small>
+                        /
+                    </a>
+                    <a href="#" class="text-white">
+                        <small class="text-white ms-2">Sales and Refunds</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- TopBar End -->
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl" id="navbar">
+                <a href="index.html" class="navbar-brand">
+                    <img src="/img/logoazul-removebg.png" alt="Artemis" class="img-fluid"
+                        style="width: 150px; height: auto;">
+                </a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="bi bi-list text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a href="index.html" class="nav-item nav-link ">Produtos</a>
+                        <a href="#" class="nav-item nav-link active">Adoção</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Serviços</a>
+                            <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                <a href="#" class="dropdown-item text-white">Banho&Tosa</a>
+                                <a href="#" class="dropdown-item text-white">Passeio</a>
+                                <a href="#" class="dropdown-item text-white">Atendimento</a>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="nav-item nav-link">Contato</a>
+                    </div>
+                    <div class="d-flex m-3 me-0">
+                        <a href="/login.html" class="btn rounded-pill px-4 py-2 align-self-center secondaria">
+                            Entrar
+                            <i class="bi bi-person"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- NavBar End -->
+    <!-- Header -->
+    <div class="container-fluid page-header">
+        <h1 class="text-center text-white display-6">
+            <strong>Checkout</strong>
+        </h1>
+    </div>
+    <!-- Header End -->
+
+    <!-- Checkout Page Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <h1 class="mb-4">Detalhes</h1>
+            <form action="#">
+                <div class="row g-5">
+                    <div class="col-md-12 col-lg-6 col-xl-7">
+                        <div class="form-item">
+                            <label class="form-label my-3">Contato</label>
+                            <input type="tel" class="form-control" placeholder="NUMERO">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Email</label>
+                            <input type="email" class="form-control" placeholder="EMAIL DA PESSOA">
+                        </div>
+                        <hr>
+                        <div id="saved-address">
+                            <h4>Endereço salvo:</h4>
+                            <p>Rua 2, 123, Saved City, Saved Country</p>
+                        </div>
+                        <div class="form-check my-3">
+                            <input class="form-check-input" type="checkbox" id="Address-1" name="Address"
+                                value="Address" onchange="toggleAddressForm()">
+                            <label class="form-check-label" for="Address-1">Escolher um endereço diferente?</label>
+                        </div>
+                        <div id="address-form" style="display: none;">
+                            <div class="form-item">
+                                <label class="form-label my-3">Rua<sup>*</sup></label>
+                                <input type="text" class="form-control" name="pesrua" placeholder="Nome da Rua"
+                                    required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Número<sup>*</sup></label>
+                                <input type="text" class="form-control" name="pesnumero" placeholder="Número da Casa"
+                                    required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Bairro<sup>*</sup></label>
+                                <input type="text" class="form-control" name="pesbairro" placeholder="Bairro" required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Cidade<sup>*</sup></label>
+                                <input type="text" class="form-control" name="pescidade" placeholder="Cidade" required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Estado<sup>*</sup></label>
+                                <input type="text" class="form-control" name="pesestado" placeholder="Estado" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-5">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Produtos</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Preço</th>
+                                        <th scope="col">Quantitade</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="d-flex align-items-center mt-2">
+                                                <img src="img/fruite-item-1.jpg" class="img-fluid rounded-circle"
+                                                    style="width: 90px; height: 90px;" alt="">
+                                            </div>
+                                        </th>
+                                        <td class="py-5">Awesome Brocoli</td>
+                                        <td class="py-5">$69.00</td>
+                                        <td class="py-5">2</td>
+                                        <td class="py-5">$138.00</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="d-flex align-items-center mt-2">
+                                                <img src="img/fruite-item-1.jpg" class="img-fluid rounded-circle"
+                                                    style="width: 90px; height: 90px;" alt="">
+                                            </div>
+                                        </th>
+                                        <td class="py-5">Potatoes</td>
+                                        <td class="py-5">$69.00</td>
+                                        <td class="py-5">2</td>
+                                        <td class="py-5">$138.00</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                        </th>
+                                        <td class="py-5">
+                                            <p class="mb-0 text-dark text-uppercase py-3">TOTAL</p>
+                                        </td>
+                                        <td class="py-5"></td>
+                                        <td class="py-5"></td>
+                                        <td class="py-5">
+                                            <div class="py-3 border-bottom border-top">
+                                                <p class="mb-0 text-dark">$135.00</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                            <div class="col-12">
+                                <div class="form-check text-start my-3">
+                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-1"
+                                        name="PaymentMethod" value="Card" onclick="uncheckOthers('Card-1')">
+                                    <label class="form-check-label" for="Card-1">Cartão</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                            <div class="col-12">
+                                <div class="form-check text-start my-3">
+                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Pix-1"
+                                        name="PaymentMethod" value="Pix" onclick="uncheckOthers('Pix-1')">
+                                    <label class="form-check-label" for="Pix-1">Pix</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                            <div class="col-12">
+                                <div class="form-check text-start my-3">
+                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Delivery-1"
+                                        name="PaymentMethod" value="Delivery" onclick="uncheckOthers('Delivery-1')">
+                                    <label class="form-check-label" for="Delivery-1">Pagar na Entrega</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="card-info" style="display: none;">
+                            <div class="form-item">
+                                <label class="form-label my-3">Número do Cartão<sup>*</sup></label>
+                                <input type="text" class="form-control" placeholder="Número do Cartão" required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Data de Validade<sup>*</sup></label>
+                                <input type="text" class="form-control" placeholder="MM/AA" required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Código de Segurança (CVV)<sup>*</sup></label>
+                                <input type="text" class="form-control" placeholder="CVV" required>
+                            </div>
+                            <div class="form-check text-start my-3">
+                                <input type="radio" class="form-check-input bg-primary border-0" id="Credit-2"
+                                    name="CardType" value="Credito">
+                                <label class="form-check-label" for="Credit-2">Crédito</label>
+                            </div>
+                            <div class="form-check text-start my-3">
+                                <input type="radio" class="form-check-input bg-primary border-0" id="Debit-2"
+                                    name="CardType" value="Debito">
+                                <label class="form-check-label" for="Debit-2">Débito</label>
+                            </div>
+                        </div>
+                        <!-- Error message container -->
+                        <div id="error-message" class="text-center error-message" style="display: none;"></div>
+
+                        <!-- Button to trigger the order confirmation -->
+                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                            <button type="submit" class="btn secondaria py-3 px-4 text-uppercase w-100"
+                                onclick="showConfirmModal()">Confirmar Pedido</button>
+                        </div>
+
+
+                        <!-- Error message container -->
+                        <div id="error-message" class="text-center error-message" style="display: none;"></div>
+
+                        <!-- Order Confirmation Modal -->
+                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                            aria-labelledby="confirmModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmModalLabel">Confirmar Pedido</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        Tem certeza que deseja confirmar o pedido?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            onclick="hideConfirmModal()">Cancelar</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="confirmOrder()">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Checkout Page End -->
+
+
+    <!-- Footer -->
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-body-secondary">© 2024 Artemis, Inc</p>
+            <a href="index.html" class="navbar-brand">
+                <img src="/img/logoazul-removebg.png" alt="Artemis" class="img-fluid"
+                    style="width: 80px; height: auto;">
+            </a>
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+    <!-- Footer End-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
