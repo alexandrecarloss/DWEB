@@ -31,7 +31,7 @@ router.register('vendas', VendaViewSet)
 urlpatterns = [
     path('avaliacoes/', AvaliacoesAPIView.as_view(), name='v1_avaliacoes'),
     path('avaliacoes/<int:avaliacao_pk>/', AvaliacaoAPIView.as_view(), name='v1_avaliacao'),
-
+    
     path('carrinhos/', CarrinhosAPIView.as_view(), name='v1_carrinhos'),
     path('carrinhos/<int:pk>/', CarrinhoAPIView.as_view(), name='v1_carrinho'),
     path('formaspagamentos/', FormaspagamentosAPIView.as_view(), name='v1_formaspagamentos'),
