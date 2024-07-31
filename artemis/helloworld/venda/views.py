@@ -66,19 +66,19 @@ def servicos(request):
 ####### CRUD produto
 def insereproduto(request):
     cursor = connection.cursor()
-    nome = request.POST.get('nome')
-    preco = request.POST.get('preco')
-    saldo = request.POST.get('saldo')
-    petshop = request.POST.get('petshop')
-    validade = request.POST.get('validade')
+    pronome = request.POST.get('pronome')
+    propreco = request.POST.get('propreco')
+    prosaldo = request.POST.get('prosaldo')
+    propetshop = request.POST.get('propetshop')
+    provalidade = request.POST.get('provalidade')
     try:
         cursor.execute('call sp_insere_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(validade)s)', 
                 {
-                    'nome': nome, 
-                    'preco': preco, 
-                    'saldo': saldo, 
-                    'petshop': petshop, 
-                    'validade': validade, 
+                    'nome': pronome, 
+                    'preco': propreco, 
+                    'saldo': prosaldo, 
+                    'petshop': propetshop, 
+                    'validade': provalidade, 
                 })
         messages.success(request, 'Produto adicionado com sucesso!')
     except Exception as erro:
@@ -91,19 +91,19 @@ def insereproduto(request):
 
 def alteraproduto(request, cod):
     cursor = connection.cursor()
-    nome = request.POST.get('nome')
-    preco = request.POST.get('preco')
-    saldo = request.POST.get('saldo')
-    petshop = request.POST.get('petshop')
-    validade = request.POST.get('validade')
+    pronome = request.POST.get('pronome')
+    propreco = request.POST.get('propreco')
+    prosaldo = request.POST.get('prosaldo')
+    propetshop = request.POST.get('propetshop')
+    provalidade = request.POST.get('provalidade')
     try:
         cursor.execute('call sp_alteraproduto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(validade)s, %(cod)s)', 
                 {
-                    'nome': nome, 
-                    'preco': preco, 
-                    'saldo': saldo, 
-                    'petshop': petshop, 
-                    'validade': validade, 
+                    'nome': pronome, 
+                    'preco': propreco, 
+                    'saldo': prosaldo, 
+                    'petshop': propetshop, 
+                    'validade': provalidade, 
                     'cod': cod
                 })
         messages.success(request, 'Produto alterado com sucesso!')
@@ -210,7 +210,28 @@ def produto_detalhe(request, proid):
 def carrinho_user(request, pesid):
     carrinhos = Carrinho.objects.filter(carpes = pesid)
     return render(request, 'pagina_carrinho.html', {'carrinhos': carrinhos})
-    
 
+@login_required(login_url="/accounts/login")
+def inserir_produto_carrinho(request, proid):
+    cursor = connection.cursor()
+    produto = Produto.objects.filter(proid = request.POST.get('carpro')).first()
+    carquant = request.POST.get('carquant')
+    pessoa = Pessoa.objects.filter(pesemail = request.user.emaik).first()
+    carpes = pessoa.pesid
+    carpro = produto.proid
+    if carquant <= produto.prosaldo:
+        try:
+            cursor.execute('call sp_insere_produto_carrinho (%(produto)s, %(pessoa)s, %(quantidade)s)', {'produto': carpro, 'pessoa': carpes, 'quantidade': carquant})
+        except Exception as erro:
+            print(erro)
+            messages.error(request, 'Erro ao inserir produto ao carrinho!')
+            return redirect(produtos)
+        finally:
+            cursor.close()
+    else:
+        messages.error(request, 'Quantidade de produto solicitada maior que o estoque!')
+        return redirect(cadastropet)
+
+    
 
 
