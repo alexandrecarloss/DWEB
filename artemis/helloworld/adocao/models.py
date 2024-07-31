@@ -106,7 +106,7 @@ class Carrinho(models.Model):
         ordering = ['carid']
 
     def __str__(self):
-        return self.carid
+        return f'Carrinho {self.carid}'
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()

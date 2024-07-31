@@ -39,25 +39,24 @@ def produtos(request):
     #         print(response.json())
 
     # URL da API REST
-    api_url = 'http://127.0.0.1:8000/api/v1/produtos/'  # Altere para o URL real da sua API
+    # api_url = 'http://127.0.0.1:8000/api/v1/produtos/'  # Altere para o URL real da sua API
 
-    # Fazendo a requisição GET para a API
-    response = requests.get(api_url)
-    if response.status_code == 200:
-        produtos = response.json()  # Obtém os dados no formato JSON
-    else:
-        produtos = []  # Em caso de erro, você pode definir um comportamento padrão
-    print(produtos)
-
+    # # Fazendo a requisição GET para a API
+    # response = requests.get(api_url)
+    # if response.status_code == 200:
+    #     produtos = response.json()  # Obtém os dados no formato JSON
+    # else:
+    #     produtos = []  # Em caso de erro, você pode definir um comportamento padrão
+    # print(produtos)
+    produtos = Produto.objects.all()
     # Renderiza o template passando os dados dos produtos
-    return render(request, 'produtos.html', {'produtos': produtos})
+    return render(request, 'pagProdutos.html', {'produtos': produtos})
 
 def produtosAntigo(request):
     # produtos = Produto.objects.all()
     # return render(request, 'produtos.html', {'produtos': produtos})
     produtos = Produto.objects.all()
-    serializer = ProdutoSerializer(produtos)
-    return render(request, 'produtos.html', {'response': serializer})
+    return render(request, 'pagProdutos.html', {'produtos': produtos})
 
 def servicos(request):
     servicos = Servico.objects.all()
@@ -195,10 +194,22 @@ def post_produto(request):
         messages.error(request, 'Somente petshops podem adicionar produto!')
         return render(request, 'produtos.html')
     
-def lista_produtos(request):
-    produtos = Produto.objects.all()
+def adicionar_produto(request):
+    return render(request, 'produtos.html')
     
+@login_required(login_url="/accounts/login")
+def produto_detalhe(request, proid):
+    if str(request.user.groups.first()) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = str(request.user.email)).first()
+        produto = Produto.objects.filter(proid = proid).first()
+        return render(request, 'detalhes_produto.html', {'produto': produto, 'pessoa': pessoa})
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa física!')
+        return render(request, 'index.html')
 
+def carrinho_user(request, pesid):
+    carrinhos = Carrinho.objects.filter(carpes = pesid)
+    return render(request, 'pagina_carrinho.html', {'carrinhos': carrinhos})
     
 
 

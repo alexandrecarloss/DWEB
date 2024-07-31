@@ -71,7 +71,7 @@ public class InserirUsuario extends HttpServlet {
                 usuario.configurarConexao(conexao.obterConexao());
 
                 if (usuario.inserirRegistro(Usuario)) {
-                    out.println("<h2>Usuário cadastrado com sucesso!</h2>");
+                    out.println("<center><h2>Usuário cadastrado com sucesso!</h2></center>");
                     out.println("<br><br><br><br>");
                     out.println("<a href='menu_usuarios.html'>Voltar</a>");
                 } else {
