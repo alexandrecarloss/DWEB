@@ -66,7 +66,7 @@ def envia_email(request, user):
     return render(request, 'cadastro_user.html')          
 
 # View para cadastrar conta de usuário
-def cadastro_user(request):  
+def cadastro_user(request):   
     if request.method == 'POST':
         #Verificação de confirmação de senha
         if(request.POST['password1'] == request.POST['password2']):

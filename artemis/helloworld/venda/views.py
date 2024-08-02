@@ -240,9 +240,9 @@ def carrinho_user(request, pesid):
 @login_required(login_url="/accounts/login")
 def inserir_produto_carrinho(request, proid):
     cursor = connection.cursor()
-    produto = Produto.objects.filter(proid = request.POST.get('carpro')).first()
-    carquant = request.POST.get('carquant')
-    pessoa = Pessoa.objects.filter(pesemail = request.user.emaik).first()
+    produto = Produto.objects.filter(proid = proid).first()
+    carquant = int(request.POST.get('carquant'))
+    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
     carpes = pessoa.pesid
     carpro = produto.proid
     if carquant <= produto.prosaldo:
@@ -254,6 +254,11 @@ def inserir_produto_carrinho(request, proid):
             return redirect(produtos)
         finally:
             cursor.close()
+            if carquant == 1:
+                messages.success(request, f'{carquant} {produto.pronome} adicionado ao carrinho com sucesso!')
+            else:
+                messages.success(request, f'{carquant} {produto.pronome} adicionados ao carrinho com sucesso!')
+            return redirect(produtos)
     else:
         messages.error(request, 'Quantidade de produto solicitada maior que o estoque!')
         return redirect(cadastropet)
