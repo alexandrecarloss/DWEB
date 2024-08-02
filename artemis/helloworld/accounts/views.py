@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import login as login_django, logout, authenticate, get_user_model
 from django.shortcuts import redirect
 from django.db import connection
@@ -66,7 +66,7 @@ def envia_email(request, user):
     return render(request, 'cadastro_user.html')          
 
 # View para cadastrar conta de usuário
-def cadastro_user(request):
+def cadastro_user(request):  
     if request.method == 'POST':
         #Verificação de confirmação de senha
         if(request.POST['password1'] == request.POST['password2']):
@@ -80,14 +80,18 @@ def cadastro_user(request):
                 #Cadastro para autenticação
                 try:
                     user = User.objects.create_user(pesemail, password=request.POST['password1'], email=pesemail)
+                    criar_grupos_usuario_nao_encontrado()
+                    grupo_pessoa = Group.objects.filter(name = 'Pessoa').first()
+                    grupo_ong = Group.objects.filter(name = 'Ong').first()
+                    grupo_petshop = Group.objects.filter(name = 'Pet shop').first()
                     #Verificação do tipo de usuário
                     tipoPessoa = request.POST.get('tipoPessoa')
                     if tipoPessoa == 'pessoaFisica':
-                        user.groups.add(1)
+                        user.groups.add(grupo_pessoa)
                     elif tipoPessoa == 'ong':
-                        user.groups.add(2)
+                        user.groups.add(grupo_ong)
                     elif tipoPessoa == 'pessoaJuridica':
-                        user.groups.add(3)
+                        user.groups.add(grupo_petshop)
                     #Salvando usuário
                     user.save()
                 except Exception as  erro:
@@ -423,3 +427,14 @@ def adicionarpet(request):
     petportes = PetPorte.objects.all()
     return render(request, "adicionarpet.html", {"pettipos": pettipos, "petportes": petportes})
     
+def criar_grupos_usuario_nao_encontrado():
+    # Cria os grupos de tipos usuarios que não existem
+    pessoa = Group.objects.filter(name = 'Pessoa').first()
+    if not pessoa:
+        Group.objects.create(name = 'Pessoa')
+    ong = Group.objects.filter(name = 'Ong').first()
+    if not ong:
+        Group.objects.create(name = 'Ong')
+    petshop = Group.objects.filter(name = 'Pet shop').first()
+    if not petshop:
+        Group.objects.create(name = 'Pet shop')
