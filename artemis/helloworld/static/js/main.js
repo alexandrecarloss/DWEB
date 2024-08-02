@@ -97,6 +97,8 @@ $('input[type=radio][name=tipoPessoa]').change(function () {
     
     // Exibir o conteúdo "Pets Cadastrados" por padrão
     $('#pets').show();
+
+    
 });
 
 

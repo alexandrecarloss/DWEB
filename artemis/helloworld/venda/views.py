@@ -14,55 +14,23 @@ headers = {
 }
 
 def produtos(request):
-    # if request.method == 'POST':
-    #     # URL da API
-    #     url = 'http://127.0.0.1:8000/api/v1/produtos/'
-
-    #     # Dados do produto
-    #     produto = {
-    #         "pronome": "Produto Exemplo",
-    #         "propreco": 29.99,
-    #         "prosaldo": 100,
-    #         "propetshop_ptsid": 2,
-    #         "prodtvalidade": "2024-12-31"
-    #     }
-
-    #     # Enviando a solicitação POST
-    #     response = requests.post(url, json=produto)
-
-    #     # Verificando a resposta
-    #     if response.status_code == 201:
-    #         print('Produto criado com sucesso!')
-    #         print(response.json())
-    #     else:
-    #         print('Falha ao criar o produto:', response.status_code)
-    #         print(response.json())
-
-    # URL da API REST
-    # api_url = 'http://127.0.0.1:8000/api/v1/produtos/'  # Altere para o URL real da sua API
-
-    # # Fazendo a requisição GET para a API
-    # response = requests.get(api_url)
-    # if response.status_code == 200:
-    #     produtos = response.json()  # Obtém os dados no formato JSON
-    # else:
-    #     produtos = []  # Em caso de erro, você pode definir um comportamento padrão
-    # print(produtos)
-    produtos = Produto.objects.all()
-    # Renderiza o template passando os dados dos produtos
+    nome_produto_pesquisa = request.GET.get('nome_produto_pesquisa')
+    if nome_produto_pesquisa:
+         produtos_todos = Produto.objects.all().filter(pronome__icontains = nome_produto_pesquisa)
+    else:
+        produtos_todos = Produto.objects.all()
+    produtos = []
+    for p in produtos_todos:
+        if p.prosaldo > 0:
+            produtos.append(p)
     return render(request, 'pagProdutos.html', {'produtos': produtos})
-
-def produtosAntigo(request):
-    produtos = Produto.objects.all()
-    prffotos = ProdutoFoto.objects.all()
-    return render(request, 'pagProdutos.html', {'produtos': produtos, 'prffotos': prffotos})
 
 def servicos(request):
     servicos = Servico.objects.all()
     return render(request, 'servicos.html', {'servicos': servicos})
 # Create your views here.
 
-####### CRUD produto
+##################### CRUD produto #####################
 def insereservico(request):
     cursor = connection.cursor()
     petshop = Petshop.objects.filter(ptsemail=request.user.email).first()
@@ -277,6 +245,22 @@ def inserir_produto_carrinho(request, proid):
         messages.error(request, 'Quantidade de produto solicitada maior que o estoque!')
         return redirect(produtos)
 
+@login_required(login_url="/accounts/login")
+def remover_produto_carrinho(request, carid):
+    carrinho = Carrinho.objects.filter(carid = carid).first()
+    try:
+        #Devolvendo o saldo de produto
+        produto = Produto.objects.filter(proid = carrinho.carpro.proid).first()
+        produto.prosaldo = produto.prosaldo + carrinho.carquant
+        produto.save()
+        print('soma', produto.prosaldo + carrinho.carquant)
+        carrinho.delete()
+        messages.success(request, 'Produto removido do carrinho')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao remover produto do carrinho!')
+        return redirect(produtos)   
+    return redirect(produtos)
     
 class fotoproduto(View):
     def get(self, request, proid, multiplo):
