@@ -195,6 +195,10 @@ def removerservico(request, cod):
 #         return render(request, 'produtos.html')
     
 def adicionar_produto(request):
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
     tiposervicos =Tiposervico.objects.all()
     return render(request, 'cadastro_prod_serv.html', {'tiposervicos': tiposervicos})
 
@@ -210,12 +214,19 @@ def produto_detalhe(request, proid):
         messages.error(request, 'Usuário deve ser uma pessoa física!')
         return render(request, 'index.html')
 
-def carrinho_user(request, pesid):
-    carrinhos = Carrinho.objects.filter(carpes = pesid)
-    total_carrinhos = 0
-    for c in carrinhos:
-        total_carrinhos = total_carrinhos + c.carpreco
-    return render(request, 'pagina_carrinho.html', {'carrinhos': carrinhos, 'total_carrinhos': total_carrinhos})
+@login_required(login_url="/accounts/login")
+def carrinho_user(request):
+    if str(request.user.groups.all()[0]) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        pesid = pessoa.pesid
+        carrinhos = Carrinho.objects.filter(carpes = pesid)
+        total_carrinhos = 0
+        for c in carrinhos:
+            total_carrinhos = total_carrinhos + c.carpreco
+        return render(request, 'pagina_carrinho.html', {'carrinhos': carrinhos, 'total_carrinhos': total_carrinhos})
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa física!')
+        return render(request, 'index.html')
 
 @login_required(login_url="/accounts/login")
 def inserir_produto_carrinho(request, proid):
@@ -240,7 +251,7 @@ def inserir_produto_carrinho(request, proid):
                 messages.success(request, f'{carquant} {produto.pronome} adicionados ao carrinho com sucesso!')
                 produto.prosaldo = produto.prosaldo - carquant
                 produto.save()
-            return redirect(produtos)
+            return redirect(carrinho_user)
     else:
         messages.error(request, 'Quantidade de produto solicitada maior que o estoque!')
         return redirect(produtos)
@@ -259,8 +270,8 @@ def remover_produto_carrinho(request, carid):
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao remover produto do carrinho!')
-        return redirect(produtos)   
-    return redirect(produtos)
+        return redirect(carrinho_user)   
+    return redirect(carrinho_user)
     
 class fotoproduto(View):
     def get(self, request, proid, multiplo):

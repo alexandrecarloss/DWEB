@@ -29,7 +29,7 @@
                     </thead>
                     <tbody>
                         {% for carrinho in carrinhos %}
-                        <tr hx-get="../../fotoproduto/{{ carrinho.carpro.proid }}/2"
+                        <tr hx-get="../fotoproduto/{{ carrinho.carpro.proid }}/2"
                         hx-target="#fotoproduto{{ carrinho.carid }}"
                         hx-trigger="load">
                             <th scope="row">
