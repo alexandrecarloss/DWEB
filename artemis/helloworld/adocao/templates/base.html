@@ -90,6 +90,8 @@
                             {% elif grupo_usuario == 'Pessoa' %} 
                                 <a href="{% url 'adocao' %}" class="nav-item nav-link ">Adoção</a>                           
                             {% endif %}
+                            
+
                             {% if grupo_usuario != 'Ong' %}
                             <!-- <a href="{% url 'adocao' %}" class="nav-item nav-link active">Adoção</a> -->
                             <a href="{% url 'servicos' %}" class="nav-item nav-link">Serviços</a>
@@ -100,6 +102,10 @@
                                         <a href="#" class="dropdown-item text-white">Tosa</a>
                                     </div>
                                 </div> -->
+                            {% endif %}
+                            {% if grupo_usuario == 'Pet shop' %}
+                            <a href="{% url 'adicionar_produto' %}" class="nav-item nav-link ">Adicionar Produto/Serviço</a>  
+
                             {% endif %}
                             {% if grupo_usuario %}
                                 {% if 'Pessoa' in request.session.values %}

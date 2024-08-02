@@ -85,10 +85,13 @@
                             <div class="row g-4 justify-content-left">
                                 {% for produto in produtos %}
                                 
-                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                <div class="col-md-6 col-lg-6 col-xl-4"
+                                hx-get="../fotoproduto/{{ produto.proid }}/0"
+                                hx-target="#fotoproduto{{ produto.proid }}"
+                                hx-trigger="load">
                                     <div class="rounded position-relative fruite-item">
-                                        <div class="fruite-img">
-                                            <img src="img/about-1.jpg" class="img-fluid w-100 rounded-top" alt="Foto do produto {{produto.pronome}}">
+                                        <div class="fruite-img" id="fotoproduto{{ produto.proid }}">
+               
                                         </div>
                                         
                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">

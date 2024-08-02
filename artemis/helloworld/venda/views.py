@@ -53,10 +53,9 @@ def produtos(request):
     return render(request, 'pagProdutos.html', {'produtos': produtos})
 
 def produtosAntigo(request):
-    # produtos = Produto.objects.all()
-    # return render(request, 'produtos.html', {'produtos': produtos})
     produtos = Produto.objects.all()
-    return render(request, 'pagProdutos.html', {'produtos': produtos})
+    prffotos = ProdutoFoto.objects.all()
+    return render(request, 'pagProdutos.html', {'produtos': produtos, 'prffotos': prffotos})
 
 def servicos(request):
     servicos = Servico.objects.all()
@@ -93,17 +92,26 @@ def insereproduto(request):
     pronome = request.POST.get('pronome')
     propreco = request.POST.get('propreco')
     prosaldo = request.POST.get('prosaldo')
-    propetshop = request.POST.get('propetshop')
+    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    propetshop = petshop.ptsid
     provalidade = request.POST.get('provalidade')
     try:
         cursor.execute('call sp_insere_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(validade)s)', 
-                {
-                    'nome': pronome, 
-                    'preco': propreco, 
-                    'saldo': prosaldo, 
-                    'petshop': propetshop, 
-                    'validade': provalidade, 
-                })
+        {
+            'nome': pronome, 
+            'preco': propreco, 
+            'saldo': prosaldo, 
+            'petshop': propetshop, 
+            'validade': provalidade, 
+        })
+        # produto_novo = Produto.objects.order_by('-ptsid')[0]
+        produto_novo = Produto.objects.order_by('-proid')[0]
+        print('produto novo', produto_novo)
+        profotos_novo = request.FILES.getlist("profoto")
+        if profotos_novo:
+            for foto in profotos_novo:
+                produto_foto_novo = ProdutoFoto(prffoto = foto, produto_proid = produto_novo)
+                produto_foto_novo.save()
         messages.success(request, 'Produto adicionado com sucesso!')
     except Exception as erro:
         print(erro)
@@ -193,34 +201,34 @@ def removerservico(request, cod):
         messages.error(request, 'Erro ao remover serviço!')
     return redirect(servicos)
 
-@require_POST
-@login_required(login_url="/accounts/login")
-def post_produto(request):
-    if str(request.user.groups.first()) == 'Pet shop':
-        api_url = f"{settings.API_BASE_URL}/produtos/"
-        pet_shop = Petshop.objects.filter(ptsemail = request.user.email).first()
-        data = {
-            "pronome": request.POST.get('pronome'),
-            "propreco": request.POST.get('propreco'),
-            "prosaldo": request.POST.get('prosaldo'),
-            "propetshop_ptsid": pet_shop.ptsid,
-            "prodtvalidade": request.POST.get('prodtvalidade'),    
-        }
-        response = requests.post(api_url, json=data, headers=headers)
+# @require_POST
+# @login_required(login_url="/accounts/login")
+# def post_produto(request):
+#     if str(request.user.groups.first()) == 'Pet shop':
+#         api_url = f"{settings.API_BASE_URL}/produtos/"
+#         pet_shop = Petshop.objects.filter(ptsemail = request.user.email).first()
+#         data = {
+#             "pronome": request.POST.get('pronome'),
+#             "propreco": request.POST.get('propreco'),
+#             "prosaldo": request.POST.get('prosaldo'),
+#             "propetshop_ptsid": pet_shop.ptsid,
+#             "prodtvalidade": request.POST.get('prodtvalidade'),    
+#         }
+#         response = requests.post(api_url, json=data, headers=headers)
         
-        if response.status_code == 201:  # Created
-            messages.success(request, 'Produto adicionado com sucesso!')
-            return render(request, 'produtos.html')
-        else:
-            messages.error(request, 'Erro ao adicionar produto!')
-            return render(request, 'produtos.html')
-    else:
-        messages.error(request, 'Somente petshops podem adicionar produto!')
-        return render(request, 'produtos.html')
+#         if response.status_code == 201:  # Created
+#             messages.success(request, 'Produto adicionado com sucesso!')
+#             return render(request, 'produtos.html')
+#         else:
+#             messages.error(request, 'Erro ao adicionar produto!')
+#             return render(request, 'produtos.html')
+#     else:
+#         messages.error(request, 'Somente petshops podem adicionar produto!')
+#         return render(request, 'produtos.html')
     
 def adicionar_produto(request):
     tiposervicos =Tiposervico.objects.all()
-    return render(request, 'produtos.html', {'tiposervicos': tiposervicos})
+    return render(request, 'cadastro_prod_serv.html', {'tiposervicos': tiposervicos})
 
     
 @login_required(login_url="/accounts/login")
@@ -228,14 +236,18 @@ def produto_detalhe(request, proid):
     if str(request.user.groups.first()) == 'Pessoa':
         pessoa = Pessoa.objects.filter(pesemail = str(request.user.email)).first()
         produto = Produto.objects.filter(proid = proid).first()
-        return render(request, 'detalhes_produto.html', {'produto': produto, 'pessoa': pessoa})
+        fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
+        return render(request, 'detalhes_produto.html', {'produto': produto, 'pessoa': pessoa, 'fotos_produto': fotos_produto})
     else:
         messages.error(request, 'Usuário deve ser uma pessoa física!')
         return render(request, 'index.html')
 
 def carrinho_user(request, pesid):
     carrinhos = Carrinho.objects.filter(carpes = pesid)
-    return render(request, 'pagina_carrinho.html', {'carrinhos': carrinhos})
+    total_carrinhos = 0
+    for c in carrinhos:
+        total_carrinhos = total_carrinhos + c.carpreco
+    return render(request, 'pagina_carrinho.html', {'carrinhos': carrinhos, 'total_carrinhos': total_carrinhos})
 
 @login_required(login_url="/accounts/login")
 def inserir_produto_carrinho(request, proid):
@@ -258,11 +270,23 @@ def inserir_produto_carrinho(request, proid):
                 messages.success(request, f'{carquant} {produto.pronome} adicionado ao carrinho com sucesso!')
             else:
                 messages.success(request, f'{carquant} {produto.pronome} adicionados ao carrinho com sucesso!')
+                produto.prosaldo = produto.prosaldo - carquant
+                produto.save()
             return redirect(produtos)
     else:
         messages.error(request, 'Quantidade de produto solicitada maior que o estoque!')
-        return redirect(cadastropet)
+        return redirect(produtos)
 
     
-
-
+class fotoproduto(View):
+    def get(self, request, proid, multiplo):
+        produto = Produto.objects.filter(proid = proid).first()
+        if multiplo == 0 or multiplo == 2:
+            prffoto = ProdutoFoto.objects.filter(produto_proid = produto.proid).first()   
+        else:
+            prffoto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
+            if len(prffoto) > 1:
+                prfprimeira_foto= ProdutoFoto.objects.filter(produto_proid = produto.proid).first() 
+                varias = 1
+                return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo, "varias": varias, "prfprimeira_foto": prfprimeira_foto})
+        return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo})

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block titulo %}Produtos{% endblock %}
+{% block content %}
+
+{% for message in messages %}
+    {% if message.tags == 'error' %}
+        <div class="alert alert-danger mt-3" role="alert">
+            {{message}}
+        </div>
+    {% else %}
+        <div class="alert alert-{{message.tags}}">
+            {{message}}
+        </div>
+    {% endif %}
+{% endfor %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="cadastroForm"><label for="">Selecione o tipo de cadastro:</label>
+                            <div class="form-group">
+                                <div class="form-check form-check-inline ">
+                                    <input class="form-check-input" type="radio" name="tipoCadastro" id="produto"
+                                        value="produto" checked>
+                                    <label class="form-check-label" for="produto">
+                                        Produto
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tipoCadastro" id="servico"
+                                        value="servico">
+                                    <label class="form-check-label" for="servico">
+                                        Serviço
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="camposProduto">
+                                <h4 class="mb-3">Informações do Produto</h4>
+
+
+                                <div class="form-group">
+                                    <label for="pronome">Nome do Produto:</label>
+                                    <input type="text" class="form-control" id="pronome" name="pronome"
+                                        placeholder="Nome do Produto" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="propreco">Preço:</label>
+                                    <input type="number" step="0.01" class="form-control" id="propreco" name="propreco"
+                                        placeholder="Preço" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prosaldo">Quantidade:</label>
+                                    <input type="number" class="form-control" id="prosaldo" name="prosaldo"
+                                        placeholder="Saldo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prodtvalidade">Data de Validade:</label>
+                                    <input type="date" class="form-control" id="prodtvalidade" name="prodtvalidade">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="profoto">Foto do Produto:</label>
+                                    <input type="file" class="form-control-file" id="profoto" name="profoto">
+                                </div>                                
+
+                            </div>
+
+                            <div id="camposServico" style="display:none;">
+                                <h4 class="mb3">Informações do Serviço</h4>
+                                <div class="form-group">
+                                    <label for="sernome">Nome do Serviço:</label>
+                                    <input type="text" class="form-control" id="sernome" name="sernome"
+                                        placeholder="Nome do Serviço" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="servalor">Valor do Serviço:</label>
+                                    <input type="number" step="0.01" class="form-control" id="servalor" name="servalor"
+                                        placeholder="Valor do Serviço" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="serdescricao">Descrição do Serviço:</label>
+                                    <textarea class="form-control" id="serdescricao" name="serdescricao"
+                                        placeholder="Descrição do Serviço" required></textarea>
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="btn primaria btn-block mt-4">Cadastrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

@@ -35,7 +35,7 @@
 
                     <!-- Formulário de Produtos -->
                     <div id="formProduto">
-                        <form id="cadastroProdutoForm" action="{% url 'post_produto' %}" method="post">
+                        <form id="cadastroProdutoForm" action="{% url 'insereproduto' %}" method="post"  enctype="multipart/form-data">
                             {% csrf_token %}
                             <h4 class="mb-3">Informações do Produto</h4>
                             <div class="form-group">
@@ -57,7 +57,10 @@
                                 <label for="prodtvalidade">Data de Validade:</label>
                                 <input type="date" class="form-control" id="prodtvalidade" name="prodtvalidade">
                             </div>
-                            
+                            <div class="form-group">
+                                <label for="profoto">Fotos do Produto:</label>
+                                <input type="file" class="form-control-file" id="profoto" name="profoto" multiple>
+                            </div>
                             <button type="submit" class="btn primaria btn-block mt-4">Cadastrar Produto</button>
                         </form>
                     </div>
