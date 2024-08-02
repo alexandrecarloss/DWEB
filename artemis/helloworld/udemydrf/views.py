@@ -7,7 +7,6 @@ from .serializers import *
 from rest_framework.generics import get_object_or_404
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.conf import settings
 
 # ==================================== API V1 ====================================
 class AvaliacoesAPIView(generics.ListCreateAPIView):
@@ -350,6 +349,10 @@ class VendaAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = VendaSerializer
     
 
+def prod(request):
+    response = requests.get('http://127.0.0.1:8000/api/v1/produtos/').json()
+    return render(request, 'index.html', {'response': response})
+
 # ==================================== API V2 ====================================
 
 #   VIEWSET PADRÃO  
@@ -461,17 +464,3 @@ class VendaViewSet(viewsets.ModelViewSet):
     queryset = Venda.objects.all()
     serializer_class = VendaSerializer
 
-
-def prod(request):
-    api_url = f"{settings.API_BASE_URL}/produtos/"
-    response = requests.get(api_url)
-
-    # Verificar se a solicitação foi bem-sucedida
-    if response.status_code == 200:
-        data = response.json()  # Parseia a resposta JSON
-    else:
-        data = []  # Se a solicitação falhar, inicialize uma lista vazia
-
-    return render(request, 'index.html', {'response': data})
-    # response = requests.get('http://127.0.0.1:8000/api/v1/produtos/').json()
-    # return render(request, 'index.html', {'response': response})

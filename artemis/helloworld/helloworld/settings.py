@@ -182,12 +182,12 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
-    ),
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '60/minute', #second, day, month, year
-        'user': '100/minute'
-    }
+    )
+    # ,
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '60/minute', #second, day, month, year
+    #     'user': '100/minute'
+    # }
 }
 
-API_BASE_URL = 'http://127.0.0.1:8000/api/v2'
 # 8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e

@@ -78,6 +78,5 @@ urlpatterns = [
     path('tiposservicos/<int:pk>/', TiposervicoAPIView.as_view(), name='v1_tiposervico'),
     path('vendas/', VendasAPIView.as_view(), name='v1_vendas'),
     path('vendas/<int:pk>/', VendaAPIView.as_view(), name='v1_venda'),
-
     path('prod/', prod, name='prod'),
 ]

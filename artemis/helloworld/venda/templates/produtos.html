@@ -64,13 +64,9 @@
 
                     <!-- Formulário de Serviços -->
                     <div id="formServico" style="display: none;">
-                        <form id="cadastroServicoForm">
+                        <form action="{%url 'insereservico' %}" id="cadastroServicoForm" method="post">
+                            {% csrf_token %}
                             <h4 class="mb-3">Informações do Serviço</h4>
-                            <div class="form-group">
-                                <label for="sernome">Nome do Serviço:</label>
-                                <input type="text" class="form-control" id="sernome" name="sernome"
-                                    placeholder="Nome do Serviço" required>
-                            </div>
                             <div class="form-group">
                                 <label for="servalor">Valor do Serviço:</label>
                                 <input type="number" step="0.01" class="form-control" id="servalor" name="servalor"
@@ -80,6 +76,18 @@
                                 <label for="serdescricao">Descrição do Serviço:</label>
                                 <textarea class="form-control" id="serdescricao" name="serdescricao"
                                     placeholder="Descrição do Serviço" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="serdescricao" class="form-label">Tipo do Serviço</label>
+                                    <select
+                                        id="servico"
+                                        name="servico"
+                                        class="form-select">
+                                        <option value="" selected></option>
+                                        {% for tipo in tiposervicos %}
+                                        <option value="{{ tipo.tpsid }}" >{{ tipo.tpsnome }}</option>
+                                        {% endfor %}
+                                    </select>
                             </div>
                             <button type="submit" class="btn primaria btn-block mt-4">Cadastrar Serviço</button>
                         </form>

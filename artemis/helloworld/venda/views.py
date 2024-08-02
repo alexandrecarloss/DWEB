@@ -64,6 +64,30 @@ def servicos(request):
 # Create your views here.
 
 ####### CRUD produto
+def insereservico(request):
+    cursor = connection.cursor()
+    petshop = Petshop.objects.filter(ptsemail=request.user.email).first()
+    valor = request.POST.get('servalor')
+    tipo = request.POST.get('servico')
+    descricao = request.POST.get('serdescricao')
+    try:
+        cursor.execute('call sp_insere_servico (%(preco)s, %(petshop)s, %(tipo)s, %(descricao)s)', 
+                {
+                    'preco': valor, 
+                    'petshop': petshop.ptsid, 
+                    'tipo': tipo, 
+                    'descricao': descricao, 
+                })
+        messages.success(request, 'Serviço adicionado com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao inserir Serviço!')
+        return redirect(index)
+    finally:
+        cursor.close()
+    return redirect(produtos)
+
+
 def insereproduto(request):
     cursor = connection.cursor()
     pronome = request.POST.get('pronome')
@@ -195,7 +219,9 @@ def post_produto(request):
         return render(request, 'produtos.html')
     
 def adicionar_produto(request):
-    return render(request, 'produtos.html')
+    tiposervicos =Tiposervico.objects.all()
+    return render(request, 'produtos.html', {'tiposervicos': tiposervicos})
+
     
 @login_required(login_url="/accounts/login")
 def produto_detalhe(request, proid):
