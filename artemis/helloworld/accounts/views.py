@@ -438,3 +438,9 @@ def criar_grupos_usuario_nao_encontrado():
     petshop = Group.objects.filter(name = 'Pet shop').first()
     if not petshop:
         Group.objects.create(name = 'Pet shop')
+
+
+def petshop(request):
+    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    produtos = Produto.objects.filter(propetshop_ptsid = petshop.ptsid)
+    return render(request, 'pagPetshop.html', {'produtos': produtos, 'petshop': petshop})

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block titulo %}Pets do Usuário {% endblock %}
+{% block content %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger mt-3" role="alert">
+            {{message}}
+            </div>
+        {% else %}
+            <div class="alert alert-{{message.tags}}">
+            {{message}}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Menu de Navegação do Perfil -->
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true"
+                        data-target="pets">Meus Produtos</a>
+                    <a href="#" class="list-group-item list-group-item-action"
+                        data-target="agendamentos">Agendamentos</a>
+                    <a href="#" class="list-group-item list-group-item-action" data-target="configuracoes">Meus Produtos</a>
+                    <!-- Adicione mais links conforme necessário -->
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- Conteúdo Dinâmico do Perfil -->
+                <div class="card conteudo" id="pets">
+                    <div class="card-body">
+                        <!-- Título -->
+                        <h5 class="card-title mb-4">Produtos Cadastrados</h5>
+                        <!-- Seção de Produtos -->
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-3">
+                            {% if produtos %}
+                            {% for produto in produtos %}
+                            <div class="col-md-6 col-lg-6 col-xl-4"
+                                hx-get="../../venda/fotoproduto/{{ produto.proid }}/0"
+                                hx-target="#fotoproduto{{ produto.proid }}"
+                                hx-trigger="load">
+                                    <div class="rounded position-relative fruite-item">
+                                        <a href="{% url 'petshop_produto_detalhe' produto.proid %}">
+                                        <div class="fruite-img" id="fotoproduto{{ produto.proid }}">
+               
+                                        </div>
+                                        </a>
+
+                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                           
+                                            <h4>{{ produto.pronome }}</h4>
+                                            <p>{{ produto.prodescricao }}</p>
+                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                <p class="text-dark fs-5 fw-bold mb-0">R$ {{ produto.propreco }}</p>
+                                                <a href="{% url 'petshop_produto_detalhe' produto.proid %}"
+                                                    class="btn  secondaria rounded-pill px-3 ">
+                                                    <i class="fa fa-shopping-bag me-2 secondria"></i> Ver detalhes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% else %}
+                            <p>Você ainda não possui produtos cadastrados</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Botão para adicionar produto -->
+                    <a href="{% url 'adicionar_produto' %}">
+                    <button type="button" class="btn btn-primary btn-floating position-absolute top-0 end-0 mt-3 me-3"
+                        id="adicionarproduto">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </a>
+                </div>
+                <!-- Modal de edição do pet -->
+                <div id="modalpet"></div>
+                <div class="card conteudo" id="agendamentos">
+                    <div class="card-body">
+                        <!-- Aqui você pode listar os agendamentos -->
+                        <p>Agendamentos aqui...</p>
+                    </div>
+                </div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Conteúdo Principal End -->
+{% endblock content %}

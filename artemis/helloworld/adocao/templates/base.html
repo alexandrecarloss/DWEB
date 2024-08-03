@@ -113,7 +113,7 @@
                                 {% elif 'Ong' in request.session.values %}
                                     <a href="{% url 'ong' %}" class="nav-item nav-link">Ong</a>
                                 {% elif 'Pet shop' in request.session.values %}
-                                    <a href="#" class="nav-item nav-link">Pet shop</a>
+                                    <a href="{% url 'petshop' %}" class="nav-item nav-link">Pet shop</a>
                                 {% endif %}
                             {% endif %}
                         </div>

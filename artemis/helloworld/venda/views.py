@@ -260,3 +260,14 @@ class fotoproduto(View):
                 varias = 1
                 return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo, "varias": varias, "prfprimeira_foto": prfprimeira_foto})
         return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo})
+    
+@login_required(login_url="/accounts/login")
+def petshop_produto_detalhe(request, proid):
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
+        produto = Produto.objects.filter(proid = proid).first()
+        fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
+        return render(request, 'petshop_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto})
+    else:
+        messages.error(request, 'Usuário deve ser uma loja Pet shop!')
+        return render(request, 'index.html')

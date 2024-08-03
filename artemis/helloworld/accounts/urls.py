@@ -18,6 +18,7 @@ urlpatterns = [
     path('password_reset/done/', views.password_reset_done, name='password_reset_done'),
     path('reset/<str:uidb64>/<str:token>/', views.password_reset_confirm, name='password_reset_confirm'),
     path('reset/complete/', views.reset_complete, name='reset_complete'),
-    #Urls cadastro pet
     path('adicionarpet/', views.adicionarpet, name="adicionarpet"),
+    path('petshop/', views.petshop, name='petshop'),
+    
 ]
