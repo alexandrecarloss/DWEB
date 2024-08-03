@@ -19,14 +19,16 @@ def adocao(request):
     pettipos = PetTipo.objects.all()
     pessoas = Pessoa.objects.all()
     if nomePesquisa:
-        pets = Pet.objects.filter(petnome__icontains=nomePesquisa, pessoa_pesid = None)
+        pets = Pet.objects.filter(petnome__icontains=nomePesquisa).filter(pessoa_pesid__isnull=True)
     elif especie:
         if raca:
-            pets = Pet.objects.filter(pet_raca_ptrid = raca, pessoa_pesid = None)
+            pets = Pet.objects.filter(pet_raca_ptrid = raca, pessoa_pesid__isnull=True)
         else:
-            pets = Pet.objects.filter(pet_tipo_pttid = especie, pessoa_pesid = None)
+            pets = Pet.objects.filter(pet_tipo_pttid = especie, pessoa_pesid__isnull=True)
     else:
-        pets = Pet.objects.all().filter(pessoa_pesid = None)
+        pets = Pet.objects.filter(pessoa_pesid__isnull=True)
+    for pet in pets:
+        print(pet.pessoa_pesid is None)
     pftfotos = PetFoto.objects.all()
     return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
@@ -136,7 +138,7 @@ def salvarpet(request):
             petnovo = PetFoto(pftfoto = foto, pet_petid = petidnovo)
             petnovo.save()
     messages.success(request, 'Pet cadastrado com sucesso!')    
-    return redirect(adocao)
+    return redirect(index)
 
 def modalpet(request, petid):
     pettipos = PetTipo.objects.all()

@@ -60,17 +60,17 @@ def insereproduto(request):
     pronome = request.POST.get('pronome')
     propreco = request.POST.get('propreco')
     prosaldo = request.POST.get('prosaldo')
+    categoriaproduto = request.POST.get('categoriaproduto')
     petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
     propetshop = petshop.ptsid
-    provalidade = request.POST.get('provalidade')
     try:
-        cursor.execute('call sp_insere_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(validade)s)', 
+        cursor.execute('call sp_insere_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(categoria)s)', 
         {
             'nome': pronome, 
             'preco': propreco, 
             'saldo': prosaldo, 
-            'petshop': propetshop, 
-            'validade': provalidade, 
+            'petshop': propetshop,
+            'categoria': categoriaproduto
         })
         # produto_novo = Produto.objects.order_by('-ptsid')[0]
         produto_novo = Produto.objects.order_by('-proid')[0]
@@ -168,31 +168,6 @@ def removerservico(request, cod):
         print(erro)
         messages.error(request, 'Erro ao remover serviço!')
     return redirect(servicos)
-
-# @require_POST
-# @login_required(login_url="/accounts/login")
-# def post_produto(request):
-#     if str(request.user.groups.first()) == 'Pet shop':
-#         api_url = f"{settings.API_BASE_URL}/produtos/"
-#         pet_shop = Petshop.objects.filter(ptsemail = request.user.email).first()
-#         data = {
-#             "pronome": request.POST.get('pronome'),
-#             "propreco": request.POST.get('propreco'),
-#             "prosaldo": request.POST.get('prosaldo'),
-#             "propetshop_ptsid": pet_shop.ptsid,
-#             "prodtvalidade": request.POST.get('prodtvalidade'),    
-#         }
-#         response = requests.post(api_url, json=data, headers=headers)
-        
-#         if response.status_code == 201:  # Created
-#             messages.success(request, 'Produto adicionado com sucesso!')
-#             return render(request, 'produtos.html')
-#         else:
-#             messages.error(request, 'Erro ao adicionar produto!')
-#             return render(request, 'produtos.html')
-#     else:
-#         messages.error(request, 'Somente petshops podem adicionar produto!')
-#         return render(request, 'produtos.html')
     
 def adicionar_produto(request):
     contexto = context_grupo_usuario(request)
@@ -200,7 +175,8 @@ def adicionar_produto(request):
         messages.error(request, 'Termine seu cadastro')
         return redirect(cadastro_dados)
     tiposervicos =Tiposervico.objects.all()
-    return render(request, 'cadastro_prod_serv.html', {'tiposervicos': tiposervicos})
+    categorias = CategoriaProduto.objects.all()
+    return render(request, 'cadastro_prod_serv.html', {'tiposervicos': tiposervicos, 'categorias': categorias})
 
     
 @login_required(login_url="/accounts/login")
@@ -264,9 +240,8 @@ def remover_produto_carrinho(request, carid):
         produto = Produto.objects.filter(proid = carrinho.carpro.proid).first()
         produto.prosaldo = produto.prosaldo + carrinho.carquant
         produto.save()
-        print('soma', produto.prosaldo + carrinho.carquant)
         carrinho.delete()
-        messages.success(request, 'Produto removido do carrinho')
+        messages.success(request, f'{produto.pronome} removido do carrinho')
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao remover produto do carrinho!')

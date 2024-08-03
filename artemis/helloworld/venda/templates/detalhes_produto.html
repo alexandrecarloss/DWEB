@@ -42,9 +42,7 @@
                             <h4 class="fw-bold mb-3">{{ produto.pronome }}</h4>
                             <!-- <p class="mb-3">CATEGORIA</p> -->
                             <h5 class="fw-bold mb-3">R$ {{ produto.propreco }}</h5>
-                            {% if produto.prodtvalidade %} 
-                                <p class="mb-4">Validade: {{ produto.prodtvalidade }}</p>
-                            {% endif %}
+                            
                             <p class="mb-4">Estoque: {{ produto.prosaldo }}</p>
                             <p class="mb-4">{{ produto.prodescricao }}</p>
                             <form action="{% url 'inserir_produto_carrinho' produto.proid %}" method="POST">

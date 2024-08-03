@@ -53,14 +53,25 @@
                                 <input type="number" class="form-control" id="prosaldo" name="prosaldo"
                                     placeholder="Saldo">
                             </div>
+                            
                             <div class="form-group">
-                                <label for="prodtvalidade">Data de Validade:</label>
-                                <input type="date" class="form-control" id="prodtvalidade" name="prodtvalidade">
+                                <label for="categoriaproduto" class="form-label">Categoria do Produto</label>
+                                    <select
+                                        id="categoriaproduto"
+                                        name="categoriaproduto"
+                                        class="form-select">
+                                        <option value="" selected></option>
+                                        {% for categoria in categorias %}
+                                        <option value="{{ categoria.ctpid }}" >{{ categoria.ctpnome }}</option>
+                                        {% endfor %}
+                                    </select>
                             </div>
+                            
                             <div class="form-group">
                                 <label for="profoto">Fotos do Produto:</label>
                                 <input type="file" class="form-control-file" id="profoto" name="profoto" multiple>
                             </div>
+                            
                             <button type="submit" class="btn primaria btn-block mt-4">Cadastrar Produto</button>
                         </form>
                     </div>
@@ -81,9 +92,9 @@
                                     placeholder="Descrição do Serviço" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="serdescricao" class="form-label">Tipo do Serviço</label>
+                                <label for="tiposervico" class="form-label">Tipo do Serviço</label>
                                     <select
-                                        id="servico"
+                                        id="tiposervico"
                                         name="servico"
                                         class="form-select">
                                         <option value="" selected></option>

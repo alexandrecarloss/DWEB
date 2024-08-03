@@ -108,6 +108,18 @@ class Carrinho(models.Model):
     def __str__(self):
         return self.carid
 
+class CategoriaProduto(models.Model):
+    ctpid = models.AutoField(primary_key=True)
+    ctpnome = models.CharField(max_length=60)
+    ctpdescricao = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'categoria_produto'
+
+    def __str__(self):
+        return self.ctpnome
+
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -362,7 +374,7 @@ class Produto(models.Model):
     propreco = models.FloatField()
     prosaldo = models.IntegerField(blank=True, null=True)
     propetshop_ptsid = models.ForeignKey(Petshop, models.DO_NOTHING, db_column='propetshop_ptsid', related_name='produtos')
-    prodtvalidade = models.DateField(blank=True, null=True)
+    categoria_produto_ctpid = models.ForeignKey(CategoriaProduto, models.DO_NOTHING, db_column='categoria_produto_ctpid', related_name='categorias')
 
     class Meta:
         managed = False
