@@ -22,7 +22,7 @@
                         data-target="pets">Meus Produtos</a>
                     <a href="#" class="list-group-item list-group-item-action"
                         data-target="agendamentos">Agendamentos</a>
-                    <a href="#" class="list-group-item list-group-item-action" data-target="configuracoes">Meus Produtos</a>
+                    <a href="#" class="list-group-item list-group-item-action" data-target="configuracoes">Configurações da Conta</a>
                     <!-- Adicione mais links conforme necessário -->
                 </div>
             </div>
@@ -73,18 +73,92 @@
                     </button>
                 </a>
                 </div>
-                <!-- Modal de edição do pet -->
-                <div id="modalpet"></div>
+                
                 <div class="card conteudo" id="agendamentos">
                     <div class="card-body">
                         <!-- Aqui você pode listar os agendamentos -->
                         <p>Agendamentos aqui...</p>
                     </div>
                 </div>
-                <form action="" method="post">
+                <div class="card conteudo" id="configuracoes">
+                <form action="{% url 'atualizar_petshop' %}" id="cadastroForm" method="post" >
                     {% csrf_token %}
-                    
-                </form>
+                    <h4 class="mb-3">Informações de Pet Shop</h4>
+                    <div class="form-group">
+                        <label for="ptsnome">Nome do Petshop:</label>
+                        <input type="text" class="form-control" id="ptsnome" name="ptsnome" placeholder="Nome da Petshop" maxlength="65" value="{{ petshop.ptsnome }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="ptscnpj">CNPJ:</label>
+                        <input type="text" class="form-control" id="ptscnpj" name="ptscnpj" placeholder="CNPJ" required onkeydown="javascript: fMasc( this, mCNPJ );" maxlength="18"  value="{{ petshop.ptscnpj }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="ptscidade">Cidade:</label>
+                        <input type="text" class="form-control" name="ptscidade" id="ptscidade" placeholder="Cidade" maxlength="65" value="{{ petshop.ptscidade }}">
+                    </div>
+                    <p>
+                      <div class="form-group">
+                        <label for="iestpts">Estado</label>
+                        <select name="ptsestado" id="iestpts" required>
+                            <optgroup label="Região Norte">
+                                <option value="AC">Acre</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM" selected>Amazonas</option>
+                                <option value="PA">Pará</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="TO">Tocantins</option>
+                            </optgroup>
+                            <optgroup label="Região Nordeste">
+                                <option value="AL">Alagoas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="SE">Sergipe</option>
+                            </optgroup>
+                            <optgroup label="Região centro-oeste">
+                                <option value="GO">Goiás</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                            </optgroup>
+                            <optgroup label="Região Sudeste">
+                                <option value="ES">Espírito Santo</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="SP">São Paulo</option>
+                            </optgroup>
+                            <optgroup label="Região Sul">
+                                <option value="PR">Paraná</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="SC">Santa Catarina</option>
+                            </optgroup>
+                        </select>
+                      </div>
+                    </p>
+                    <div class="form-group">
+                        <label for="ptsbairro">Bairro:</label>
+                        <input type="text" class="form-control" name="ptsbairro" id="ptsbairro" placeholder="Bairro" maxlength="65" value="{{ petshop.ptsbairro }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="ptsrua">Rua:</label>
+                        <input type="text" class="form-control" id="ptsrua" name="ptsrua" placeholder="Rua" maxlength="65" value="{{ petshop.ptsrua }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="ptsnumero">Número:</label>
+                        <input type="number" class="form-control" name="ptsnumero" id="ptsnumero" placeholder="Número" value="{{ petshop.ptsnumero }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="ptstelefone">Telefone:</label>
+                        <input type="tel" class="form-control" name="ptstelefone" id="ptstelefone" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14" value="{{ petshop.ptstelefone }}">
+                    </div>
+                    <label for="ptsemail">Email:</label>
+                        <input type="email" class="form-control" id="ptsemail" name="ptsemail" placeholder="Email" required maxlength="70" value="{{ petshop.ptsemail }}">
+                    <button type="submit" class="btn primaria btn-block mt-4">Atualizar</button>
+                  </form>
             </div>
         </div>
     </div>

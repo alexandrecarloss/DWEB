@@ -266,9 +266,9 @@ hx-trigger="load"
                         <p>Agendamentos aqui...</p>
                     </div>
                 </div>
-                <form action="{% url 'atualizar_pessoa' pessoa.pesid %}" method="post">
+                <div class="card conteudo" id="configuracoes">
+                <form action="{% url 'atualizar_pessoa' %}" method="post">
                     {% csrf_token %}
-                    <div class="card conteudo" id="configuracoes">
                         <div class="card-body">
                             <!-- Aqui você pode listar as configurações da conta -->
                                 <div class="form-group">
@@ -282,18 +282,29 @@ hx-trigger="load"
                                 <div class="form-group">
                                 <label for="pesdtnascto">Data de Nascimento:</label>
                                 <input type="date" class="form-control" id="pesdtnascto" name="pesdtnascto" placeholder="Data de Nascimento"
-                                    required>
+                                    required value="{{ nascimento.ano }}-{{ nascimento.mes }}-{{ nascimento.dia }}">
                                 </div>
                                 <div class="form-group">
                                 <label>Gênero:</label><br>
+                                {% if pessoa.pessexo == 'M' %}
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="pessexo" id="masculino" value="M" required>
+                                    <input class="form-check-input" type="radio" name="pessexo" id="masculino" value="M" required checked>
                                     <label class="form-check-label" for="masculino">Masculino</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="pessexo" id="feminino" value="F" required>
                                     <label class="form-check-label" for="feminino">Feminino</label>
                                 </div>
+                                {% else %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="pessexo" id="masculino" value="M" required>
+                                    <label class="form-check-label" for="masculino">Masculino</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="pessexo" id="feminino" value="F" required checked>
+                                    <label class="form-check-label" for="feminino">Feminino</label>
+                                </div>
+                                {% endif %}
                                 </div>
                                 <p>
                                     <div class="form-group">

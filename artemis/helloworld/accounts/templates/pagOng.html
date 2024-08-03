@@ -262,26 +262,26 @@ hx-trigger="load"
                     <div class="card-body">
                         <!-- Aqui você pode listar as configurações da conta --> 
                         
-                        <form action="{% url 'atualizar_ong' ong.ongid %}" method="post">
+                        <form action="{% url 'atualizar_ong' %}" method="post">
                             {% csrf_token %}                 
                         <!-- Início ONG -->
                         <h4 class="mb-3">Informações de ONG</h4>
                         <div class="form-group">
-                          <label for="nomeONG">Nome da ONG:</label>
-                          <input type="text" class="form-control" id="nomeONG" placeholder="Nome da ONG" required name="nomeONG" maxlength="65" value="{{ ong.ongnome }}">
+                          <label for="ongnome">Nome da ONG:</label>
+                          <input type="text" class="form-control" id="ongnome" placeholder="Nome da ONG" required name="ongnome" maxlength="65" value="{{ ong.ongnome }}">
                         </div>
                         <div class="form-group">
-                          <label for="cidadeONG">Cidade:</label>
-                          <input type="text" class="form-control" id="cidadeONG" name="cidadeONG" placeholder="Cidade" required maxlength="70" value="{{ ong.ongcidade }}">
+                          <label for="ongcidade">Cidade:</label>
+                          <input type="text" class="form-control" id="ongcidade" name="ongcidade" placeholder="Cidade" required maxlength="70" value="{{ ong.ongcidade }}">
                         </div>
                         <p>
                           <div class="form-group">
-                            <label for="iestong">Estado</label>
-                            <select name="ongestado" id="iestong" required>
+                            <label for="ongestado">Estado</label>
+                            <select name="ongestado" id="ongestado" required>
                                 <optgroup label="Região Norte">
                                     <option value="AC">Acre</option>
                                     <option value="AP">Amapá</option>
-                                    <option value="AM">Amazonas</option>
+                                    <option value="AM" selected>Amazonas</option>
                                     <option value="PA">Pará</option>
                                     <option value="RO">Rondônia</option>
                                     <option value="RR">Roraima</option>
@@ -318,29 +318,27 @@ hx-trigger="load"
                           </div>
                         </p>
                         <div class="form-group">
-                          <label for="bairroONG">Bairro:</label>
-                          <input type="text" class="form-control" name="bairroONG" id="bairroONG" placeholder="Bairro" required maxlength="70" value="{{ ong.ongbairro }}">
+                          <label for="ongbairro">Bairro:</label>
+                          <input type="text" class="form-control" name="ongbairro" id="ongbairro" placeholder="Bairro" required maxlength="70" value="{{ ong.ongbairro }}">
                         </div>
                         <div class="form-group">
-                          <label for="ruaONG">Rua:</label>
-                          <input type="text" class="form-control" id="ruaONG" name="ruaONG" required maxlength="70" value="{{ ong.ongrua }}">
+                          <label for="ongrua">Rua:</label>
+                          <input type="text" class="form-control" id="ongrua" name="ongrua" required maxlength="70" value="{{ ong.ongrua }}">
                         </div>
                         <div class="form-group">
-                          <label for="numONG">Número:</label>
-                          <input type="number" class="form-control" id="numONG" name="numONG" placeholder="Número" required">
+                          <label for="ongnumero">Número:</label>
+                          <input type="number" class="form-control" id="ongnumero" name="ongnumero" placeholder="Número" required value="{{ ong.ongnumero }}">
                         </div>
                         <div class="form-group">
-                          <label for="telefoneONG">Telefone:</label>
-                          <input type="tel" class="form-control" name="telefoneONG" id="telefoneONG" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14" value="{{ ong.ongtelefone }}">
+                          <label for="ongtelefone">Telefone:</label>
+                          <input type="tel" class="form-control" name="ongtelefone" id="ongtelefone" placeholder="Telefone" required onkeydown="javascript: fMasc( this, mTel );" maxlength="14" value="{{ ong.ongtelefone }}">
                         </div>
                         <div class="form-group">
-                          <label for="emailONG">Email:</label>
-                          <input type="email" class="form-control" name="emailONG" id="emailONG" placeholder="Email" value="{{ ong.ongemail }}">
+                          <label for="ongemail">Email: </label>
+                          <input type="email" class="form-control" name="ongemail" id="ongemail" placeholder="Email" value="{{ ong.ongemail }}">
                         </div>
                         <button type="submit" class="btn primaria btn-block mt-4">Atualizar</button>
-                      </form>
-
-                            
+                      </form>                          
                     </div>
                 </div>
             </div>
