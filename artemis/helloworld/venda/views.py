@@ -4,6 +4,7 @@ from django.contrib import messages
 from adocao.views import *
 from adocao.models import *
 from udemydrf.views import *
+from accounts.views import *
 import requests
 from django.views.decorators.http import require_POST
 from django.conf import settings
@@ -61,8 +62,8 @@ def insereproduto(request):
     propreco = request.POST.get('propreco')
     prosaldo = request.POST.get('prosaldo')
     categoriaproduto = request.POST.get('categoriaproduto')
-    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-    propetshop = petshop.ptsid
+    v_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    propetshop = v_petshop.ptsid
     try:
         cursor.execute('call sp_insere_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(categoria)s)', 
         {
@@ -87,7 +88,7 @@ def insereproduto(request):
         return redirect(index)
     finally:
         cursor.close()
-    return redirect(produtos)
+    return redirect(petshop)
 
 def alteraproduto(request, cod):
     cursor = connection.cursor()

@@ -245,6 +245,7 @@ def cadastro_dados(request):
                 
 def logoutaccount(request):
     logout(request)
+    request.session['grupo_usuario'] = None
     return redirect('index')
 
 def loginaccount(request):
