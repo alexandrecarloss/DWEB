@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}Produtos{% endblock %}
 {% block content %}
     {% for message in messages %}
@@ -53,43 +54,45 @@
                                     <div class="mb-3">
                                         <h4>Categoria</h4>
                                         <ul class="list-unstyled">
+                                            
+                                            <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                                                <label for="categoria">Categoria:</label>
+                                                <select
+                                                    id="categoria"
+                                                    name="categoria"
+                                                    class="border-0 form-select-sm bg-light me-3"
+                                                    form="categoriaform"
+                                                    hx-get="../load_produtos_categoria/"                               
+                                                    hx-target="#containercardsprodutos"                        
+                                                >
+                                                
+                                                <option value="" selected></option> 
+                                                {% for categoria in categorias %}
+                                                    <option value="{{ categoria.ctpid }}">                                   
+                                                        {{ categoria.ctpnome }}                                   
+                                                    </option>
+                                                    
+                                                
+                                                {% endfor %}
+                                                </select>
+                                            </div>
                                             <li>
                                                 <div class="d-flex justify-content-between ">
-                                                    <a href="#" class="azul"><i class="fas fa-apple-alt me-2"></i>Acessórios</a>
-                                                    <span>(3)</span>
+                                                    <a href="#" class="azul">
+                                                        <!-- <i class="fas fa-apple-alt me-2"></i> -->
+                                                        {{ categoria.ctpnome }}</a>
+                                                    <!-- <span>(3)</span> -->
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="d-flex justify-content-between fruite-name">
-                                                    <a href="#" class="azul"><i class="fas fa-apple-alt me-2"></i>Banho</a>
-                                                    <span>(5)</span>
-                                                </div>
-                                            </li>
+                                            
+                                            
                                         </ul>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <h4 class="mb-2">Preço</h4>
-                                        <input type="range" class="form-range rangeazul w-100 azul" id="rangeInput" name="rangeInput"
-                                            min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
-                                        <output id="amount" name="amount" min-velue="0" max-value="500"
-                                            for="rangeInput">0</output>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="position-relative">
-                                        <img src="img/about-1.jpg" class="img-fluid w-100 rounded" alt="">
-                                        <div class="position-absolute"
-                                            style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                            <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-9">
-                            <div class="row g-4 justify-content-left">
+                            <div class="row g-4 justify-content-left" id="containercardsprodutos">
                                 {% for produto in produtos %}
                                 
                                 <div class="col-md-6 col-lg-6 col-xl-4"

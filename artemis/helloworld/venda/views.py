@@ -16,6 +16,7 @@ headers = {
 
 def produtos(request):
     nome_produto_pesquisa = request.GET.get('nome_produto_pesquisa')
+    categorias = CategoriaProduto.objects.all()
     if nome_produto_pesquisa:
          produtos_todos = Produto.objects.all().filter(pronome__icontains = nome_produto_pesquisa)
     else:
@@ -24,7 +25,16 @@ def produtos(request):
     for p in produtos_todos:
         if p.prosaldo > 0:
             produtos.append(p)
-    return render(request, 'pagProdutos.html', {'produtos': produtos})
+    return render(request, 'pagProdutos.html', {'produtos': produtos, 'categorias': categorias})
+
+def load_produtos_categoria(request):
+    id_categoria_pesquisa = request.GET.get('categoria')
+    produtos_filtrados = Produto.objects.all().filter(categoria_produto_ctpid = id_categoria_pesquisa)
+    produtos = []
+    for p in produtos_filtrados:
+        if p.prosaldo > 0:
+            produtos.append(p)
+    return render(request, "load_produtos_categoria.html", {"produtos": produtos})
 
 def servicos(request):
     servicos = Servico.objects.all()
@@ -186,7 +196,7 @@ def produto_detalhe(request, proid):
         pessoa = Pessoa.objects.filter(pesemail = str(request.user.email)).first()
         produto = Produto.objects.filter(proid = proid).first()
         fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
-        return render(request, 'detalhes_produto.html', {'produto': produto, 'pessoa': pessoa, 'fotos_produto': fotos_produto})
+        return render(request, 'detalhes_produto_novo.html', {'produto': produto, 'pessoa': pessoa, 'fotos_produto': fotos_produto})
     else:
         messages.error(request, 'Usuário deve ser uma pessoa física!')
         return render(request, 'index.html')

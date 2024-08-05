@@ -1,0 +1,25 @@
+{% for produto in produtos %}                          
+<div class="col-md-6 col-lg-6 col-xl-4"
+hx-get="../fotoproduto/{{ produto.proid }}/0"
+hx-target="#fotoproduto{{ produto.proid }}"
+hx-trigger="load">
+    <div class="rounded position-relative fruite-item">
+        <a href="{% url 'produto_detalhe' produto.proid %}">
+        <div class="fruite-img" id="fotoproduto{{ produto.proid }}">
+
+        </div>
+        </a>
+
+        <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                           
+            <h4>{{ produto.pronome }}</h4>
+            <p>{{ produto.prodescricao }}</p>
+            <div class="d-flex justify-content-between flex-lg-wrap">
+                <p class="text-dark fs-5 fw-bold mb-0">R$ {{ produto.propreco }}</p>
+                <a href="{% url 'produto_detalhe' produto.proid %}"
+                    class="btn  secondaria rounded-pill px-3 ">
+                    <i class="fa fa-shopping-bag me-2 secondria"></i> Ver detalhes</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
