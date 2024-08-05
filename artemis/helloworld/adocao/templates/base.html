@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                             {% elif grupo_usuario == 'Pessoa' %} 
-                                <a href="{% url 'adocao' %}" class="nav-item nav-link ">Adoção</a>                           
+                                <a href="{% url 'adocao' %}" class="nav-item nav-link ">Adoção</a>                         
                             {% endif %}
                             
 
@@ -109,6 +109,7 @@
                             {% endif %}
                             {% if grupo_usuario %}
                                 {% if 'Pessoa' in request.session.values %}
+                                    <a href="{% url 'carrinho_user' %}" class="nav-item nav-link">Carrinho</a>   
                                     <a href="{% url 'usuario' %}" class="nav-item nav-link">Usuário</a>
                                 {% elif 'Ong' in request.session.values %}
                                     <a href="{% url 'ong' %}" class="nav-item nav-link">Ong</a>
