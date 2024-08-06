@@ -8,6 +8,8 @@ from accounts.views import *
 import requests
 from django.views.decorators.http import require_POST
 from django.conf import settings
+from statistics import mean
+
 token = '8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e'
 headers = {
     'Authorization': f'Token {token}',
@@ -196,7 +198,13 @@ def produto_detalhe(request, proid):
         pessoa = Pessoa.objects.filter(pesemail = str(request.user.email)).first()
         produto = Produto.objects.filter(proid = proid).first()
         fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
-        return render(request, 'detalhes_produto_novo.html', {'produto': produto, 'pessoa': pessoa, 'fotos_produto': fotos_produto})
+        avaliacoes = Avaliacao.objects.filter(produto_proid = produto)
+        vetor_avavalor = []
+        for avaliacao in avaliacoes:
+            print('av ', avaliacao.avavalor)
+            vetor_avavalor.append(avaliacao.avavalor)
+        media_avaliacoes = int(mean(vetor_avavalor))
+        return render(request, 'detalhes_produto_novo.html', {'produto': produto, 'pessoa': pessoa, 'fotos_produto': fotos_produto, 'media_avaliacoes': media_avaliacoes, 'avaliacoes': avaliacoes})
     else:
         messages.error(request, 'Usuário deve ser uma pessoa física!')
         return render(request, 'index.html')

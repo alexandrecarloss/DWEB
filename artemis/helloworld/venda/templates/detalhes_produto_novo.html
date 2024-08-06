@@ -32,15 +32,40 @@
                         <p class="mb-3">Categoria: {{ produto.categoria_produto_ctpid }}</p>
                         <p class="mb-4">Estoque: {{ produto.prosaldo }}</p>
                         <div class="d-flex mb-4">
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
+                        {% if media_avaliacoes == 1 %}
                             <i class="fa fa-star"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                        {% elif media_avaliacoes == 2 %}
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                        {% elif media_avaliacoes == 3 %}
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                        {% elif media_avaliacoes == 4 %}
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                        {% elif media_avaliacoes == 5 %}
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        {% endif %}
                         </div>
                         <h5 class="fw-bold mb-3">R$ {{ produto.propreco }}</h5>
-                        <p class="mb-4">Susp endisse ultricies nisi vel quam suscipit. Sabertooth peacock flounder;
-                            chain pickerel hatchetfish, pencilfish snailfish</p>
+                        <p class="mb-4">Descrição: {{ produto.categoria_produto_ctpid.ctpdescricao }}</p>
                         <form action="{% url 'inserir_produto_carrinho' produto.proid %}" method="POST">
                             {% csrf_token %}
                             <div class="input-group quantity mb-5">
@@ -49,8 +74,8 @@
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text"
-                                    class="form-control form-control-sm text-center border-0 quantity-input" value="1" name="carquant">
+                                <input type="number"
+                                    class="form-control form-control-sm text-center border-0 quantity-input" value="1" name="carquant" min="1" max="{{ produto.prosaldo }}">
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-plus rounded-circle bg-light border" type="button">
                                         <i class="fa fa-plus"></i>
@@ -69,47 +94,66 @@
                             <div class="nav nav-tabs mb-3">
                                 <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
                                     id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
-                                    aria-controls="nav-about" aria-selected="true">Description</button>
+                                    aria-controls="nav-about" aria-selected="true">Descrição</button>
                                 <button class="nav-link border-white border-bottom-0" type="button" role="tab"
                                     id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                    aria-controls="nav-mission" aria-selected="false">Reviews</button>
+                                    aria-controls="nav-mission" aria-selected="false">Avaliações</button>
                             </div>
                         </nav>
                         <div class="tab-content mb-5">
                             <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                <p>The generated Lorem Ipsum is therefore always free from repetition injected humour,
-                                    or non-characteristic words etc.
-                                    Susp endisse ultricies nisi vel quam suscipit </p>
-                                <p>Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish
-                                    filefish Antarctic
-                                    icefish goldeye aholehole trumpetfish pilot fish airbreathing catfish, electric ray
-                                    sweeper.</p>
+                                <p>Pet shop {{ produto.propetshop_ptsid.ptsnome }} </p>
+                                <p>Rua: {{ produto.propetshop_ptsid.ptsrua }}</p>
+                                <p>Bairro: {{ produto.propetshop_ptsid.ptsbairro }}</p>
+                                <p>Cidade: {{ produto.propetshop_ptsid.ptscidade }}/{{ produto.propetshop_ptsid.ptsestado }}</p>
 
                             </div>
                             <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                {% for avaliacao in avaliacoes %}
                                 <div class="d-flex">
-                                    <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3"
-                                        style="width: 100px; height: 100px;" alt="">
                                     <div class="">
                                         <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
                                         <div class="d-flex justify-content-between">
-                                            <h5>Jason Smith</h5>
+                                            <h5>{{ avaliacao.pessoa_pesid.pesnome }}</h5>
                                             <div class="d-flex mb-3">
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
+                                                {% if avaliacao.avavalor == 1 %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                {% elif avaliacao.avavalor == 2 %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                {% elif avaliacao.avavalor == 3 %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                {% elif avaliacao.avavalor == 4 %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                {% elif avaliacao.avavalor == 5 %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                {% endif %}
                                             </div>
                                         </div>
-                                        <p>The generated Lorem Ipsum is therefore always free from repetition injected
-                                            humour, or non-characteristic
-                                            words etc. Susp endisse ultricies nisi vel quam suscipit </p>
+                                        <p>{{ avaliacao.avadescricao }}</p>
                                     </div>
                                 </div>
+                                {% endfor %}
                                 <div class="d-flex">
-                                    <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3"
-                                        style="width: 100px; height: 100px;" alt="">
                                     <div class="">
                                         <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
                                         <div class="d-flex justify-content-between">
@@ -169,11 +213,6 @@
             <div class="col-lg-4 col-xl-3">
                 <div class="row g-4 fruite">
                     <div class="col-lg-12">
-                        <div class="input-group w-100 mx-auto d-flex mb-4">
-                            <input type="search" class="form-control p-3" placeholder="keywords"
-                                aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                        </div>
                     </div>
                     <!-- BANNER -->
                     <div class="col-lg-12">
