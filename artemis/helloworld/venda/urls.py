@@ -19,5 +19,6 @@ urlpatterns = [
     path('remover_produto_carrinho/<int:carid>/', views.remover_produto_carrinho, name="remover_produto_carrinho"),
     path('petshop_produto_detalhe/<int:proid>/', views.petshop_produto_detalhe, name="petshop_produto_detalhe"),
     path('load_produtos_categoria/', views.load_produtos_categoria, name="load_produtos_categoria"),
-    
+    path('checkout_produto', views.checkout_produto, name="checkout_produto"),
+    path('finaliza_compra', views.finaliza_compra, name="finaliza_compra"),
 ]

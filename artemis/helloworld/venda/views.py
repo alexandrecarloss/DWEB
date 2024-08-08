@@ -199,11 +199,13 @@ def produto_detalhe(request, proid):
         produto = Produto.objects.filter(proid = proid).first()
         fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
         avaliacoes = Avaliacao.objects.filter(produto_proid = produto)
-        vetor_avavalor = []
-        for avaliacao in avaliacoes:
-            print('av ', avaliacao.avavalor)
-            vetor_avavalor.append(avaliacao.avavalor)
-        media_avaliacoes = int(mean(vetor_avavalor))
+        media_avaliacoes = 0
+        if avaliacoes:
+            vetor_avavalor = []
+            for avaliacao in avaliacoes:
+                print('av ', avaliacao.avavalor)
+                vetor_avavalor.append(avaliacao.avavalor)
+            media_avaliacoes = int(mean(vetor_avavalor))
         return render(request, 'detalhes_produto_novo.html', {'produto': produto, 'pessoa': pessoa, 'fotos_produto': fotos_produto, 'media_avaliacoes': media_avaliacoes, 'avaliacoes': avaliacoes})
     else:
         messages.error(request, 'Usuário deve ser uma pessoa física!')
@@ -290,3 +292,32 @@ def petshop_produto_detalhe(request, proid):
     else:
         messages.error(request, 'Usuário deve ser uma loja Pet shop!')
         return render(request, 'index.html')
+    
+
+def checkout_produto(request):
+    if str(request.user.groups.all()[0]) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        pesid = pessoa.pesid
+        carrinhos = Carrinho.objects.filter(carpes = pesid)
+        total_carrinhos = 0
+        for c in carrinhos:
+            total_carrinhos = total_carrinhos + c.carpreco
+        return render(request, 'pagina_checkout_novo.html', {'carrinhos': carrinhos, 'total_carrinhos': total_carrinhos})
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa física!')
+        return render(request, 'index.html')
+    
+def finaliza_compra(request):  
+    cursor = connection.cursor()
+    try:
+        pessoa_id = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
+        fpg = 3
+        cursor.execute('call sp_finaliza_compra (%(pessoa_id)s, %(fpg)s)', {'pessoa_id': pessoa_id, 'fpg': fpg})
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao solicitar compra!')
+        return redirect(carrinho_user)
+    finally:
+        cursor.close()           
+        messages.success(request, 'Compra solicitada com sucesso!')
+    return redirect(carrinho_user) 

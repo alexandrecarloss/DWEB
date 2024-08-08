@@ -45,17 +45,9 @@
                             </td>
                             <td>
                                 <div class="input-group quantity mb-5">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm text-center border-0 quantity-input" value="{{ carrinho.carquant }}" readonly>
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
+                                    
+                                    {{ carrinho.carquant }}
+                                    
                                 </div>
                             </td>
                             <td>
@@ -86,21 +78,17 @@
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
                                 <p class="mb-0">R$ {{ total_carrinhos }}</p>
                             </div>
-                            <!-- <div class="d-flex justify-content-between">
-                                <h5 class="mb-0 me-4">Frete</h5>
-                                <div class="">
-                                    <p class="mb-0">taxa: $3.00</p>
-                                </div>
-                            </div>
-                            <p class="mb-0 text-end">Frete para Manaus.</p> -->
                         </div>
                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                             <h5 class="mb-0 ps-4 me-4">Total</h5>
                             <p class="mb-0 pe-4">R$ {{ total_carrinhos }}</p>
                         </div>
+                        <a href="{% url 'checkout_produto' %}">
                         <button
                             class="btn secondaria rounded-pill px-4 py-3 text-uppercase mb-4 ms-4"
-                            type="button">Prosseguir ao Checkout</button>
+                            type="button">Prosseguir ao Checkout
+                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

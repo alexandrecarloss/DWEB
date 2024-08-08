@@ -27,8 +27,6 @@ def adocao(request):
             pets = Pet.objects.filter(pet_tipo_pttid = especie, pessoa_pesid__isnull=True)
     else:
         pets = Pet.objects.filter(pessoa_pesid__isnull=True)
-    for pet in pets:
-        print(pet.pessoa_pesid is None)
     pftfotos = PetFoto.objects.all()
     return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
