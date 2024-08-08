@@ -367,8 +367,11 @@ def usuario(request):
     if pessoa.pesdtnascto.month < 10:
         nascimento.mes = f'0{pessoa.pesdtnascto.month}'
     nascimento.ano = pessoa.pesdtnascto.year 
-    print(nascimento.dia, nascimento.mes, nascimento.ano)
-    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa, 'nascimento': nascimento})
+    vendas = Venda.objects.filter(venpessoa_pesid = pessoa.pesid)
+    total_compras = 0
+    for venda in vendas:
+        total_compras += venda.venvalor
+    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa, 'nascimento': nascimento, 'vendas': vendas, 'total_compras': total_compras})
 
 @login_required(login_url="/accounts/login")
 def ong(request):

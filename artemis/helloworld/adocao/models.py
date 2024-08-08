@@ -464,10 +464,11 @@ class Tiposervico(models.Model):
 class Venda(models.Model):
     venid = models.IntegerField(primary_key=True)
     venser = models.IntegerField(blank=True, null=True)
-    venpro = models.IntegerField(blank=True, null=True)
+    venpro = models.ForeignKey(Produto, models.DO_NOTHING, db_column='venpro', blank=True, null=True)
     venformapagamento_fpgid = models.ForeignKey(Formapagamento, models.DO_NOTHING, db_column='venformapagamento_fpgid')
     venpessoa_pesid = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='venpessoa_pesid')
     venvalor = models.FloatField()
+    vendthora = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False

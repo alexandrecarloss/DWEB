@@ -91,6 +91,7 @@ class Avaliacao(models.Model):
     avavalor = models.IntegerField()
     pessoa_pesid = models.ForeignKey('Pessoa', models.DO_NOTHING, db_column='pessoa_pesid')
     avacod = models.AutoField(primary_key=True)
+    avadthora = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -381,6 +382,17 @@ class Solicita(models.Model):
         db_table = 'solicita'
 
 
+class TentativaAdota(models.Model):
+    ttaid = models.AutoField(primary_key=True)
+    ttapes = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='ttapes')
+    tta_petadocao = models.ForeignKey(PetAdocao, models.DO_NOTHING, db_column='tta_petadocao')
+    ttastatus = models.CharField(max_length=11)
+
+    class Meta:
+        managed = False
+        db_table = 'tentativa_adota'
+
+
 class Tiposervico(models.Model):
     tpsid = models.AutoField(primary_key=True)
     tpsnome = models.CharField(max_length=70)
@@ -398,6 +410,7 @@ class Venda(models.Model):
     venformapagamento_fpgid = models.ForeignKey(Formapagamento, models.DO_NOTHING, db_column='venformapagamento_fpgid')
     venpessoa_pesid = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='venpessoa_pesid')
     venvalor = models.FloatField()
+    vendthora = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
