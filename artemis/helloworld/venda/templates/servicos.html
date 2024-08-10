@@ -1,22 +1,67 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}Serviços{% endblock %}
 {% block content %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger mt-3" role="alert">
+                {{message}}
+            </div>
+        {% else %}
+            <div class="alert alert-{{message.tags}}">
+                {{message}}
+            </div>
+        {% endif %}
+    {% endfor %}
 
-{% for message in messages %}
-    {% if message.tags == 'error' %}
-        <div class="alert alert-danger mt-3" role="alert">
-            {{message}}
+
+    <!-- Conteúdo da Página de Introdução -->
+    <div class="container-fluid py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-left">
+                <h1 class="display-4 fontepoppins">Encontre o serviço perfeito para seu pet</h1>
+                <p class="lead">Nossa plataforma oferece uma variedade de serviços para pets, desde grooming até
+                    treinamento. Escolha o serviço que melhor atende às necessidades do seu pet e reserve uma data para
+                    realizar o serviço.</p>
+                <div class="row justify-content-center py-5">
+                    <div class="col-md-8 text-center">
+                        <a href="{% url 'agendar_servico_pet' %}">
+                            <button class="btn secondaria btn-lg">
+                                <i class="fas fa-paw"></i> Continuar
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{% static 'img/gallery-1.jpg' %}" class="d-block w-100 h-400 " alt="First slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'img/gallery-3.jpg' %}" class="d-block w-100 h-400 " alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'img/gallery-5.jpg' %}" class="d-block w-100 h-400" alt="Third slide">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
         </div>
-    {% else %}
-        <div class="alert alert-{{message.tags}}">
-            {{message}}
-        </div>
-    {% endif %}
-{% endfor %}
 
-{% for servico in servicos %}
-    {{ servico }}
-{% endfor %}
-Aqui terão serviços
-
+    </div>
 {% endblock %}

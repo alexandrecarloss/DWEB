@@ -19,7 +19,11 @@ urlpatterns = [
     path('remover_produto_carrinho/<int:carid>/', views.remover_produto_carrinho, name="remover_produto_carrinho"),
     path('petshop_produto_detalhe/<int:proid>/', views.petshop_produto_detalhe, name="petshop_produto_detalhe"),
     path('load_produtos_categoria/', views.load_produtos_categoria, name="load_produtos_categoria"),
-    path('checkout_produto', views.checkout_produto, name="checkout_produto"),
-    path('finaliza_compra', views.finaliza_compra, name="finaliza_compra"),
+    path('checkout_produto/', views.checkout_produto, name="checkout_produto"),
+    path('finaliza_compra/', views.finaliza_compra, name="finaliza_compra"),
     path('form_altera_produto/<int:proid>/', views.form_altera_produto, name='form_altera_produto'),
+    path('agendar_servico_pet/', views.agendar_servico_pet, name="agendar_servico_pet"),
+    path('agendar_servico_servico/', views.agendar_servico_servico, name="agendar_servico_servico"),
+    path('agendar_servico_local/<int:petid>/', views.agendar_servico_local, name="agendar_servico_local"),
+    path('load_servicos_local/', views.load_servicos_local, name='load_servicos_local'),
 ]

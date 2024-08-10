@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card p-4 shadow-sm">
+                <div class="card-body">
+                    <form id="multi-step-form" method="post" action="{% url 'agendar_servico_servico' %}">
+                        {% csrf_token %}
+                        <div class="formbold-steps">
+                            <ul>
+                                <li class="formbold-step-menu1 active">
+                                    <span>1</span>
+                                    Escolher Pet
+                                </li>
+                                <li class="formbold-step-menu2">
+                                    <span>2</span>
+                                    Escolher Tipo Serviço
+                                </li>
+                                <li class="formbold-step-menu3">
+                                    <span>3</span>
+                                    Escolher Local
+                                </li>
+                                <li class="formbold-step-menu4">
+                                    <span>4</span>
+                                    Escolher Data
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- ESCOLHER PET -->                       
+                        <div class="form-step form-step-1 active">
+                            <div class="mb-3">
+                                <label for="pet" class="form-label">Pet</label>
+                                <select name="pet" id="pet" class="form-select" required>
+                                    <option value="">Selecione um pet</option>
+                                    {% for pet in pets %}
+                                    <option value="{{ pet.petid }}">{{ pet.petnome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-primary" id="next-btn">Próxima Etapa</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stepMenus = document.querySelectorAll('.formbold-steps li');
+            const formSteps = document.querySelectorAll('.form-step');
+            const nextBtn = document.getElementById('next-btn');
+            const backBtn = document.getElementById('back-btn');
+
+            let currentStep = 0;
+
+            function updateSteps() {
+                stepMenus.forEach((menu, index) => {
+                    menu.classList.toggle('active', index === currentStep);
+                });
+                formSteps.forEach((step, index) => {
+                    step.classList.toggle('d-none', index !== currentStep);
+                    step.classList.toggle('active', index === currentStep);
+                });
+                backBtn.classList.toggle('d-none', currentStep === 0);
+                nextBtn.textContent = currentStep === stepMenus.length - 1 ? 'Finalizar' : 'Próxima Etapa';
+            }
+
+            nextBtn.addEventListener('click', function () {
+                if (currentStep < stepMenus.length - 1) {
+                    currentStep++;
+                    updateSteps();
+                } else {
+                    document.getElementById('multi-step-form').submit();
+                }
+            });
+
+            backBtn.addEventListener('click', function () {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateSteps();
+                }
+            });
+
+            updateSteps();
+        });
+
+        
+
+    </script> -->
+{% endblock %}

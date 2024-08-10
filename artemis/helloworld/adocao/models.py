@@ -276,10 +276,13 @@ class PetAdocao(models.Model):
         db_table = 'pet_adocao'
         ordering = ['adoid']
 
+    def __str__(self):
+        return f'{self.ong_ongid.ongnome} e {self.pet_petid.petnome}'
+
 
 class PetFoto(models.Model):
     pftid = models.AutoField(primary_key=True)
-    pftfoto = models.ImageField(upload_to='adocao\images\pet', max_length=100)
+    pftfoto = models.ImageField(upload_to='adocao/images/pet', max_length=100)
     pet_petid = models.ForeignKey(Pet, models.DO_NOTHING, db_column='pet_petid', related_name='petfotos')
 
     class Meta:
@@ -391,12 +394,25 @@ class ProdutoFoto(models.Model):
     def __str__(self):
         return self.prffoto.name
 
+class Tiposervico(models.Model):
+    tpsid = models.AutoField(primary_key=True)
+    tpsnome = models.CharField(max_length=70)
+    tpsdescricao = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'tiposervico'
+        ordering = ['tpsid']
+    
+    def __str__(self):
+        return self.tpsnome
+
 
 class Servico(models.Model):
     serid = models.AutoField(primary_key=True)
     servalor = models.FloatField()
     petshop_ptsid = models.ForeignKey(Petshop, models.DO_NOTHING, db_column='petshop_ptsid', related_name='servicos')
-    tiposervico_tpsid = models.ForeignKey('Tiposervico', models.DO_NOTHING, db_column='tiposervico_tpsid', related_name='servicos')
+    tiposervico_tpsid = models.ForeignKey(Tiposervico, models.DO_NOTHING, db_column='tiposervico_tpsid', related_name='servicos')
     serdescricao = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
@@ -410,7 +426,7 @@ class Servico(models.Model):
 
 class ServicoFoto(models.Model):
     serftid = models.AutoField(primary_key=True)
-    serftvalor = models.ImageField(upload_to='venda\images\servico', max_length=100)
+    serftvalor = models.ImageField(upload_to='venda/images/servico', max_length=100)
     servico_serid = models.ForeignKey(Servico, models.DO_NOTHING, db_column='servico_serid', related_name='servicofotos')
 
     class Meta:
@@ -448,17 +464,6 @@ class TentativaAdota(models.Model):
     class Meta:
         managed = False
         db_table = 'tentativa_adota'
-
-
-class Tiposervico(models.Model):
-    tpsid = models.AutoField(primary_key=True)
-    tpsnome = models.CharField(max_length=70)
-    tpsdescricao = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'tiposervico'
-        ordering = ['tpsid']
 
 
 class Venda(models.Model):

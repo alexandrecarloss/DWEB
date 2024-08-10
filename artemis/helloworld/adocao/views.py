@@ -19,15 +19,19 @@ def adocao(request):
     pettipos = PetTipo.objects.all()
     pessoas = Pessoa.objects.all()
     if nomePesquisa:
-        pets = Pet.objects.filter(petnome__icontains=nomePesquisa).filter(pessoa_pesid__isnull=True)
+        pets = Pet.objects.filter(petnome__icontains=nomePesquisa).filter(petadocoes__isnull=False)
     elif especie:
         if raca:
-            pets = Pet.objects.filter(pet_raca_ptrid = raca, pessoa_pesid__isnull=True)
+            pets = Pet.objects.filter(pet_raca_ptrid = raca, petadocoes__isnull=False)
         else:
-            pets = Pet.objects.filter(pet_tipo_pttid = especie, pessoa_pesid__isnull=True)
+            pets = Pet.objects.filter(pet_tipo_pttid = especie, petadocoes__isnull=False)
     else:
-        pets = Pet.objects.filter(pessoa_pesid__isnull=True)
+        pets = Pet.objects.filter(petadocoes__isnull=False)
     pftfotos = PetFoto.objects.all()
+    # petadocao = Pet.objects.filter(petadocoes__isnull=False)
+    # print(petadocao)
+    # for pa in petadocao:
+    #     print(pa)
     return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
 def load_racas(request):
@@ -39,11 +43,11 @@ def load_pets(request):
     especie = request.GET.get('especie')
     raca = request.GET.get('raca')  
     if raca:
-        pets = Pet.objects.filter(pet_raca_ptrid = raca)
+        pets = Pet.objects.filter(pet_raca_ptrid = raca, petadocoes__isnull=False)
     elif especie:
-        pets = Pet.objects.filter(pet_tipo_pttid = especie)
+        pets = Pet.objects.filter(pet_tipo_pttid = especie, petadocoes__isnull=False)
     else:
-        pets = Pet.objects.all()
+        pets = Pet.objects.all().filter(petadocoes__isnull=False)
     pftfotos = PetFoto.objects.all()
     return render(request, "load_pets.html", {"pets": pets, "raca": raca, "pftfotos": pftfotos, "especie": especie})
 

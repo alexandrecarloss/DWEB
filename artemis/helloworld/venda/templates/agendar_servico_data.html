@@ -6,7 +6,7 @@
         <div class="col-lg-8 col-md-10">
             <div class="card p-4 shadow-sm">
                 <div class="card-body">
-                    <form id="multi-step-form" method="post" action="   ">
+                    <form id="multi-step-form" method="post" action="">
                         {% csrf_token %}
                         <div class="formbold-steps">
                             <ul>
@@ -16,7 +16,7 @@
                                 </li>
                                 <li class="formbold-step-menu2">
                                     <span>2</span>
-                                    Escolher Serviço
+                                    Escolher Tipo Serviço
                                 </li>
                                 <li class="formbold-step-menu3">
                                     <span>3</span>
@@ -29,11 +29,11 @@
                             </ul>
                         </div>
 
-                        <!-- ESCOLHER PET -->
+                        <!-- ESCOLHER PET -->                       
                         <div class="form-step form-step-1 active">
                             <div class="mb-3">
                                 <label for="pet" class="form-label">Pet</label>
-                                <select name="pet" id="pet" class="form-select">
+                                <select name="pet" id="pet" class="form-select" required>
                                     <option value="">Selecione um pet</option>
                                     {% for pet in pets %}
                                     <option value="{{ pet.id }}">{{ pet.petnome }}</option>
@@ -41,6 +41,7 @@
                                 </select>
                             </div>
                         </div>
+                        
 
                         <!-- ESCOLHER SERVIÇO -->
                         <div class="form-step form-step-2 d-none">
@@ -53,10 +54,10 @@
                                             <input type="radio" name="service" id="service{{ servico.id }}" value="{{ servico.id }}" class="form-check-input me-2">
                                             <label for="service{{ servico.id }}" class="d-flex w-100">
                                                 <div>
-                                                    <strong>{{ servico.servico_tiposervico_tpsid }}</strong><br>
-                                                    {{ servico.servico_descricao }}
+                                                    <strong>{{ servico.tiposervico_tpsid.tpsnome }}</strong><br>
+                                                    {{ servico.tiposervico_tpsid.tpsdescricao }}
                                                 </div>
-                                                <span>R$ {{ servico.servico_valor }}</span>
+                                                <span>R$ {{ servico.servalor }}</span>
                                             </label>
                                         </li>
                                         {% endfor %}
