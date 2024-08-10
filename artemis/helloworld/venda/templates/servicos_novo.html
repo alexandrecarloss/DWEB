@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card p-4 shadow-sm">
+                <div class="card-body">
+                    <form id="multi-step-form" method="post" action="   ">
+                        {% csrf_token %}
+                        <div class="formbold-steps">
+                            <ul>
+                                <li class="formbold-step-menu1 active">
+                                    <span>1</span>
+                                    Escolher Pet
+                                </li>
+                                <li class="formbold-step-menu2">
+                                    <span>2</span>
+                                    Escolher Serviço
+                                </li>
+                                <li class="formbold-step-menu3">
+                                    <span>3</span>
+                                    Escolher Local
+                                </li>
+                                <li class="formbold-step-menu4">
+                                    <span>4</span>
+                                    Escolher Data
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- ESCOLHER PET -->
+                        <div class="form-step form-step-1 active">
+                            <div class="mb-3">
+                                <label for="pet" class="form-label">Pet</label>
+                                <select name="pet" id="pet" class="form-select">
+                                    <option value="">Selecione um pet</option>
+                                    {% for pet in pets %}
+                                    <option value="{{ pet.id }}">{{ pet.petnome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ESCOLHER SERVIÇO -->
+                        <div class="form-step form-step-2 d-none">
+                            <div class="mb-3">
+                                <label class="form-label">Serviço</label>
+                                <div class="scrollable-list">
+                                    <ul class="list-group">
+                                        {% for servico in servicos %}
+                                        <li class="list-group-item d-flex align-items-center border-bottom">
+                                            <input type="radio" name="service" id="service{{ servico.id }}" value="{{ servico.id }}" class="form-check-input me-2">
+                                            <label for="service{{ servico.id }}" class="d-flex w-100">
+                                                <div>
+                                                    <strong>{{ servico.servico_tiposervico_tpsid }}</strong><br>
+                                                    {{ servico.servico_descricao }}
+                                                </div>
+                                                <span>R$ {{ servico.servico_valor }}</span>
+                                            </label>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ESCOLHER LOCAL -->
+                        <div class="form-step form-step-3 d-none">
+                            <div class="row g-2 justify-content-end">
+                                <div class="col-md-4 d-flex">
+                                    <div class="mb-3 w-100">
+                                        <div class="input-group ms-auto">
+                                            <input type="text" name="endereco" id="endereco" placeholder="Endereço" class="form-control text-start" />
+                                            <button class="btn btn-outline-primary" type="button" id="search-btn">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Lista de Petshops -->
+                            <div class="mt-4">
+                                <h5>Petshops Encontrados</h5>
+                                <div class="scrollable-list">
+                                    <ul class="list-group">
+                                        {% for petshop in petshops %}
+                                        <li class="list-group-item d-flex align-items-center border-bottom">
+                                            <input type="radio" name="petshop" id="petshop{{ petshop.id }}" value="{{ petshop.id }}" class="form-check-input me-2">
+                                            <label for="petshop{{ petshop.id }}" class="d-flex w-100">
+                                                <div class="d-flex justify-content-between w-100">
+                                                    <div>
+                                                        <strong>{{ petshop.ptsnome }}</strong><br>
+                                                        Endereço: {{ petshop.ptsrua }}, {{ petshop.ptsnumero }}, {{ petshop.ptsbairro }}, {{ petshop.ptscidade }}
+                                                    </div>
+                                                    <span>R$ {{ petshop.servico_valor }}</span>
+                                                </div>
+                                            </label>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ESCOLHER DATA -->
+                        <div class="form-step form-step-4 d-none">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="date" class="form-label">Data</label>
+                                        <input type="date" name="date" id="date" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="time" class="form-label">Hora</label>
+                                        <input type="time" name="time" id="time" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary" id="back-btn">Voltar</button>
+                            <button type="button" class="btn btn-primary" id="next-btn">Próxima Etapa</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stepMenus = document.querySelectorAll('.formbold-steps li');
+            const formSteps = document.querySelectorAll('.form-step');
+            const nextBtn = document.getElementById('next-btn');
+            const backBtn = document.getElementById('back-btn');
+
+            let currentStep = 0;
+
+            function updateSteps() {
+                stepMenus.forEach((menu, index) => {
+                    menu.classList.toggle('active', index === currentStep);
+                });
+                formSteps.forEach((step, index) => {
+                    step.classList.toggle('d-none', index !== currentStep);
+                    step.classList.toggle('active', index === currentStep);
+                });
+                backBtn.classList.toggle('d-none', currentStep === 0);
+                nextBtn.textContent = currentStep === stepMenus.length - 1 ? 'Finalizar' : 'Próxima Etapa';
+            }
+
+            nextBtn.addEventListener('click', function () {
+                if (currentStep < stepMenus.length - 1) {
+                    currentStep++;
+                    updateSteps();
+                } else {
+                    document.getElementById('multi-step-form').submit();
+                }
+            });
+
+            backBtn.addEventListener('click', function () {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateSteps();
+                }
+            });
+
+            updateSteps();
+        });
+
+        
+
+    </script>
+{% endblock %}

@@ -16,7 +16,6 @@
     <div class="container-fluid py-5">
         <div class="container py-5">
             <h1 class="mb-4">Detalhes</h1>
-            <form action="#">
                 <div class="row g-5">
                     <div class="col-md-12 col-lg-6 col-xl-7">
                         <div class="form-item">
@@ -30,7 +29,7 @@
                         <hr>
                         <div id="saved-address">
                             <h4>Endereço salvo:</h4>
-                            <p>Rua 2, 123, Saved City, Saved Country</p>
+                            <p>Rua {{ pessoa.pesrua }}, {{ pessoa.pesnumero }}, {{ pessoa.pescidade }}, {{ pessoa.pespais }}y</p>
                         </div>
                         <div class="form-check my-3">
                             <input class="form-check-input" type="checkbox" id="Address-1" name="Address"
@@ -93,20 +92,31 @@
                                 </tbody>
                             </table>
                         </div>
+                        <form action="{% url 'finaliza_compra' %}" method="post">
+                            {% csrf_token %}
                         <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                             <div class="col-12">
                                 <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-1"
-                                        name="PaymentMethod" value="Card" onclick="uncheckOthers('Card-1')">
-                                    <label class="form-check-label" for="Card-1">Cartão</label>
+                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-0" name="PaymentMethod" value="6" onclick="uncheckOthers('Card-0')">
+                                    <label class="form-check-label" for="Card-0">Cartão de crédito</label>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                            <div class="col-12">
+                                <div class="form-check text-start my-3">
+                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-1" name="PaymentMethod" value="5" onclick="uncheckOthers('Card-1')">
+                                    <label class="form-check-label" for="Card-1">Cartão de débito</label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                             <div class="col-12">
                                 <div class="form-check text-start my-3">
                                     <input type="checkbox" class="form-check-input bg-primary border-0" id="Pix-1"
-                                        name="PaymentMethod" value="Pix" onclick="uncheckOthers('Pix-1')">
+                                        name="PaymentMethod" value="3" onclick="uncheckOthers('Pix-1')">
                                     <label class="form-check-label" for="Pix-1">Pix</label>
                                 </div>
                             </div>
@@ -134,27 +144,17 @@
                                 <label class="form-label my-3">Código de Segurança (CVV)<sup>*</sup></label>
                                 <input type="text" class="form-control" placeholder="CVV" required>
                             </div>
-                            <div class="form-check text-start my-3">
-                                <input type="radio" class="form-check-input bg-primary border-0" id="Credit-2"
-                                    name="CardType" value="Credito">
-                                <label class="form-check-label" for="Credit-2">Crédito</label>
-                            </div>
-                            <div class="form-check text-start my-3">
-                                <input type="radio" class="form-check-input bg-primary border-0" id="Debit-2"
-                                    name="CardType" value="Debito">
-                                <label class="form-check-label" for="Debit-2">Débito</label>
-                            </div>
+                            
                         </div>
                         <!-- Error message container -->
                         <div id="error-message" class="text-center error-message" style="display: none;"></div>
 
                         <!-- Button to trigger the order confirmation -->
                         <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                            <a href="{% url 'finaliza_compra' %}">
                                 <button type="submit" class="btn secondaria py-3 px-4 text-uppercase w-100" onclick="showConfirmModal()">Confirmar Pedido</button>
-                            </a>
+                            
                         </div>
-
+                    </form>
 
                         <!-- Error message container -->
                         <div id="error-message" class="text-center error-message" style="display: none;"></div>
@@ -181,7 +181,6 @@
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
     <!-- Checkout Page End -->

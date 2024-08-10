@@ -53,17 +53,6 @@ class FormapagamentoSerializer(serializers.ModelSerializer):
         )
 
 
-class ItemvendaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Itemvenda
-        fields = (
-            'produto_proid',
-            'itemvenda_venid',
-            'itvqtde',
-            'servico_serid', 
-        )
-
-
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         extra_kwargs = {

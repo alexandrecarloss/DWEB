@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="/css/estilo.css">
 </head>
 
 <body>
@@ -83,200 +83,76 @@
     </div>
     <!-- NavBar End -->
     <!-- Conteúdo Principal -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- Menu de Navegação do Perfil -->
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true"
-                        data-target="pets">Meus Pets</a>
-                    <a href="#" class="list-group-item list-group-item-action"
-                        data-target="agendamentos">Agendamentos</a>
-                    <a href="#" class="list-group-item list-group-item-action" data-target="compras">Minhas compras</a>
-                    <a href="#" class="list-group-item list-group-item-action" data-target="configuracoes">Configurações
-                        da Conta</a>
-                    <!-- Adicione mais links conforme necessário -->
-                </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Menu de Navegação do Perfil -->
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action " aria-current="true" data-target="pets">Meus Pets</a>
+                <a href="#" class="list-group-item list-group-item-action" data-target="agendamentos">Agendamentos</a>
+                <a href="#" class="list-group-item list-group-item-action" data-target="compras">Minhas compras</a>
+                <a href="#" class="list-group-item list-group-item-action" data-target="notificacoes">Notificações</a> <!-- Nova aba de Notificações -->
+                <a href="#" class="list-group-item list-group-item-action" data-target="configuracoes">Configurações da Conta</a>
+                <!-- Adicione mais links conforme necessário -->
             </div>
-            <div class="col-md-9">
-                <!-- Conteúdo Dinâmico do Perfil -->
-                <div class="card conteudo" id="pets">
-                    <div class="card-body">
-                        <!-- Título -->
-                        <h5 class="card-title mb-4">Pets Cadastrados</h5>
-                        <!-- Adicionei a classe mb-4 para adicionar uma margem na parte inferior -->
-                        <!-- Seção de Pets -->
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-3">
-                            <!-- Alterei row-cols-lg-3 para row-cols-lg-4 para exibir até 4 cards por linha em telas grandes -->
-                            <!-- Pet 1 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <a href="#" class="text-decoration-none pet-link" data-bs-toggle="modal"
-                                        data-bs-target="#modalEditarPet" data-pet-id="1">
-                                        <div
-                                            class="card-body text-center d-flex justify-content-center align-items-center flex-column">
-                                            <img src="img/gallery-1.jpg" class="card-img-top img-fluid img-circle"
-                                                alt="Pet 1">
-                                            <h6 class="card-title mt-2 mb-0 text-body-secondary">maumau</h6>
-                                        </div>
-                                    </a>
-                                </div>
+        </div>
+        <div class="col-md-9">
+            <!-- Conteúdo Dinâmico do Perfil -->
+            <div class="card conteudo" id="pets">
+                <!-- Conteúdo dos Pets Cadastrados -->
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Pets Cadastrados</h5>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-3">
+                        <!-- Cards dos Pets -->
+                        <!-- Pet 1 -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <a href="#" class="text-decoration-none pet-link" data-bs-toggle="modal" data-bs-target="#modalEditarPet" data-pet-id="1">
+                                    <div class="card-body text-center d-flex justify-content-center align-items-center flex-column">
+                                        <img src="img/gallery-1.jpg" class="card-img-top img-fluid img-circle" alt="Pet 1">
+                                        <h6 class="card-title mt-2 mb-0 text-body-secondary">maumau</h6>
+                                    </div>
+                                </a>
                             </div>
-                            <!-- Pet 2 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <a href="#" class="text-decoration-none pet-link" data-bs-toggle="modal"
-                                        data-bs-target="#modalEditarPet" data-pet-id="2">
-                                        <div
-                                            class="card-body text-center d-flex justify-content-center align-items-center flex-column">
-                                            <img src="img/gallery-3.jpg" class="card-img-top img-fluid img-circle"
-                                                alt="Pet 2">
-                                            <h6 class="card-title mt-2 mb-0 text-body-secondary">lulu</h6>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- Adicione mais colunas conforme necessário para cada pet -->
                         </div>
-                    </div>
-                    <!-- Botão para adicionar pets -->
-                    <button type="button" class="btn btn-primary btn-floating position-absolute top-0 end-0 mt-3 me-3"
-                        id="btnAdicionarPet">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-
-                <!-- Modal de edição do pet -->
-                <div class="modal fade" id="modalEditarPet" tabindex="-1" aria-labelledby="modalEditarPetLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header text-white">
-                                <h5 class="modal-title text-body-secondary" id="modalEditarPetLabel">Edição do Pet</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                        <!-- Pet 2 -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <a href="#" class="text-decoration-none pet-link" data-bs-toggle="modal" data-bs-target="#modalEditarPet" data-pet-id="2">
+                                    <div class="card-body text-center d-flex justify-content-center align-items-center flex-column">
+                                        <img src="img/gallery-3.jpg" class="card-img-top img-fluid img-circle" alt="Pet 2">
+                                        <h6 class="card-title mt-2 mb-0 text-body-secondary">lulu</h6>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
-                                <div class="container py-5">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-10">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <form id="cadastroForm">
-                                                        <!-- Seção de foto do pet -->
-                                                        <div class="mb-4 text-center">
-                                                            <img src="img/gallery-1.jpg" class="img-fluid img-circle"
-                                                                alt="Pet 1">
-                                                            <h5 class="mt-3">Nome do Pet</h5>
-                                                        </div>
-                                                        <!-- Formulário de edição do pet -->
-                                                        <div class="mb-3">
+                        </div>
+                        <!-- Adicione mais colunas conforme necessário para cada pet -->
+                    </div>
+                </div>
+                <!-- Botão para adicionar pets -->
+                <button type="button" class="btn btn-primary btn-floating position-absolute top-0 end-0 mt-3 me-3" id="btnAdicionarPet">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
 
-                                                            <div class="card-body">
-                                                                <form id="cadastroForm">
-                                                                    <div class="mb-3">
-                                                                        <label for="pettipo" class="form-label">Tipo do
-                                                                            Pet (Espécie)</label>
-                                                                        <select class="form-select" id="pettipo"
-                                                                            name="pettipo" required>
-                                                                            <option value="Cachorro">Cachorro</option>
-                                                                            <option value="Gato">Gato</option>
-                                                                            <option value="Outro">Outro</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="petnome"
-                                                                            class="form-label">Nome</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="petnome" name="petnome" required>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label class="form-label">Sexo</label>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio"
-                                                                                name="petsexo" id="sexoM" value="M"
-                                                                                checked>
-                                                                            <label class="form-check-label" for="sexoM">
-                                                                                Macho
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio"
-                                                                                name="petsexo" id="sexoF" value="F">
-                                                                            <label class="form-check-label" for="sexoF">
-                                                                                Fêmea
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="petdtnascto" class="form-label">Data
-                                                                            de nascimento (aproximada)</label>
-                                                                        <input type="date" class="form-control"
-                                                                            id="petdtnascto" name="petdtnascto"
-                                                                            required>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="petporte" class="form-label">Porte
-                                                                            do Pet</label>
-                                                                        <div class="d-flex align-items-center">
-                                                                            <select class="form-select" id="petporte"
-                                                                                name="petporte" required>
-                                                                                <option value="Pequeno">Pequeno</option>
-                                                                                <option value="Médio">Médio</option>
-                                                                                <option value="Grande">Grande</option>
-                                                                            </select>
-                                                                            <button class="btn btn-link" type="button"
-                                                                                id="btnInfoPorte"
-                                                                                data-bs-toggle="popover"
-                                                                                title="Porte do Pet"
-                                                                                data-bs-content="Pequeno: Geralmente até 30 cm de altura.Médio: Costuma ter entre 30 cm e 60 cm de altura.Grande: Geralmente mais de 60 cm de altura.">
-                                                                                <i class="bi bi-question-circle"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="petpeso" class="form-label">Peso (em
-                                                                            kg)</label>
-                                                                        <input type="number" step="0.01"
-                                                                            class="form-control" id="petpeso"
-                                                                            name="petpeso" required>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="petraca" class="form-label">Raça do
-                                                                            Pet</label>
-                                                                        <select class="form-select" id="petraca"
-                                                                            name="petraca" required>
-                                                                            <option value="">Selecione a raça</option>
-                                                                            <option value="Raça 1">Raça 1</option>
-                                                                            <option value="Raça 2">Raça 2</option>
-                                                                            <option value="Raça 3">Raça 3</option>
-                                                                        </select>
-                                                                    </div>
-
-                                                                    <div class="mb-3">
-                                                                        <label for="petcastrado"
-                                                                            class="form-label">Castrado</label>
-                                                                        <select class="form-select" id="petcastrado"
-                                                                            name="petcastrado" required>
-                                                                            <option value="Castrado">Castrado</option>
-                                                                            <option value="Não Castrado">Não Castrado
-                                                                            </option>
-                                                                            <option value="Não sei">Não sei</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="formFile" class="form-label">Escolha
-                                                                            as fotos do Pet</label>
-                                                                        <input class="form-control" type="file"
-                                                                            id="formFile" name="fotos_pet[]" multiple>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                        <button type="submit" class="btn primaria">Atualizar</button>
-                                                    </form>
-                                                </div>
+            <!-- Modal de edição do pet -->
+            <div class="modal fade" id="modalEditarPet" tabindex="-1" aria-labelledby="modalEditarPetLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header text-white">
+                            <h5 class="modal-title text-body-secondary" id="modalEditarPetLabel">Edição do Pet</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+                            <div class="container py-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-10">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="cadastroForm">
+                                                    <!-- Formulário de edição do pet -->
+                                                    <!-- Adicione aqui o conteúdo do formulário -->
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -285,196 +161,148 @@
                         </div>
                     </div>
                 </div>
-                <div class="card conteudo" id="agendamentos">
-                    <div class="card-body">
-                        <!-- Aqui você pode listar os agendamentos -->
-                        <p>Agendamentos aqui...</p>
-                    </div>
+            </div>
+
+            <div class="card conteudo" id="agendamentos">
+                <div class="card-body">
+                    <p>Agendamentos aqui...</p>
                 </div>
-                <div class="card conteudo" id="compras">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Minhas Compras</h5>
-                        <ul class="list-group">
-                            <!-- Compra 1 -->
-                            <li class="list-group-item">
-                                <h6>Compra #1 - 01/01/2024</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 1">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 1</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 2</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 200,00</p>
-                                                    </div>
+            </div>
+
+            <div class="card conteudo" id="compras">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Minhas Compras</h5>
+                    <ul class="list-group">
+                        <!-- Conteúdo das compras -->
+                        <!-- Compra 1 -->
+                        <li class="list-group-item">
+                            <h6>Compra #1 - 01/01/2024</h6>
+                            <ul class="list-group list-group-flush">
+                                <!-- Produtos da compra -->
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="img/produtos.jpg" class="img-fluid img-circle" alt="Produto 1">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <h6>Produto 1</h6>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p>Quantidade: 2</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p>Total: R$ 200,00</p>
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 2">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 2</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 1</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 100,00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <p>Total da Compra: R$ 300,00</p>
-                                <hr>
-                            </li>
-                            <!-- Compra 2 -->
-                            <li class="list-group-item">
-                                <h6>Compra #2 - 15/01/2024</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 3">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 3</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 3</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 900,00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 4">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 4</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 2</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 400,00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <p>Total da Compra: R$ 1.300,00</p>
-                                <hr>
-                            </li>
-                        </ul>
-                    </div>
+                                    </div>
+                                </li>
+                                <!-- Adicione mais produtos conforme necessário -->
+                            </ul>
+                            <p>Total da Compra: R$ 300,00</p>
+                            <hr>
+                        </li>
+                        <!-- Adicione mais compras conforme necessário -->
+                    </ul>
                 </div>
-                <div class="card conteudo" id="configuracoes">
-                    <div class="card-body">
-                        <!-- Aqui você pode listar as configurações da conta -->
+            </div>
+
+            <div class="card conteudo" id="notificacoes">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Notificações</h5>
+                    <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Notificação 1 -->
+                        <li class="list-group-item border-bottom">
+                            <h6>Autor</h6>
+                            <p>Descrição da notificação...</p>
+                            <span class="text-muted">Recebida em: 01/01/2024</span>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+            
+            <div class="card conteudo" id="configuracoes">
+                <div class="card-body">
+                    <!-- Aqui você pode listar as configurações da conta -->
 
 
 
-                        <div class="form-group">
-                            <label for="pesnome">Nome:</label>
-                            <input type="text" class="form-control" id="pesnome" name="pesnome" placeholder="Nome"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pescpf">CPF:</label>
-                            <input type="text" class="form-control" id="pescpf" name="pescpf" placeholder="CPF"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pesdtnascto">Data de Nascimento:</label>
-                            <input type="date" class="form-control" id="pesdtnascto" name="pesdtnascto"
-                                placeholder="Data de Nascimento" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Gênero:</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pessexo" id="masculino" value="M"
-                                    required>
-                                <label class="form-check-label" for="masculino">Masculino</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pessexo" id="feminino" value="F"
-                                    required>
-                                <label class="form-check-label" for="feminino">Feminino</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pesestado">Estado:</label>
-                            <input type="text" class="form-control" id="pesestado" name="pesestado" placeholder="Estado"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pescidade">Cidade:</label>
-                            <input type="text" class="form-control" id="pescidade" name="pescidade" placeholder="Cidade"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pesbairro">Bairro:</label>
-                            <input type="text" class="form-control" id="pesbairro" name="pesbairro" placeholder="Bairro"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pesrua">Rua:</label>
-                            <input type="text" class="form-control" id="pesrua" name="pesrua" placeholder="Rua"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pesnumero">Número:</label>
-                            <input type="number" class="form-control" id="pesnumero" name="pesnumero"
-                                placeholder="Número" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pesemail">Email:</label>
-                            <input type="email" class="form-control" id="pesemail" name="pesemail" placeholder="Email"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pestelefone">Telefone:</label>
-                            <input type="tel" class="form-control" id="pestelefone" name="pestelefone"
-                                placeholder="Telefone" required>
-                        </div>
-
-                        <button type="submit" class="btn primaria btn-block mt-4">Atualizar</button>
+                    <div class="form-group">
+                        <label for="pesnome">Nome:</label>
+                        <input type="text" class="form-control" id="pesnome" name="pesnome" placeholder="Nome"
+                            required>
                     </div>
+                    <div class="form-group">
+                        <label for="pescpf">CPF:</label>
+                        <input type="text" class="form-control" id="pescpf" name="pescpf" placeholder="CPF"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesdtnascto">Data de Nascimento:</label>
+                        <input type="date" class="form-control" id="pesdtnascto" name="pesdtnascto"
+                            placeholder="Data de Nascimento" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gênero:</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pessexo" id="masculino" value="M"
+                                required>
+                            <label class="form-check-label" for="masculino">Masculino</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pessexo" id="feminino" value="F"
+                                required>
+                            <label class="form-check-label" for="feminino">Feminino</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesestado">Estado:</label>
+                        <input type="text" class="form-control" id="pesestado" name="pesestado" placeholder="Estado"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pescidade">Cidade:</label>
+                        <input type="text" class="form-control" id="pescidade" name="pescidade" placeholder="Cidade"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesbairro">Bairro:</label>
+                        <input type="text" class="form-control" id="pesbairro" name="pesbairro" placeholder="Bairro"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesrua">Rua:</label>
+                        <input type="text" class="form-control" id="pesrua" name="pesrua" placeholder="Rua"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesnumero">Número:</label>
+                        <input type="number" class="form-control" id="pesnumero" name="pesnumero"
+                            placeholder="Número" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesemail">Email:</label>
+                        <input type="email" class="form-control" id="pesemail" name="pesemail" placeholder="Email"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pestelefone">Telefone:</label>
+                        <input type="tel" class="form-control" id="pestelefone" name="pestelefone"
+                            placeholder="Telefone" required>
+                    </div>
+
+                    <button type="submit" class="btn primaria btn-block mt-4">Atualizar</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Conteúdo Principal End -->
+</div>
+<!-- Conteúdo Principal End -->
+
 
     <!-- Footer -->
     <div class="container">
@@ -510,7 +338,6 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="js/teste.js"></script>
-    <script src="js/main.js"></script>
 </body>
 
 </html>

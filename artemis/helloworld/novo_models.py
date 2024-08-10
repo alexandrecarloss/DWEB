@@ -174,17 +174,6 @@ class Formapagamento(models.Model):
         db_table = 'formapagamento'
 
 
-class Itemvenda(models.Model):
-    produto_proid = models.ForeignKey('Produto', models.DO_NOTHING, db_column='produto_proid', blank=True, null=True)
-    itemvenda_venid = models.OneToOneField('Venda', models.DO_NOTHING, db_column='itemvenda_venid', primary_key=True)
-    itvqtde = models.IntegerField()
-    servico_serid = models.ForeignKey('Servico', models.DO_NOTHING, db_column='servico_serid', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'itemvenda'
-
-
 class Login(models.Model):
     logemail = models.CharField(primary_key=True, max_length=70)
     logsenha = models.CharField(max_length=45, blank=True, null=True)
@@ -411,6 +400,7 @@ class Venda(models.Model):
     venpessoa_pesid = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='venpessoa_pesid')
     venvalor = models.FloatField()
     vendthora = models.DateTimeField(blank=True, null=True)
+    venqtd = models.IntegerField()
 
     class Meta:
         managed = False

@@ -64,21 +64,6 @@ class FormapagamentoAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = FormapagamentoSerializer
 
 
-class ItensvendasAPIView(generics.ListCreateAPIView):
-    """
-        API de Itens vendas
-    """
-    queryset = Itemvenda.objects.all().order_by('itemvenda_venid')
-    serializer_class = ItemvendaSerializer
-
-class ItemvendaAPIView(generics.RetrieveUpdateDestroyAPIView):
-    """
-        API de Item venda
-    """
-    queryset = Itemvenda.objects.all().order_by('itemvenda_venid')
-    serializer_class = ItemvendaSerializer
-
-
 class LoginsAPIView(generics.ListCreateAPIView):
     """
         API de Login
@@ -372,10 +357,6 @@ class CarrinhoViewSet(viewsets.ModelViewSet):
 class FormapagamentoViewSet(viewsets.ModelViewSet):
     queryset = Formapagamento.objects.all()
     serializer_class = FormapagamentoSerializer
-
-class ItemvendaViewSet(viewsets.ModelViewSet):
-    queryset = Itemvenda.objects.all()
-    serializer_class = ItemvendaSerializer
 
 class LoginViewSet(viewsets.ModelViewSet):
     queryset = Login.objects.all()

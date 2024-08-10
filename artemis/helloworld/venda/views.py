@@ -102,32 +102,6 @@ def insereproduto(request):
         cursor.close()
     return redirect(petshop)
 
-def alteraproduto(request, cod):
-    cursor = connection.cursor()
-    pronome = request.POST.get('pronome')
-    propreco = request.POST.get('propreco')
-    prosaldo = request.POST.get('prosaldo')
-    propetshop = request.POST.get('propetshop')
-    provalidade = request.POST.get('provalidade')
-    try:
-        cursor.execute('call sp_alteraproduto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(validade)s, %(cod)s)', 
-                {
-                    'nome': pronome, 
-                    'preco': propreco, 
-                    'saldo': prosaldo, 
-                    'petshop': propetshop, 
-                    'validade': provalidade, 
-                    'cod': cod
-                })
-        messages.success(request, 'Produto alterado com sucesso!')
-    except Exception as erro:
-        print(erro)
-        messages.error(request, 'Erro ao alterar produto!')
-        return redirect(index)
-    finally:
-        cursor.close()
-    return redirect(produtos)
-
 def removerproduto(request, cod):
     produto = Produto.objects.filter(proid = cod).first()
     # Removendo fotos antigas
@@ -203,7 +177,6 @@ def produto_detalhe(request, proid):
         if avaliacoes:
             vetor_avavalor = []
             for avaliacao in avaliacoes:
-                print('av ', avaliacao.avavalor)
                 vetor_avavalor.append(avaliacao.avavalor)
             media_avaliacoes = int(mean(vetor_avavalor))
         return render(request, 'detalhes_produto_novo.html', {'produto': produto, 'pessoa': pessoa, 'fotos_produto': fotos_produto, 'media_avaliacoes': media_avaliacoes, 'avaliacoes': avaliacoes})
@@ -302,16 +275,19 @@ def checkout_produto(request):
         total_carrinhos = 0
         for c in carrinhos:
             total_carrinhos = total_carrinhos + c.carpreco
-        return render(request, 'pagina_checkout_novo.html', {'carrinhos': carrinhos, 'total_carrinhos': total_carrinhos})
+        return render(request, 'pagina_checkout_novo.html', {'carrinhos': carrinhos, 'total_carrinhos': total_carrinhos, 'pessoa': pessoa})
     else:
         messages.error(request, 'Usuário deve ser uma pessoa física!')
         return render(request, 'index.html')
     
-def finaliza_compra(request):  
+def finaliza_compra(request):
+    if request.method == 'POST':
+        fpg = request.POST.get('PaymentMethod')
     cursor = connection.cursor()
     try:
         pessoa_id = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
-        fpg = 3
+        if not fpg:
+            fpg = 3
         cursor.execute('call sp_finaliza_compra (%(pessoa_id)s, %(fpg)s)', {'pessoa_id': pessoa_id, 'fpg': fpg})
     except Exception as erro:
         print(erro)
@@ -321,3 +297,35 @@ def finaliza_compra(request):
         cursor.close()           
         messages.success(request, 'Compra solicitada com sucesso!')
     return redirect(carrinho_user) 
+
+def form_altera_produto(request, proid):
+    produto = Produto.objects.filter(proid = proid).first()
+    categorias = CategoriaProduto.objects.all()
+    return render(request, 'form_altera_produto.html', {'produto': produto, 'categorias': categorias})
+
+def alteraproduto(request, proid):
+    cursor = connection.cursor()
+    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    pronome = request.POST.get('pronome')
+    propreco = request.POST.get('propreco')
+    prosaldo = request.POST.get('prosaldo')
+    categoriaproduto = request.POST.get('categoriaproduto')
+    propetshop = petshop.ptsid
+    try:
+        cursor.execute('call sp_alteraproduto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(categoria)s, %(cod)s)', 
+                {
+                    'nome': pronome, 
+                    'preco': propreco, 
+                    'saldo': prosaldo, 
+                    'petshop': propetshop, 
+                    'categoria': categoriaproduto, 
+                    'cod': proid
+                })
+        messages.success(request, 'Produto alterado com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao alterar produto!')
+        return redirect(index)
+    finally:
+        cursor.close()
+    return redirect(produtos)

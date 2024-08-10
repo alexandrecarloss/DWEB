@@ -6,7 +6,6 @@ router = SimpleRouter()
 router.register('avaliacoes', AvaliacaoViewSet)
 router.register('carrinhos', CarrinhoViewSet)
 router.register('formaspagamentos', FormapagamentoViewSet)
-router.register('itensvendas', ItemvendaViewSet)
 router.register('logins', LoginViewSet)
 router.register('notasfiscais', NotafiscalViewSet)
 router.register('ongs', OngViewSet)
@@ -36,8 +35,6 @@ urlpatterns = [
     path('carrinhos/<int:pk>/', CarrinhoAPIView.as_view(), name='v1_carrinho'),
     path('formaspagamentos/', FormaspagamentosAPIView.as_view(), name='v1_formaspagamentos'),
     path('formaspagamentos/<int:pk>/', FormapagamentoAPIView.as_view(), name='v1_formapagamento'),
-    path('itensvendas/', ItensvendasAPIView.as_view(), name='v1_itensvendas'),
-    path('itensvendas/<int:pk>/', ItemvendaAPIView.as_view(), name='v1_itemvenda'),
     path('logins/', LoginsAPIView.as_view(), name='v1_logins'),
     path('logins/<int:pk>/', LoginAPIView.as_view(), name='v1_login'),
     path('notasfiscais/', NotasfiscaisAPIView.as_view(), name='v1_notasfiscais'),
