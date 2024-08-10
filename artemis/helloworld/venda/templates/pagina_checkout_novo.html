@@ -74,8 +74,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for carrinho in carrinhos %}
                                     <tr>
-                                        {% for carrinho in carrinhos %}
                                         <th scope="row" hx-get="fotoproduto/{{ carrinho.carpro.proid }}/2"
                                         hx-target="#fotoproduto{{ carrinho.carid }}"
                                         hx-trigger="load">
@@ -87,8 +87,8 @@
                                         <td class="py-5">R$ {{ carrinho.carpro.propreco }}</td>
                                         <td class="py-5">{{ carrinho.carquant }}</td>
                                         <td class="py-5">R$ {{ carrinho.carpreco }}</td>
-                                        {% endfor %}
                                     </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -134,15 +134,15 @@
                         <div id="card-info" style="display: none;">
                             <div class="form-item">
                                 <label class="form-label my-3">Número do Cartão<sup>*</sup></label>
-                                <input type="text" class="form-control" placeholder="Número do Cartão" required>
+                                <input type="text" class="form-control" placeholder="Número do Cartão" >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Data de Validade<sup>*</sup></label>
-                                <input type="text" class="form-control" placeholder="MM/AA" required>
+                                <input type="text" class="form-control" placeholder="MM/AA" >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Código de Segurança (CVV)<sup>*</sup></label>
-                                <input type="text" class="form-control" placeholder="CVV" required>
+                                <input type="text" class="form-control" placeholder="CVV" >
                             </div>
                             
                         </div>
