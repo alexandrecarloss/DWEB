@@ -344,32 +344,27 @@ def agendar_servico_servico(request):
 def agendar_servico_local(request, petid):
     cidade = request.GET.get('cidade')
     pet_selecionado = Pet.objects.filter(petid = petid).first()
-    tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = request.POST.get('tipo_servico')).first()
-    print(tipo_servico_selecionado)
+    tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = request.POST.get('tipo_servico')).first() 
     if cidade:
-        petshops = Petshop.objects.filter(ptscidade__icontains=cidade, servicos__tiposervico_tpsid = tipo_servico_selecionado)
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado, petshop_ptsid_id__ptscidade__icontains = cidade)
     else:
-        petshops = Petshop.objects.filter(servicos__tiposervico_tpsid = tipo_servico_selecionado)
-    print(petshops)
-    servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado)
-    return render(request, 'agendar_servico_local.html', {'petshops': petshops, 'servicos': servicos, 'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado})
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado)
+    return render(request, 'agendar_servico_local.html', {'servicos': servicos, 'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado})
 
-def agendar_servico_data(request, petid):
-    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
-    servicos = Servico.objects.all()
-    pets = Pet.objects.filter(pessoa_pesid = pessoa.pesid)
-    cidade = request.GET.get('endereco')
-    servico_selecionado = Servico.objects.filter(serid = request.GET.get('service')).first()
-    pet_selecionado = request.GET.get('pet')
-    print(pet_selecionado)
-    if cidade:
-        pethsops = Petshop.objects.filter(ptscidade__icontains=cidade)
-    else:
-        pethsops = Petshop.objects.filter(servicos__serid = servico_selecionado)
-    return render(request, 'agendar_servico_local.html', {'servicos': servicos, 'pets': pets, 'pethsops': pethsops})
-
-def load_servicos_local(request): 
+def load_servicos_local(request, petid, tpsid): 
     cidade = request.GET.get('cidade')
-    print(cidade)
-    servicos = Servico.objects.filter(petshop_ptsid__ptscidade__icontains=cidade)
-    return render(request, "load_servicos_local.html", {"servicos": servicos})
+    pet_selecionado = Pet.objects.filter(petid = petid).first()
+    tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = request.POST.get('tipo_servico')).first()
+    if tpsid:
+        tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = tpsid).first() 
+    if cidade:
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado, petshop_ptsid_id__ptscidade__icontains = cidade)
+    else:
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado)
+    return render(request, 'agendar_servico_local.html', {'servicos': servicos, 'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado})
+
+def agendar_servico_data(request, petid, tpsid):
+    pet_selecionado = Pet.objects.filter(petid = petid).first()
+    tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = tpsid).first() 
+    servico_selecionado = request.GET.get('servico')
+    return render(request, 'agendar_servico_data.html')

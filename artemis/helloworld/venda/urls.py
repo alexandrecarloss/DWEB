@@ -25,5 +25,6 @@ urlpatterns = [
     path('agendar_servico_pet/', views.agendar_servico_pet, name="agendar_servico_pet"),
     path('agendar_servico_servico/', views.agendar_servico_servico, name="agendar_servico_servico"),
     path('agendar_servico_local/<int:petid>/', views.agendar_servico_local, name="agendar_servico_local"),
-    path('load_servicos_local/', views.load_servicos_local, name='load_servicos_local'),
+    path('load_servicos_local/<int:petid>/<int:tpsid>/', views.load_servicos_local, name='load_servicos_local'),
+    path('agendar_servico_data/<int:petid>/<int:tpsid>/', views.agendar_servico_data, name='agendar_servico_data'),
 ]

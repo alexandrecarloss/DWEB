@@ -6,8 +6,7 @@
         <div class="col-lg-8 col-md-10">
             <div class="card p-4 shadow-sm">
                 <div class="card-body">
-                    <form id="multi-step-form" method="post" action="">
-                        {% csrf_token %}
+                    
                         <div class="formbold-steps">
                             <ul>
                                 <li class="formbold-step-menu1">
@@ -34,27 +33,31 @@
                             <div class="row g-2 justify-content-end">
                                 <div class="col-md-4 d-flex">
                                     <div class="mb-3 w-100">
-                                        <form action="" pet.petid >
-                                        <div class="input-group ms-auto">
-                                            <input type="text" name="cidade" id="cidade" placeholder="Cidade" class="form-control text-start" />
-                                            <button class="btn btn-outline-primary" type="submit" id="search-btn" 
-                                            hx-get="/load_servicos_local/"                               
-                                            hx-target="#servico_options"
-                                            hx-trigger="click">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </form>
+                                        <form action="{% url 'load_servicos_local' pet_selecionado.petid tipo_servico_selecionado.tpsid %}" method="get">
+                                            <div class="input-group ms-auto">
+                                                <input type="text" name="cidade" id="cidade" placeholder="Cidade" class="form-control text-start" />
+                                                <button class="btn btn-outline-primary" type="submit" id="search-btn">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        {% if cidade %}
+                                        Buscando por {{ cidade }}
+                                        {% endif %}
                                     </div>    
                                         
                                 </div>
                                 <div class="scrollable-list">
-                                    <h2>Pet shop</h2>                                  
+                                    <h2>Pet shop</h2>   
+                                    <form id="multi-step-form" method="post" action="{% url 'agendar_servico_data' pet_selecionado.petid tipo_servico_selecionado.tpsid %}">
+                                        {% csrf_token %}                               
                                     <ul class="list-group" id="servico_options">
+                                        
                                         {% for servico in servicos %}
                                         <li class="d-flex align-items-center border-bottom">
-                                            <input type="radio" name="petshop" id="petshop{{ servico.serid }}" value="{{ servico.serid }}" class="form-check-input me-2">
-                                            <label for="petshop{{ servico.serid }}" class="d-flex w-100">
+                                            <input type="radio" name="servico" id="servico{{ servico.serid }}" value="{{ servico.serid }}" class="form-check-input me-2">
+                                            <label for="servico{{ servico.serid }}" class="d-flex w-100">
                                                 <div>
                                                     <strong>{{ servico.serdescricao }}</strong><br>
                                                     Local: Rua {{ servico.petshop_ptsid.ptsrua }}, {{ servico.petshop_ptsid.ptsnumero }}. {{ servico.petshop_ptsid.ptscidade }}/{{ servico.petshop_ptsid.ptsestado }}
@@ -71,7 +74,7 @@
                         </div>
 
                         <div class="d-flex justify-content-between mt-4">
-                            <button type="{% url 'agendar_servico_servico' %}" class="btn btn-secondary" id="back-btn">Voltar</button>
+                            <a href="/venda/agendar_servico_servico/"><button type="button" class="btn btn-secondary" id="back-btn">Voltar</button></a>
                             <button type="submit" class="btn btn-primary" id="next-btn">Próxima Etapa</button>
                         </div>
                     </form>
