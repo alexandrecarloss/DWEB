@@ -454,6 +454,9 @@ class Solicita(models.Model):
         db_table = 'solicita'
         ordering = ['solid']
 
+    def __str__(self):
+        return f'{self.pessoa_pesid.pesnome} solicita {self.servico_serid.serdescricao}'
+
 
 class TentativaAdota(models.Model):
     ttaid = models.AutoField(primary_key=True)

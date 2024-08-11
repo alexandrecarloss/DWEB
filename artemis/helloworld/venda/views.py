@@ -366,7 +366,7 @@ def load_servicos_local(request, petid, tpsid):
 def agendar_servico_data(request, petid, tpsid):
     pet_selecionado = Pet.objects.filter(petid = petid).first()
     tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = tpsid).first() 
-    servico_selecionado = request.GET.get('servico')
+    servico_selecionado = Servico.objects.filter(serid = request.POST.get('servico')).first()
     return render(request, 'agendar_servico_data.html', {'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado, 'servico_selecionado': servico_selecionado})
 
 def agendar_servico_servico_voltar(request, petid):
@@ -384,3 +384,26 @@ def agendar_servico_local_voltar(request, petid, tpsid):
         servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado)
     return render(request, 'agendar_servico_local.html', {'servicos': servicos, 'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado})
 
+
+def solicita_servico(request, petid, serid):
+    cursor = connection.cursor()
+    data = request.POST.get('date')
+    hora = request.POST.get('time')
+    datetime = f'{data} {hora}'
+    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+    try:
+        cursor.execute('call sp_insere_solicita (%(pessoa)s, %(servico)s, %(agendamento)s, %(pet)s)', 
+            {
+                'pessoa': pessoa.pesid, 
+                'servico': serid, 
+                'agendamento': datetime, 
+                'pet': petid, 
+            })
+        messages.success(request, 'Solicitado com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao solicitar serviço!')
+        return redirect(servicos)
+    finally:
+        cursor.close()
+    return redirect(usuario)

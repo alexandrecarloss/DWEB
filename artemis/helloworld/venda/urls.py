@@ -29,5 +29,6 @@ urlpatterns = [
     path('agendar_servico_data/<int:petid>/<int:tpsid>/', views.agendar_servico_data, name='agendar_servico_data'),
     path('agendar_servico_servico_voltar/<int:petid>/', views.agendar_servico_servico_voltar, name="agendar_servico_servico_voltar"),
     path('agendar_servico_local_voltar/<int:petid>/<int:tpsid>/', views.agendar_servico_local_voltar, name='agendar_servico_local_voltar'),
+    path('solicita_servico/<int:petid>/<int:serid>/', views.solicita_servico, name='solicita_servico'),
     
 ]

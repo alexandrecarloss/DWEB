@@ -6,7 +6,7 @@
         <div class="col-lg-8 col-md-10">
             <div class="card p-4 shadow-sm">
                 <div class="card-body">
-                    <form id="multi-step-form" method="post" action="">
+                    <form id="multi-step-form" method="post" action="{% url 'solicita_servico' pet_selecionado.petid servico_selecionado.serid %}">
                         {% csrf_token %}
                         <div class="formbold-steps">
                             <ul>
@@ -50,7 +50,7 @@
 
                         <div class="d-flex justify-content-between mt-4">
                             <a href="{% url 'load_servicos_local' pet_selecionado.petid tipo_servico_selecionado.tpsid %}"><button type="button" class="btn btn-secondary" id="back-btn">Voltar</button></a>
-                            <button type="button" class="btn btn-primary" id="next-btn">Finalizar</button>
+                            <button type="submit" class="btn btn-primary" id="next-btn">Finalizar</button>
                         </div>
                     </form>
                 </div>
