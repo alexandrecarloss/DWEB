@@ -262,11 +262,57 @@ hx-trigger="load"
                 <div id="modalpet"></div>
                 <div class="card conteudo" id="agendamentos">
                     <div class="card-body">
-                        <!-- Aqui você pode listar os agendamentos -->
-                        <p>Agendamentos aqui...</p>
-                        {% for solicita in solicitacoes %}
-                        {{ solicita }}<br>
-                        {% endfor %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Serviço</th>
+                                    <th scope="col">Pet</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Tipo de serviço</th>
+                                    <th scope="col">Pet shop</th>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Hora</th>
+                                    <th scope="col">Cancelar solicitação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for solicita in solicitacoes %}
+                                <tr>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ solicita.servico_serid.serdescricao }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ solicita.solpetid.petnome }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">R$ {{ solicita.servico_serid.servalor }}</p>
+                                    </td>
+                                    <td>
+                                        <div class="input-group quantity mb-5">
+                                            {{ solicita.servico_serid.tiposervico_tpsid.tpsnome }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ solicita.servico_serid.petshop_ptsid.ptsnome }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ solicita.soldthr.date }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ solicita.soldthr.time }}</p>
+                                    </td>
+                                    <td>
+                                        <form action="{% url 'cancelar_solicitacao' solicita.solid %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn btn-md rounded-circle bg-light border mt-4" type="submit">
+                                                <i class="fa fa-times text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="card conteudo" id="compras">

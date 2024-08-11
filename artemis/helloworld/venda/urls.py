@@ -31,4 +31,5 @@ urlpatterns = [
     path('agendar_servico_local_voltar/<int:petid>/<int:tpsid>/', views.agendar_servico_local_voltar, name='agendar_servico_local_voltar'),
     path('solicita_servico/<int:petid>/<int:serid>/', views.solicita_servico, name='solicita_servico'),
     path('form_altera_servico/<int:serid>/', views.form_altera_servico, name='form_altera_servico'),
+    path('cancelar_solicitacao/<int:solid>/', views.cancelar_solicitacao, name='cancelar_solicitacao'),
 ]

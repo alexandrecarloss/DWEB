@@ -447,7 +447,8 @@ class Solicita(models.Model):
     servico_serid = models.ForeignKey(Servico, models.DO_NOTHING, db_column='servico_serid')
     solid = models.AutoField(primary_key=True)
     soldthr = models.DateTimeField()
-    solpetid = models.IntegerField()
+    solpetid = models.ForeignKey(Pet, models.DO_NOTHING, db_column='solpetid')
+    # solpetid = models.IntegerField()
 
     class Meta:
         managed = False

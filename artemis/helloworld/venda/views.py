@@ -416,3 +416,15 @@ def form_altera_servico(request, serid):
     tiposervicos =Tiposervico.objects.all()
     servico = Servico.objects.filter(serid = serid).first()
     return render(request, 'form_altera_servico.html', {'tiposervicos': tiposervicos, 'servico': servico})
+
+def cancelar_solicitacao(request, solid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_exclui_solicita (%(cod)s', {
+                'cod': solid
+            })
+        messages.success(request, 'Solicitação removido com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao remover solicitação!')
+    return redirect(servicos)
