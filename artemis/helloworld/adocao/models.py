@@ -455,7 +455,7 @@ class Solicita(models.Model):
         ordering = ['solid']
 
     def __str__(self):
-        return f'{self.pessoa_pesid.pesnome} solicita {self.servico_serid.serdescricao}'
+        return f'{self.pessoa_pesid.pesnome} solicita {self.servico_serid.serdescricao} de {self.servico_serid.petshop_ptsid.ptsnome}'
 
 
 class TentativaAdota(models.Model):

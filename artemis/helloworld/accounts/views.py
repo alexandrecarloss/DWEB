@@ -371,7 +371,8 @@ def usuario(request):
     total_compras = 0
     for venda in vendas:
         total_compras += venda.venvalor
-    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa, 'nascimento': nascimento, 'vendas': vendas, 'total_compras': total_compras})
+    solicitacoes = Solicita.objects.filter(pessoa_pesid = pessoa.pesid)
+    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa, 'nascimento': nascimento, 'vendas': vendas, 'total_compras': total_compras, 'solicitacoes': solicitacoes})
 
 @login_required(login_url="/accounts/login")
 def ong(request):
@@ -492,7 +493,8 @@ def petshop(request):
     petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
     produtos = Produto.objects.filter(propetshop_ptsid = petshop.ptsid)
     servicos = Servico.objects.filter(petshop_ptsid = petshop.ptsid)
-    return render(request, 'pagPetshop.html', {'produtos': produtos, 'petshop': petshop, 'servicos': servicos})
+    solicitacoes = Solicita.objects.filter(servico_serid__petshop_ptsid = petshop.ptsid)
+    return render(request, 'pagPetshop.html', {'produtos': produtos, 'petshop': petshop, 'servicos': servicos, 'solicitacoes': solicitacoes})
 
 def atualizar_petshop(request):
     if str(request.user.groups.first()) == 'Pet shop':

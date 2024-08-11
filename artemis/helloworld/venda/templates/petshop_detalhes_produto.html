@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block titulo %}Detalhe do produto {% endblock %}
+{% block titulo %}Detalhes do produto {% endblock %}
 {% block content %}
 {% load static %}
 {% for message in messages %}
@@ -74,17 +74,13 @@
                         <p class="mb-4">Descrição: {{ produto.categoria_produto_ctpid.ctpdescricao }}</p>
                         <form action="{% url 'form_altera_produto' produto.proid %}" method="POST">
                             {% csrf_token %}
-                            <div class="input-group quantity mb-5">
-                               
-                                <p>Estoque: {{ produto.prosaldo }}</p>
-                                
-                                
+                            <div class="input-group quantity mb-5">                              
+                                <p>Estoque: {{ produto.prosaldo }}</p> 
                             </div>
-
-
                             <button type="submit" class="btn primaria btn-block mt-4">
                                 Alterar produto
                             </button>
+                        </form>
                     </div>
                     <div class="col-lg-12">
                         <nav>

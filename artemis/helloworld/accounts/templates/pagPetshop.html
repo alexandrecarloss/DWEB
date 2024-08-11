@@ -101,6 +101,9 @@
                     <div class="card-body">
                         <!-- Aqui você pode listar os agendamentos -->
                         <p>Agendamentos aqui...</p>
+                        {% for solicita in solicitacoes %}
+                        {{ solicita }}<br>
+                        {% endfor %}
                     </div>
                 </div>
 
