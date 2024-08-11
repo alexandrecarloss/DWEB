@@ -257,6 +257,7 @@ hx-trigger="load"
                     </button>
                 </a>
                 </div>
+                </div>
                 <!-- Modal de edição do pet -->
                 <div id="modalpet"></div>
                 <div class="card conteudo" id="agendamentos">
@@ -270,13 +271,13 @@ hx-trigger="load"
                         <h5 class="card-title mb-4">Minhas Compras</h5>
                         <ul class="list-group">
                             {% for venda in vendas %}
-                            <!-- Compra 1 -->
-                            <li class="list-group-item" hx-get="../../venda/fotoproduto/{{ venda.venpro.proid }}/2"
+                            <li  hx-get="../../venda/fotoproduto/{{ venda.venpro.proid }}/2"
                             hx-target="#fotoproduto{{ venda.venid }}"
                             hx-trigger="load">
-                                <h6>Compra #{{ venda.venid }} - {{ venda.vendthora }}</h6>
+                                <h6>Compra #{{ venda.venid }} - {{ venda.vendthora.date }} às {{ venda.vendthora.time }}</h6>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
+                                    <a href="{% url 'produto_detalhe' venda.venpro.proid %}">
+                                    <li >
                                         <div class="row">
                                             <div class="d-flex align-items-center" id="fotoproduto{{ venda.venid }}">
                                     
@@ -296,6 +297,7 @@ hx-trigger="load"
                                             </div>
                                         </div>
                                     </li>
+                                </a>
                                 </ul>
                                 <hr>
                             </li>

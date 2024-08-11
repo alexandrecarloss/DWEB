@@ -491,7 +491,8 @@ def petshop(request):
         return redirect(cadastro_dados)
     petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
     produtos = Produto.objects.filter(propetshop_ptsid = petshop.ptsid)
-    return render(request, 'pagPetshop.html', {'produtos': produtos, 'petshop': petshop})
+    servicos = Servico.objects.filter(petshop_ptsid = petshop.ptsid)
+    return render(request, 'pagPetshop.html', {'produtos': produtos, 'petshop': petshop, 'servicos': servicos})
 
 def atualizar_petshop(request):
     if str(request.user.groups.first()) == 'Pet shop':

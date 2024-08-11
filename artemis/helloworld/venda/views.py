@@ -118,29 +118,29 @@ def removerproduto(request, cod):
     return redirect(produtos)
 
 ###### CRUD serviço
-def alteraservico(request, cod):
+def alteraservico(request, serid):
     cursor = connection.cursor()
-    preco = request.POST.get('preco')
-    petshop = request.POST.get('petshop')
-    tipo = request.POST.get('tipo')
-    decsricao = request.POST.get('decsricao')
-
+    preco = request.POST.get('servalor')
+    var_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    tipo = request.POST.get('servico')
+    descricao = request.POST.get('serdescricao')
     try:
-        cursor.execute('call sp_alteraservico (%(preco)s, %(petshop)s, %(tipo)s, %(decsricao)s, %(cod)s)', {
+        cursor.execute('call sp_altera_servico (%(preco)s, %(petshop)s, %(tipo)s, %(decsricao)s, %(cod)s)', {
                 'preco': preco, 
-                'petshop': petshop, 
+                'petshop': var_petshop.ptsid, 
                 'tipo': tipo, 
-                'decsricao': decsricao, 
-                'cod': cod
+                'decsricao': descricao, 
+                'cod': serid
             })
         messages.success(request, 'Serviço alterado com sucesso!')
     except Exception as erro:
-        print(erro)
+        print(erro.__cause__)
+        print(erro.args)
         messages.error(request, 'Erro ao alterar serviço!')
-        return redirect(index)
+        return redirect(petshop)
     finally:
         cursor.close()
-    return redirect(servicos)
+    return redirect(petshop)
 
 def removerservico(request, cod):
     # servico = Servico.objects.filter(serid = cod)
@@ -296,7 +296,7 @@ def finaliza_compra(request):
     finally:
         cursor.close()           
         messages.success(request, 'Compra solicitada com sucesso!')
-    return redirect(carrinho_user) 
+    return redirect(usuario) 
 
 def form_altera_produto(request, proid):
     produto = Produto.objects.filter(proid = proid).first()
@@ -407,3 +407,12 @@ def solicita_servico(request, petid, serid):
     finally:
         cursor.close()
     return redirect(usuario)
+
+def form_altera_servico(request, serid):
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
+    tiposervicos =Tiposervico.objects.all()
+    servico = Servico.objects.filter(serid = serid).first()
+    return render(request, 'form_altera_servico.html', {'tiposervicos': tiposervicos, 'servico': servico})

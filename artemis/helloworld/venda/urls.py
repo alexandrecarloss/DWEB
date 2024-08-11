@@ -7,7 +7,7 @@ urlpatterns = [
     path('alteraproduto/<int:proid>/', views.alteraproduto, name="alteraproduto"),
     path('removerproduto/<int:cod>/', views.removerproduto, name="removerproduto"),
     path('servicos/', views.servicos, name="servicos"),
-    path('alteraservico/<int:cod>/', views.alteraservico, name="alteraservico"),
+    path('alteraservico/<int:serid>/', views.alteraservico, name="alteraservico"),
     path('removerservico/<int:cod>/', views.removerservico, name="removerservico"),
     # path('post_produto/', views.post_produto, name="post_produto"),
     path('adicionar_produto/', views.adicionar_produto, name="adicionar_produto"),
@@ -30,5 +30,5 @@ urlpatterns = [
     path('agendar_servico_servico_voltar/<int:petid>/', views.agendar_servico_servico_voltar, name="agendar_servico_servico_voltar"),
     path('agendar_servico_local_voltar/<int:petid>/<int:tpsid>/', views.agendar_servico_local_voltar, name='agendar_servico_local_voltar'),
     path('solicita_servico/<int:petid>/<int:serid>/', views.solicita_servico, name='solicita_servico'),
-    
+    path('form_altera_servico/<int:serid>/', views.form_altera_servico, name='form_altera_servico'),
 ]

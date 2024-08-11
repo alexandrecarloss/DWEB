@@ -21,6 +21,8 @@
                     <a href="#" class="list-group-item list-group-item-action active" aria-current="true"
                         data-target="pets">Meus Produtos</a>
                     <a href="#" class="list-group-item list-group-item-action"
+                        data-target="servicos">Meus Serviços</a>
+                    <a href="#" class="list-group-item list-group-item-action"
                         data-target="agendamentos">Agendamentos</a>
                     <a href="#" class="list-group-item list-group-item-action" data-target="notificacoes">Notificações</a> <!-- Nova aba de Notificações -->
                     <a href="#" class="list-group-item list-group-item-action" data-target="configuracoes">Configurações da Conta</a>
@@ -75,6 +77,26 @@
                 </a>
                 </div>
                 
+                <div class="card conteudo" id="servicos">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for servico in servicos %}
+                                <a href="{% url 'form_altera_servico' servico.serid %}">
+                                    <li class="d-flex align-items-center border-bottom">
+                                            <div>
+                                                <strong>{{ servico.serdescricao }}</strong><br>
+                                                {{ servico.tiposervico_tpsid.tpsnome }}
+                                                <br>
+                                                R$ {{ servico.servalor }}
+                                            </div>
+                                        </label>
+                                    </li>
+                                </a>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="card conteudo" id="agendamentos">
                     <div class="card-body">
                         <!-- Aqui você pode listar os agendamentos -->
