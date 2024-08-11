@@ -78,6 +78,9 @@
                 
                 {% if nomePesquisa %}
                 <h2>Buscando por: {{ nomePesquisa }}</h2>
+                {% if not pets %}
+                <p>Nenhum pet encontrado com nome {{ nomePesquisa }}</p>
+                {% endif %}
                 {% endif %}
                 <!-- FIM FILTROS -->
                 <div class="row g-4">

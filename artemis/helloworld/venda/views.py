@@ -361,10 +361,26 @@ def load_servicos_local(request, petid, tpsid):
         servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado, petshop_ptsid_id__ptscidade__icontains = cidade)
     else:
         servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado)
-    return render(request, 'agendar_servico_local.html', {'servicos': servicos, 'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado})
+    return render(request, 'agendar_servico_local.html', {'servicos': servicos, 'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado, 'cidade': cidade})
 
 def agendar_servico_data(request, petid, tpsid):
     pet_selecionado = Pet.objects.filter(petid = petid).first()
     tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = tpsid).first() 
     servico_selecionado = request.GET.get('servico')
-    return render(request, 'agendar_servico_data.html')
+    return render(request, 'agendar_servico_data.html', {'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado, 'servico_selecionado': servico_selecionado})
+
+def agendar_servico_servico_voltar(request, petid):
+    pet_selecionado = Pet.objects.filter(petid = petid).first()
+    tipos_servico = Tiposervico.objects.all()
+    return render(request, 'agendar_servico_servico.html', {'tipos_servico': tipos_servico, 'pet_selecionado': pet_selecionado})
+
+def agendar_servico_local_voltar(request, petid, tpsid):
+    cidade = request.GET.get('cidade')
+    pet_selecionado = Pet.objects.filter(petid = petid).first()
+    tipo_servico_selecionado = Tiposervico.objects.filter(tpsid = tpsid).first() 
+    if cidade:
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado, petshop_ptsid_id__ptscidade__icontains = cidade)
+    else:
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado)
+    return render(request, 'agendar_servico_local.html', {'servicos': servicos, 'pet_selecionado': pet_selecionado, 'tipo_servico_selecionado': tipo_servico_selecionado})
+
