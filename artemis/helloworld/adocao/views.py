@@ -28,10 +28,6 @@ def adocao(request):
     else:
         pets = Pet.objects.filter(petadocoes__isnull=False)
     pftfotos = PetFoto.objects.all()
-    # petadocao = Pet.objects.filter(petadocoes__isnull=False)
-    # print(petadocao)
-    # for pa in petadocao:
-    #     print(pa)
     return render(request, 'adocao.html', {'pets': pets, 'pettipos': pettipos, 'pftfotos': pftfotos, "pessoas": pessoas, "especie": especie, "raca": raca, "nomePesquisa": nomePesquisa})
 
 def load_racas(request):

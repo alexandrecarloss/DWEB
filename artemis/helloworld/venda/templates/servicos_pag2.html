@@ -19,7 +19,8 @@
             <div class="col-lg-8 col-md-10">
                 <div class="card p-4 shadow-sm">
                     <div class="card-body">
-                        <form id="multi-step-form">
+                        <form id="multi-step-form" method="post" action="{% url 'solicita_servico_junto' %}">
+                            {% csrf_token %}
                             <div class="formbold-steps">
                                 <ul>
                                     <li class="formbold-step-menu1 active">
@@ -58,8 +59,7 @@
                             <div class="form-step form-step-2 active">
                                 <div class="mb-3">
                                     <label class="form-label">Tipo Serviço</label>
-                                    <div class="scrollable-list">                                   
-                                            
+                                    <div class="scrollable-list">                                              
                                             <!-- Classe list-group-item estava impedindo os radios de serem selecionados -->
                                             <select name="tipo_servico" id="tipo_servic"
                                             hx-get="select_cidades_tpservico/"                               
@@ -71,42 +71,33 @@
                                                     {{ tipo.tpsdescricao }}                                   
                                                 </option>
                                             {% endfor %}
-
                                             </select>
-                                            
                                     </div>
                                 </div>
                             </div>
-                            <input type="text" id="tipo_servico" value="3">
+                            
                             <!-- ESCOLHER LOCAL -->
                             <div class="form-step form-step-3 active">
                                 <div class="row g-2 justify-content-end">
                                     <div class="col-md-4 d-flex">
                                         <div class="mb-3 w-100">
-                                            
                                             <select name="cidade" id="cidade"
-                                            hx-get="load_petshop_cidade/"  
+                                            hx-get="load_petshop_cidade/?tipo_servico={{ tipo_servico_selecionado }}"  
                                             hx-params="cidade, tipo_servico"                            
                                             hx-target="#petshop_cidade"
-                                            hx-trigger="click"
-                                            >
-                                            
+                                            hx-trigger="click"> 
                                             </select>
                                         </div>    
                                             
                                     </div>
                                     <div class="scrollable-list">
                                         <h2>Pet shop</h2>
-                                        <div id="petshop_cidade"></div>                          
-                                        
-                                            
-                                        
+                                        <div id="petshop_cidade"></div>                              
                                     </div>
                                     
                                 </div>
                             </div>
-                                
-                        
+                                                      
                             <!-- ESCOLHER DATA -->
                             <div class="form-step form-step-4 d-none">
                                 <div class="row g-3">
@@ -129,6 +120,7 @@
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-secondary" id="back-btn">Voltar</button>
                                 <button type="button" class="btn btn-primary" id="next-btn">Próxima Etapa</button>
+                                <button type="submit" class="btn btn-primary d-none" id="finish-btn">Finalizar</button>
                             </div>
                         </form>
                         
@@ -150,6 +142,7 @@
             const formSteps = document.querySelectorAll('.form-step');
             const nextBtn = document.getElementById('next-btn');
             const backBtn = document.getElementById('back-btn');
+            const finishBtn = document.getElementById('finish-btn');
 
             let currentStep = 0;
 
@@ -163,6 +156,10 @@
                 });
                 backBtn.classList.toggle('d-none', currentStep === 0);
                 nextBtn.textContent = currentStep === stepMenus.length - 1 ? 'Finalizar' : 'Próxima Etapa';
+                if (currentStep === stepMenus.length - 1) {
+                    finishBtn.setAttribute("class", "btn btn-primary active");
+                    nextBtn.setAttribute("class", "btn btn-primary d-none");
+                }
             }
 
             nextBtn.addEventListener('click', function () {

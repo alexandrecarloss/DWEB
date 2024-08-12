@@ -1,20 +1,12 @@
-<option value=""></option>
+<option value="">Selecione uma cidade</option>
 <div hx-get="load_petshop_cidade/"  
-hx-params="cidade, tipo_servico"                            
+hx-params="tipo_servico"                            
 hx-target="#petshop_cidade"
+hx-trigger="load"
 ></div>
 
 {% for cidade in cidades_tpservico %}
 <option value="{{ cidade }}">{{ cidade }}</option>
 {% endfor %}
 
-<!-- <select name="cidade"
-hx-get="load_petshop_cidade/?tipo_servico={{tipo_servico}}"                             
-hx-target="#petshop_cidade">
-    <option value=""></option> 
-    {% for cidade in cidades_tpservico %}
-    <option value="{{ cidade }}">{{ cidade }}</option>
-    {% endfor %}          
-</select>
-{{tipo_servico}}Servico -->
 

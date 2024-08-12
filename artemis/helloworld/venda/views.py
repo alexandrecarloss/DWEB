@@ -39,6 +39,20 @@ def load_produtos_categoria(request):
     return render(request, "load_produtos_categoria.html", {"produtos": produtos})
 
 def servicos(request):
+    # current_site = get_current_site(request)
+    # mail_subject = "Notificação de compra"
+    # message = f'Acesse o site pelo link http://{current_site.domain}/accounts/usuario/'
+    # #Envio do e-mail   
+    # try:
+    #     to_email = 'karurosualexandresouza1234@gmail.com'
+    #     email = EmailMessage(
+    #         mail_subject, message, to=[to_email], from_email="projeto.artemis@outlook.com"
+    #     )
+    #     email.send()
+    #     print(email)
+    # except Exception as  erro:
+    #     print('Excessão: ', erro)
+    #     messages.error(request, 'Ocorreu um erro ao enviar e-mail')
     servicos = Servico.objects.all()
     return render(request, 'servicos.html', {'servicos': servicos})
 # Create your views here.
@@ -430,13 +444,15 @@ def cancelar_solicitacao(request, solid):
         cursor.close()
     return redirect(servicos)
 
+tipo_servico_selecionado = 0
 def select_cidades_tpservico(request):
-    tipo_servico = request.GET.get('tipo_servico')
+    tipo_servico_selecionado = request.GET.get('tipo_servico')
+    request.session['tipo_servico_selecionado'] = tipo_servico_selecionado
     cursor = connection.cursor()
     cidades_tpservico = []
     try:
         cursor.execute('call sp_cidade_tpservico (%(tipo_servico)s)', {
-                'tipo_servico': tipo_servico
+                'tipo_servico': tipo_servico_selecionado
             })
         results = cursor.fetchall()
         for c in results:
@@ -445,20 +461,45 @@ def select_cidades_tpservico(request):
         print(erro)
     finally:
         cursor.close()
-    return render(request, 'cidades_tpservico.html', {'cidades_tpservico': cidades_tpservico})
+    return render(request, 'cidades_tpservico.html', {'cidades_tpservico': cidades_tpservico, 'tipo_servico_selecionado': tipo_servico_selecionado})
     
 
 def solicitar_servico_junto(request):
     pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
     pets = Pet.objects.filter(pessoa_pesid = pessoa.pesid)
     tipos_servico = Tiposervico.objects.all()
-    return render(request, 'servicos_pag2.html', {'pets': pets, 'tipos_servico': tipos_servico})
+    return render(request, 'servicos_pag2.html', {'pets': pets, 'tipos_servico': tipos_servico, 'tipo_servico_selecionado': tipo_servico_selecionado})
 
 def load_petshop_cidade(request):
     cidade = request.GET.get('cidade')
-    tipo_servico = request.GET.get('tipo_servico')
-    print(cidade, tipo_servico)
-    servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico)
+    tipo_servico_selecionado = int(request.session['tipo_servico_selecionado'])
+    print('cedade, tps selecionada', cidade, tipo_servico_selecionado)
+    servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado)
     if cidade:
-        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico, petshop_ptsid__ptscidade__icontains = cidade)
-    return render(request, 'load_petshop_cidade.html', {'servicos': servicos, 'tipo_servico': tipo_servico})
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico_selecionado, petshop_ptsid__ptscidade__icontains = cidade)
+    return render(request, 'load_petshop_cidade.html', {'servicos': servicos, 'tipo_servico_selecionado': tipo_servico_selecionado})
+
+def solicita_servico_junto(request):
+    servico_selecionado = Servico.objects.filter(serid = request.POST.get('servico')).first()
+    pet_selecionado = Pet.objects.filter(petid = request.POST.get('pet')).first()
+    cursor = connection.cursor()
+    data = request.POST.get('date')
+    hora = request.POST.get('time')
+    datetime = f'{data} {hora}'
+    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+    try:
+        cursor.execute('call sp_insere_solicita (%(pessoa)s, %(servico)s, %(agendamento)s, %(pet)s)', 
+            {
+                'pessoa': pessoa.pesid, 
+                'servico': servico_selecionado.serid, 
+                'agendamento': datetime, 
+                'pet': pet_selecionado.petid, 
+            })
+        messages.success(request, 'Solicitado com sucesso junto!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao solicitar serviço!')
+        return redirect(servicos)
+    finally:
+        cursor.close()
+    return redirect(usuario)
