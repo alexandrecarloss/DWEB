@@ -1,0 +1,15 @@
+<ul class="list-group" id="servico_options" id="petshop_cidade">
+{% for servico in servicos %}
+    <li class="d-flex align-items-center border-bottom">
+        <input type="radio" name="servico" id="servico{{ servico.serid }}" value="{{ servico.serid }}" class="form-check-input me-2" required>
+        <label for="servico{{ servico.serid }}" class="d-flex w-100">
+            <div>
+                {{ servico.petshop_ptsid.ptsnome }} <br>                                                 <strong>{{ servico.serdescricao }}</strong><br>
+                Local: Rua {{ servico.petshop_ptsid.ptsrua }}, {{ servico.petshop_ptsid.ptsnumero }}. {{ servico.petshop_ptsid.ptscidade }}/{{ servico.petshop_ptsid.ptsestado }}
+                <br>
+                R$ {{ servico.servalor }}
+            </div>
+        </label>
+    </li>
+{% endfor %}
+</ul>

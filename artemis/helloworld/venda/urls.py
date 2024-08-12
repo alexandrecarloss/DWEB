@@ -32,4 +32,7 @@ urlpatterns = [
     path('solicita_servico/<int:petid>/<int:serid>/', views.solicita_servico, name='solicita_servico'),
     path('form_altera_servico/<int:serid>/', views.form_altera_servico, name='form_altera_servico'),
     path('cancelar_solicitacao/<int:solid>/', views.cancelar_solicitacao, name='cancelar_solicitacao'),
+    path('solicitar_servico_junto', views.solicitar_servico_junto, name='solicitar_servico_junto'),
+    path('select_cidades_tpservico/', views.select_cidades_tpservico, name="select_cidades_tpservico"),
+    path('load_petshop_cidade/', views.load_petshop_cidade, name='load_petshop_cidade'),
 ]

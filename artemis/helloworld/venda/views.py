@@ -134,8 +134,7 @@ def alteraservico(request, serid):
             })
         messages.success(request, 'Serviço alterado com sucesso!')
     except Exception as erro:
-        print(erro.__cause__)
-        print(erro.args)
+        print(erro)
         messages.error(request, 'Erro ao alterar serviço!')
         return redirect(petshop)
     finally:
@@ -420,11 +419,46 @@ def form_altera_servico(request, serid):
 def cancelar_solicitacao(request, solid):
     cursor = connection.cursor()
     try:
-        cursor.execute('call sp_exclui_solicita (%(cod)s', {
+        cursor.execute('call sp_exclui_solicita (%(cod)s)', {
                 'cod': solid
             })
         messages.success(request, 'Solicitação removido com sucesso!')
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao remover solicitação!')
+    finally:
+        cursor.close()
     return redirect(servicos)
+
+def select_cidades_tpservico(request):
+    tipo_servico = request.GET.get('tipo_servico')
+    cursor = connection.cursor()
+    cidades_tpservico = []
+    try:
+        cursor.execute('call sp_cidade_tpservico (%(tipo_servico)s)', {
+                'tipo_servico': tipo_servico
+            })
+        results = cursor.fetchall()
+        for c in results:
+            cidades_tpservico.append(c[0])
+    except Exception as erro:
+        print(erro)
+    finally:
+        cursor.close()
+    return render(request, 'cidades_tpservico.html', {'cidades_tpservico': cidades_tpservico})
+    
+
+def solicitar_servico_junto(request):
+    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+    pets = Pet.objects.filter(pessoa_pesid = pessoa.pesid)
+    tipos_servico = Tiposervico.objects.all()
+    return render(request, 'servicos_pag2.html', {'pets': pets, 'tipos_servico': tipos_servico})
+
+def load_petshop_cidade(request):
+    cidade = request.GET.get('cidade')
+    tipo_servico = request.GET.get('tipo_servico')
+    print(cidade, tipo_servico)
+    servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico)
+    if cidade:
+        servicos = Servico.objects.filter(tiposervico_tpsid = tipo_servico, petshop_ptsid__ptscidade__icontains = cidade)
+    return render(request, 'load_petshop_cidade.html', {'servicos': servicos, 'tipo_servico': tipo_servico})
