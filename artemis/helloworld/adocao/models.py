@@ -72,42 +72,7 @@ class AuthUserUserPermissions(models.Model):
         managed = False
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
-
-
-class Avaliacao(models.Model):
-    produto_proid = models.ForeignKey('Produto', models.DO_NOTHING, db_column='produto_proid', blank=True, null=True, related_name='avaliacoes')
-    servico_serid = models.ForeignKey('Servico', models.DO_NOTHING, db_column='servico_serid', blank=True, null=True, related_name='avaliacoes')
-    avadescricao = models.CharField(max_length=100, blank=True, null=True)
-    avavalor = models.IntegerField()
-    pessoa_pesid = models.ForeignKey('Pessoa', models.DO_NOTHING, db_column='pessoa_pesid', related_name='avaliacoes')
-    avacod = models.AutoField(primary_key=True)
-    avadthora = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'avaliacao'
-        ordering = ['avacod']
-
-    def __str__(self):
-        return f'{self.pessoa_pesid.pesnome} nota {self.avavalor}'
      
-
-
-class Carrinho(models.Model):
-    carid = models.AutoField(primary_key=True)
-    carpro = models.ForeignKey('Produto', models.DO_NOTHING, db_column='carpro', blank=True, null=True, related_name='carrinhos')
-    carpes = models.ForeignKey('Pessoa', models.DO_NOTHING, db_column='carpes', related_name='carrinhos')
-    carser = models.ForeignKey('Servico', models.DO_NOTHING, db_column='carser', blank=True, null=True, related_name='carrinhos')
-    carquant = models.IntegerField()
-    carpreco = models.FloatField()
-
-    class Meta:
-        managed = False
-        db_table = 'carrinho'
-        ordering = ['carid']
-
-    def __str__(self):
-        return self.carid
 
 class CategoriaProduto(models.Model):
     ctpid = models.AutoField(primary_key=True)
@@ -191,17 +156,6 @@ class Login(models.Model):
         ordering = ['logemail']
 
 
-class Notafiscal(models.Model):
-    petshop_ptsid = models.ForeignKey('Petshop', models.DO_NOTHING, db_column='petshop_ptsid', related_name='notasfiscais')
-    venda_venid = models.ForeignKey('Venda', models.DO_NOTHING, db_column='venda_venid', related_name='notasfiscais')
-    ntfcod = models.AutoField(primary_key=True)
-
-    class Meta:
-        managed = False
-        db_table = 'notafiscal'
-        ordering = ['ntfcod']
-
-
 class Ong(models.Model):
     ongid = models.AutoField(primary_key=True)
     ongnome = models.CharField(max_length=65)
@@ -245,6 +199,46 @@ class Pessoa(models.Model):
         return self.pesnome
 
 
+class PetPorte(models.Model):
+    ptpid = models.AutoField(primary_key=True)
+    ptpnome = models.CharField(max_length=65)
+    ptpdescricao = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'pet_porte'
+        ordering = ['ptpid']
+
+    def __str__(self):
+        return self.ptpnome
+
+
+class PetTipo(models.Model):
+    pttid = models.AutoField(primary_key=True)
+    pttnome = models.CharField(max_length=60)
+
+    class Meta:
+        managed = False
+        db_table = 'pet_tipo'
+        ordering = ['pttid']
+
+    def __str__(self):
+        return self.pttnome
+    
+
+class PetRaca(models.Model):
+    ptrid = models.AutoField(primary_key=True)
+    ptrnome = models.CharField(max_length=65, blank=True, null=True)
+    pet_tipo_pttid = models.ForeignKey(PetTipo, models.DO_NOTHING, db_column='pet_tipo_pttid', related_name='petracas')
+
+    class Meta:
+        managed = False
+        db_table = 'pet_raca'
+        ordering = ['ptrid']
+
+    def __str__(self):
+        return self.ptrnome
+
 class Pet(models.Model):
     petid = models.AutoField(primary_key=True)
     petnome = models.CharField(max_length=65)
@@ -253,9 +247,9 @@ class Pet(models.Model):
     petdtnascto = models.DateField()
     petpeso = models.FloatField()
     pessoa_pesid = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='pessoa_pesid', blank=True, null=True, related_name='pets')
-    pet_porte_ptpid = models.ForeignKey('PetPorte', models.DO_NOTHING, db_column='pet_porte_ptpid', related_name='pets')
-    pet_raca_ptrid = models.ForeignKey('PetRaca', models.DO_NOTHING, db_column='pet_raca_ptrid', related_name='pets')
-    pet_tipo_pttid = models.ForeignKey('PetTipo', models.DO_NOTHING, db_column='pet_tipo_pttid', related_name='pets')
+    pet_porte_ptpid = models.ForeignKey(PetPorte, models.DO_NOTHING, db_column='pet_porte_ptpid', related_name='pets')
+    pet_raca_ptrid = models.ForeignKey(PetRaca, models.DO_NOTHING, db_column='pet_raca_ptrid', related_name='pets')
+    pet_tipo_pttid = models.ForeignKey(PetTipo, models.DO_NOTHING, db_column='pet_tipo_pttid', related_name='pets')
 
     class Meta:
         managed = False
@@ -296,48 +290,6 @@ class PetFoto(models.Model):
 
     def __str__(self):
         return self.pftfoto.name
-
-
-class PetPorte(models.Model):
-    ptpid = models.AutoField(primary_key=True)
-    ptpnome = models.CharField(max_length=65)
-    ptpdescricao = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'pet_porte'
-        ordering = ['ptpid']
-
-    def __str__(self):
-        return self.ptpnome
-
-
-class PetRaca(models.Model):
-    ptrid = models.AutoField(primary_key=True)
-    ptrnome = models.CharField(max_length=65, blank=True, null=True)
-    pet_tipo_pttid = models.ForeignKey('PetTipo', models.DO_NOTHING, db_column='pet_tipo_pttid', related_name='petracas')
-
-    class Meta:
-        managed = False
-        db_table = 'pet_raca'
-        ordering = ['ptrid']
-
-    def __str__(self):
-        return self.ptrnome
-
-
-class PetTipo(models.Model):
-    pttid = models.AutoField(primary_key=True)
-    pttnome = models.CharField(max_length=60)
-
-    class Meta:
-        managed = False
-        db_table = 'pet_tipo'
-        ordering = ['pttid']
-
-    def __str__(self):
-        return self.pttnome
-
 
 class Petshop(models.Model):
     ptsid = models.AutoField(primary_key=True)
@@ -424,6 +376,39 @@ class Servico(models.Model):
         return self.serdescricao
 
 
+class Avaliacao(models.Model):
+    produto_proid = models.ForeignKey(Produto, models.DO_NOTHING, db_column='produto_proid', blank=True, null=True, related_name='avaliacoes')
+    servico_serid = models.ForeignKey(Servico, models.DO_NOTHING, db_column='servico_serid', blank=True, null=True, related_name='avaliacoes')
+    avadescricao = models.CharField(max_length=100, blank=True, null=True)
+    avavalor = models.IntegerField()
+    pessoa_pesid = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='pessoa_pesid', related_name='avaliacoes')
+    avacod = models.AutoField(primary_key=True)
+    avadthora = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'avaliacao'
+        ordering = ['avacod']
+
+    def __str__(self):
+        return f'{self.pessoa_pesid.pesnome} nota {self.avavalor}'
+    
+class Carrinho(models.Model):
+    carid = models.AutoField(primary_key=True)
+    carpro = models.ForeignKey(Produto, models.DO_NOTHING, db_column='carpro', blank=True, null=True, related_name='carrinhos')
+    carpes = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='carpes', related_name='carrinhos')
+    carser = models.ForeignKey(Servico, models.DO_NOTHING, db_column='carser', blank=True, null=True, related_name='carrinhos')
+    carquant = models.IntegerField()
+    carpreco = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = 'carrinho'
+        ordering = ['carid']
+
+    def __str__(self):
+        return self.carid
+    
 class ServicoFoto(models.Model):
     serftid = models.AutoField(primary_key=True)
     serftvalor = models.ImageField(upload_to='venda/images/servico', max_length=100)
@@ -484,3 +469,13 @@ class Venda(models.Model):
         managed = False
         db_table = 'venda'
         ordering = ['venid']
+
+class Notafiscal(models.Model):
+    petshop_ptsid = models.ForeignKey(Petshop, models.DO_NOTHING, db_column='petshop_ptsid', related_name='notasfiscais')
+    venda_venid = models.ForeignKey(Venda, models.DO_NOTHING, db_column='venda_venid', related_name='notasfiscais')
+    ntfcod = models.AutoField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'notafiscal'
+        ordering = ['ntfcod']
