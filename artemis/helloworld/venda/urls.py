@@ -36,4 +36,5 @@ urlpatterns = [
     path('select_cidades_tpservico/', views.select_cidades_tpservico, name="select_cidades_tpservico"),
     path('load_petshop_cidade/', views.load_petshop_cidade, name='load_petshop_cidade'),
     path('solicita_servico_junto', views.solicita_servico_junto, name='solicita_servico_junto'),
+    path('usuario_produto_detalhe/<int:proid>/', views.usuario_produto_detalhe, name="usuario_produto_detalhe"),
 ]

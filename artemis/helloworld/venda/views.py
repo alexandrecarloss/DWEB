@@ -181,6 +181,10 @@ def adicionar_produto(request):
     
 @login_required(login_url="/accounts/login")
 def produto_detalhe(request, proid):
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
     if str(request.user.groups.first()) == 'Pessoa':
         pessoa = Pessoa.objects.filter(pesemail = str(request.user.email)).first()
         produto = Produto.objects.filter(proid = proid).first()
@@ -343,9 +347,19 @@ def alteraproduto(request, proid):
         cursor.close()
     return redirect(produtos)
 
+    
+@login_required(login_url="/accounts/login")
 def agendar_servico_pet(request):
-    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
-    pets = Pet.objects.filter(pessoa_pesid = pessoa.pesid)
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
+    if str(request.user.groups.first()) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        pets = Pet.objects.filter(pessoa_pesid = pessoa.pesid)
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
     return render(request, 'agendar_servico_pet.html', {'pets': pets})
 
 def agendar_servico_servico(request):
@@ -444,6 +458,7 @@ def cancelar_solicitacao(request, solid):
         cursor.close()
     return redirect(servicos)
 
+####################################  Solicitação por página única não ficou muito bom ###################
 tipo_servico_selecionado = 0
 def select_cidades_tpservico(request):
     tipo_servico_selecionado = request.GET.get('tipo_servico')
@@ -503,3 +518,17 @@ def solicita_servico_junto(request):
     finally:
         cursor.close()
     return redirect(usuario)
+
+##################### Fim solicita junto
+
+@login_required(login_url="/accounts/login")
+def usuario_produto_detalhe(request, proid):
+    if str(request.user.groups.first()) == 'Pessoa':
+        petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
+        produto = Produto.objects.filter(proid = proid).first()
+        fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
+        return render(request, 'petshop_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto})
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+
