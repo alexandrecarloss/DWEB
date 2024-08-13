@@ -542,12 +542,13 @@ def insere_avaliacao_produto(request, proid):
         pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
         
         try:
-            cursor.execute('call sp_insere_avaliacao (%(produto_proid)s, %(avadescricao)s, %(avavalor)s, %(pessoa_pesid)s)', 
+            cursor.execute('call sp_insere_avaliacao (%(produto)s, %(servico)s, %(descricao)s, %(valor)s, %(pessoa)s)', 
                 {
-                    'produto_proid': proid, 
-                    'avadescricao': avadescricao, 
-                    'avavalor': avavalor, 
-                    'pessoa_pesid': pessoa.pesid 
+                    'produto': proid, 
+                    'servico': None,
+                    'descricao': avadescricao, 
+                    'valor': avavalor, 
+                    'pessoa': pessoa.pesid 
                 })
             messages.success(request, 'Avaliado com sucesso!')
         except Exception as erro:
@@ -570,12 +571,13 @@ def insere_avaliacao_servico(request, serid):
         pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
         
         try:
-            cursor.execute('call sp_insere_avaliacao (%(servico_serid)s, %(avadescricao)s, %(avavalor)s, %(pessoa_pesid)s)', 
+            cursor.execute('call sp_insere_avaliacao (%(produto)s, %(servico)s, %(descricao)s, %(valor)s, %(pessoa)s)', 
                 {
-                    'servico_serid': serid, 
-                    'avadescricao': avadescricao, 
-                    'avavalor': avavalor, 
-                    'pessoa_pesid': pessoa.pesid 
+                    'produto': None, 
+                    'servico': serid,
+                    'descricao': avadescricao, 
+                    'valor': avavalor, 
+                    'pessoa': pessoa.pesid 
                 })
             messages.success(request, 'Avaliado com sucesso!')
         except Exception as erro:

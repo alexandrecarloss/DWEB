@@ -65,28 +65,12 @@
                         </div>
                         <h5 class="fw-bold mb-3">R$ {{ produto.propreco }}</h5>
                         <p class="mb-4">Descrição: {{ produto.categoria_produto_ctpid.ctpdescricao }}</p>
-                        <form action="{% url 'inserir_produto_carrinho' produto.proid %}" method="POST">
-                            {% csrf_token %}
                             <div class="input-group quantity mb-5">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border" type="button">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="number"
-                                    class="form-control form-control-sm text-center border-0 quantity-input" value="1" name="carquant" min="1" max="{{ produto.prosaldo }}">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border" type="button">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
+                                <p>1</p>
                                 </div>
                             </div>
 
 
-                            <button type="submit" class="btn primaria btn-block mt-4">
-                                <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                                Adicionar ao carrinho
-                            </button>
                     </div>
                     <div class="col-lg-12">
                         <nav>
@@ -180,7 +164,8 @@
                             </div>
                         </div>
                     </div>
-                    <form action="#">
+                    <form action="{% url 'insere_avaliacao_produto' produto.proid %}" method="post">
+                        {% csrf_token %}
                         <h4 class="mb-5 fw-bold">Deixe um comentário</h4>
                         <div class="row g-4">
                             <div class="col-lg-12">
@@ -189,6 +174,8 @@
                                         placeholder="Seu comentário *" spellcheck="false"></textarea>
                                 </div>
                             </div>
+                            <input type="number" name="avavalor" id="avavalor" min="1" max="5">
+                            <button type="submit">Enviar avaliação</button>
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-between py-3 mb-5">
                                     <div class="d-flex align-items-center">
