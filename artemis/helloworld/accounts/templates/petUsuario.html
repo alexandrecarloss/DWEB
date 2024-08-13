@@ -305,7 +305,7 @@
                             <li  hx-get="../../venda/fotoproduto/{{ venda.venpro.proid }}/2"
                             hx-target="#fotoproduto{{ venda.venid }}"
                             hx-trigger="load">
-                                <h6>Compra #{{ venda.venid }} - {{ venda.vendthora.date }} às {{ venda.vendthora.time }}</h6>
+                                <h6>Compra #{{ venda.venid }}</h6>
                                 <ul class="list-group list-group-flush">
                                     <a href="{% url 'usuario_produto_detalhe' venda.venpro.proid %}">
                                     <li >
@@ -324,6 +324,10 @@
                                                     <div class="col-md-4">
                                                         <p>Total: R$ {{ venda.venvalor }}</p>
                                                     </div>
+                                                    <div class="col-md-4">
+                                                        <p>Forma de pagamento: {{ venda.venformapagamento_fpgid.fpgdescricao }}</p>
+                                                    </div>
+                                                    <span class="text-muted">Feita em:{{ venda.vendthora.date }} às {{ venda.vendthora.time }}</span>
                                                 </div>
                                             </div>
                                         </div>

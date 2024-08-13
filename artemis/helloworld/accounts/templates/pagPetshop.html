@@ -161,6 +161,45 @@
                 <div class="card conteudo" id="notificacoes">
                     <div class="card-body">
                         <h5 class="card-title mb-4">Notificações</h5>
+                        <ul class="list-group">
+                            {% for venda in vendas %}
+                            <li  hx-get="../../venda/fotoproduto/{{ venda.venpro.proid }}/2"
+                            hx-target="#fotoproduto{{ venda.venid }}"
+                            hx-trigger="load">
+                                <h6>Venda #{{ venda.venid }}</h6>
+                                <ul class="list-group list-group-flush">
+                                    <a href="{% url 'petshop_produto_detalhe' venda.venpro.proid %}">
+                                    <li >
+                                        <div class="row">
+                                            <div class="d-flex align-items-center" id="fotoproduto{{ venda.venid }}">
+                                                
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <h6>{{ venda.venpro.pronome }}</h6>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <p>Quantidade: {{ venda.venqtd }}</p>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <p>Pessoa: {{ venda.venpessoa_pesid.pesnome }}</p>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <p>Forma de pagamento: {{ venda.venformapagamento_fpgid.fpgdescricao }}</p>
+                                                    </div>
+                                                    <span class="text-muted">Recebida em:{{ venda.vendthora.date }} às {{ venda.vendthora.time }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </a>
+                                </ul>
+                                <hr>
+                            </li>
+                            {% endfor %}
+                        </ul>
                         <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
                             <!-- Notificação 1 -->
                             <li class="list-group-item border-bottom">

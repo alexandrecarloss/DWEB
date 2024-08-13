@@ -495,7 +495,8 @@ def petshop(request):
     produtos = Produto.objects.filter(propetshop_ptsid = petshop.ptsid)
     servicos = Servico.objects.filter(petshop_ptsid = petshop.ptsid)
     solicitacoes = Solicita.objects.filter(servico_serid__petshop_ptsid = petshop.ptsid)
-    return render(request, 'pagPetshop.html', {'produtos': produtos, 'petshop': petshop, 'servicos': servicos, 'solicitacoes': solicitacoes})
+    vendas = Venda.objects.filter(venpro__propetshop_ptsid__ptsid = petshop.ptsid).order_by('-vendthora')
+    return render(request, 'pagPetshop.html', {'produtos': produtos, 'petshop': petshop, 'servicos': servicos, 'solicitacoes': solicitacoes, 'vendas': vendas})
 
 def atualizar_petshop(request):
     if str(request.user.groups.first()) == 'Pet shop':
