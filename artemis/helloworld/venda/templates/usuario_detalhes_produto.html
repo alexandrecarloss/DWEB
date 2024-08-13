@@ -32,7 +32,13 @@
                         <p class="mb-3">Categoria: {{ produto.categoria_produto_ctpid }}</p>
                         <div class="d-flex mb-4">
                             <p>Média das avaliações:</p>
-                        {% if media_avaliacoes == 1 %}
+                        {% if media_avaliacoes == 0 %}
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                        {% elif media_avaliacoes == 1 %}
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star text-secondary"></i>
                             <i class="fa fa-star text-secondary"></i>
@@ -94,7 +100,13 @@
                                         <div class="d-flex justify-content-between">
                                             <h5>{{ avaliacao.pessoa_pesid.pesnome }}</h5>
                                             <div class="d-flex mb-3">
-                                                {% if avaliacao.avavalor == 1 %}
+                                                {% if avaliacao.avavalor == 0 %}
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                {% elif avaliacao.avavalor == 1 %}
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star text-secondary"></i>
                                                     <i class="fa fa-star text-secondary"></i>
@@ -147,30 +159,27 @@
                         <div class="row g-4">
                             <div class="col-lg-12">
                                 <div class="border-bottom rounded my-4">
-                                    <textarea name="avadescricao" id="avadescricao" class="form-control border-0" cols="30" rows="8"
-                                        placeholder="Seu comentário *" spellcheck="false"></textarea>
+                                    <textarea name="avadescricao" id="avadescricao" class="form-control border-0" cols="30" rows="8" placeholder="Seu comentário *" spellcheck="false"></textarea>
                                 </div>
                             </div>
-                            <input type="number" name="avavalor" id="avavalor" min="1" max="5">
-                            <button type="submit">Enviar avaliação</button>
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-between py-3 mb-5">
                                     <div class="d-flex align-items-center">
                                         <p class="mb-0 me-3">Por favor, avalie:</p>
-                                        <div class="d-flex align-items-center" style="font-size: 12px;">
-                                            <i class="fa fa-star text-muted"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                        <div class="rating d-flex align-items-center" style="font-size: 24px;">
+                                            <i class="fa fa-star star" data-value="1"></i>
+                                            <i class="fa fa-star star" data-value="2"></i>
+                                            <i class="fa fa-star star" data-value="3"></i>
+                                            <i class="fa fa-star star" data-value="4"></i>
+                                            <i class="fa fa-star star" data-value="5"></i>
                                         </div>
+                                        <input type="hidden" id="ratingValue" name="avavalor" value="0" required>
                                     </div>
-                                    <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3">
-                                        Post Comment</a>
+                                    <button type="submit" class="btn border border-secondary text-primary rounded-pill px-4 py-3">Enviar</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form>  
                 </div>
             </div>
             <div class="col-lg-4 col-xl-3">

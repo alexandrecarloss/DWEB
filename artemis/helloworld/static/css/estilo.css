@@ -490,3 +490,15 @@ body {
     max-height: 300px; /* Ajuste a altura conforme necessário */
     overflow-y: auto;
 }
+
+
+/* CSS para as estrelas */
+.rating .star {
+    color: #ddd; /* Cor padrão das estrelas */
+    cursor: pointer;
+}
+
+.rating .star.selected,
+.rating .star:hover {
+    color: #f5c518; /* Cor das estrelas selecionadas */
+}

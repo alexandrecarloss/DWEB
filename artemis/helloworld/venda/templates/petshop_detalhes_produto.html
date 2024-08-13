@@ -32,7 +32,13 @@
                         <p class="mb-3">Categoria: {{ produto.categoria_produto_ctpid }}</p>
                         <p class="mb-4">Estoque: {{ produto.prosaldo }}</p>
                         <div class="d-flex mb-4">
-                        {% if media_avaliacoes == 1 %}
+                        {% if media_avaliacoes == 0 %}
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                        {% elif media_avaliacoes == 1 %}
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star text-secondary"></i>
                             <i class="fa fa-star text-secondary"></i>
@@ -109,6 +115,12 @@
                                         <div class="d-flex justify-content-between">
                                             <h5>{{ avaliacao.pessoa_pesid.pesnome }}</h5>
                                             <div class="d-flex mb-3">
+                                                {% if avaliacao.avavalor == 0 %}
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
                                                 {% if avaliacao.avavalor == 1 %}
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star text-secondary"></i>

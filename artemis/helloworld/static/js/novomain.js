@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Função para confirmar a ordem após o modal
+    
     window.confirmOrder = function() {
         document.getElementById('orderForm').submit();
     };
@@ -267,4 +267,39 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     };
+
+
+
+
+    // Código para as estrelas de avaliação
+    const stars = document.querySelectorAll('.rating .star');
+    const ratingValueInput = document.getElementById('ratingValue');
+
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            ratingValueInput.value = value;
+            updateStars(value);
+        });
+
+        star.addEventListener('mouseover', function() {
+            const value = this.getAttribute('data-value');
+            updateStars(value);
+        });
+
+        star.addEventListener('mouseout', function() {
+            const selectedValue = ratingValueInput.value;
+            updateStars(selectedValue);
+        });
+    });
+
+    function updateStars(value) {
+        stars.forEach(star => {
+            if (star.getAttribute('data-value') <= value) {
+                star.classList.add('selected');
+            } else {
+                star.classList.remove('selected');
+            }
+        });
+    }
 });

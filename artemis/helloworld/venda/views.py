@@ -547,7 +547,7 @@ def insere_avaliacao_produto(request, proid):
         avadescricao = request.POST.get('avadescricao')
         avavalor = request.POST.get('avavalor')
         pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
-        
+        print(avavalor)
         try:
             cursor.execute('call sp_insere_avaliacao (%(produto)s, %(servico)s, %(descricao)s, %(valor)s, %(pessoa)s)', 
                 {
