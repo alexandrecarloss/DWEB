@@ -196,6 +196,12 @@ def removerpet(request, petid):
     return redirect(adocao)
 
 def inicia_adocao(request, pesid, adoid):
+    petadocao = PetAdocao.objects.filter(adoid = adoid).first()
+    pessoa =  Pessoa.objects.filter(pesemail = request.user.email).first()
+    tentativa_feita = TentativaAdota.objects.filter(ttapes = pessoa.pesid, tta_petadocao__pet_petid__petid = petadocao.pet_petid.petid).first()
+    if tentativa_feita:
+        messages.error(request, 'Você já realizou uma solicitação para este pet!')
+        return redirect(adocao)
     cursor = connection.cursor()
     try:
         cursor.execute('call sp_inicia_adocao (%(pessoa)s, %(adocao)s)', 
