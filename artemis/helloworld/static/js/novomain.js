@@ -206,49 +206,65 @@ function uncheckOthers(selectedId) {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Função para exibir o modal de confirmação
-    function showConfirmModal() {
-        // Verifica se o pagamento foi selecionado
+    window.showConfirmModal = function() {
         const isPaymentMethodSelected = document.querySelector('input[name="PaymentMethod"]:checked');
-        // Verifica se o endereço foi preenchido se a opção for marcada
         const isAddressFormVisible = document.getElementById('address-form').style.display === 'block';
         let isAddressValid = true;
-        let isCardInfoValid = true;
+        let errorMessage = '';
 
+        // Verifica se o método de pagamento foi selecionado
+        if (!isPaymentMethodSelected) {
+            errorMessage += 'Por favor, selecione um método de pagamento.<br>';
+        }
+
+        // Se o formulário de endereço está visível, valida os campos
         if (isAddressFormVisible) {
-            const addressFields = document.querySelectorAll('#address-form input[required]');
-            addressFields.forEach(field => {
-                if (field.value.trim() === '') {
+            const requiredFields = document.querySelectorAll('#address-form input[required]');
+            requiredFields.forEach(field => {
+                if (!field.value) {
                     isAddressValid = false;
                 }
             });
+            if (!isAddressValid) {
+                errorMessage += 'Por favor, preencha todos os campos do endereço.<br>';
+            }
         }
 
-        // Verifica se os campos do cartão estão preenchidos se a seção de cartão estiver visível
-        const isCardInfoVisible = document.getElementById('card-info').style.display === 'block';
-        if (isCardInfoVisible) {
-            const cardFields = document.querySelectorAll('#card-info input[required]');
-            cardFields.forEach(field => {
-                if (field.value.trim() === '') {
-                    isCardInfoValid = false;
-                }
-            });
-        }
-
-        if (!isPaymentMethodSelected) {
-            document.getElementById('error-message').innerText = 'Selecione um método de pagamento.';
-            document.getElementById('error-message').style.display = 'block';
-        } else if (!isAddressValid) {
-            document.getElementById('error-message').innerText = 'Preencha todos os campos do endereço.';
-            document.getElementById('error-message').style.display = 'block';
-        } else if (!isCardInfoValid) {
-            document.getElementById('error-message').innerText = 'Preencha todos os campos do cartão.';
-            document.getElementById('error-message').style.display = 'block';
+        if (errorMessage) {
+            const errorContainer = document.getElementById('error-message');
+            errorContainer.innerHTML = errorMessage;
+            errorContainer.style.display = 'block';
         } else {
-            // Se todos os campos estiverem preenchidos corretamente, mostra o modal de confirmação
-            $('#confirmModal').modal('show');
+            const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            confirmModal.show();
         }
-    }
+    };
 
-    // Adiciona o evento de clique ao botão "Confirmar"
-    document.getElementById('confirm-btn').addEventListener('click', showConfirmModal);
+    // Função para confirmar a ordem após o modal
+    window.confirmOrder = function() {
+        document.getElementById('orderForm').submit();
+    };
+    
+    window.hideConfirmModal = function() {
+        const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+        confirmModal.hide();
+    };
+
+    window.toggleAddressForm = function() {
+        const addressForm = document.getElementById('address-form');
+        if (addressForm.style.display === 'none') {
+            addressForm.style.display = 'block';
+        } else {
+            addressForm.style.display = 'none';
+        }
+    };
+    
+    window.uncheckOthers = function(checkboxId) {
+        const checkboxes = document.querySelectorAll('input[name="PaymentMethod"]');
+        checkboxes.forEach(checkbox => {
+            if (checkbox.id !== checkboxId) {
+                checkbox.checked = false;
+            }
+        });
+    };
 });

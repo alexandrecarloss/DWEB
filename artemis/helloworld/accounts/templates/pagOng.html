@@ -273,7 +273,7 @@ hx-trigger="load"
                                 <p>E-mail da pessoa: {{ tentativa.ttapes.pesemail }}</p>
                                 <p>Ong: {{ tentativa.tta_petadocao.ong_ongid.ongnome }}</p>
                                 <p>Status: {{ tentativa.ttastatus }}</p>
-
+                                <span class="text-muted">Recebida em:{{ tentativa.ttadthora.date }} às {{ tentativa.ttadthora.time }}</span>
                                 {% if tentativa.ttastatus == "Requisitado" %}
                                 <form action="{% url 'altera_status_adocao_aceito' tentativa.ttaid %}" method="post">
                                     {% csrf_token %}
@@ -293,7 +293,6 @@ hx-trigger="load"
                                     <button type="submit" class="btn btn-danger" id="next-btn">Negar adoção</button>
                                 </form>
                                 {% endif %}
-                                <span class="text-muted">Recebida em: 01/01/2024</span>
                             </li>
                             {% endfor %}
                         </ul>

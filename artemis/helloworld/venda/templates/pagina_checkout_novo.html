@@ -1,187 +1,188 @@
 {% extends 'base.html' %}
 {% block titulo %}Checkout{% endblock %}
 {% block content %}
-    {% for message in messages %}
-        {% if message.tags == 'error' %}
-            <div class="alert alert-danger mt-3" role="alert">
-                {{message}}
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<div class="alert alert-danger mt-3" role="alert">
+    {{message}}
+</div>
+{% else %}
+<div class="alert alert-{{message.tags}}">
+    {{message}}
+</div>
+{% endif %}
+{% endfor %}
+<!-- Checkout Page Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Detalhes</h1>
+        <div class="row g-5">
+            <div class="col-md-12 col-lg-6 col-xl-7">
+                <div class="form-item">
+                    <label class="form-label my-3">Contato</label>
+                    <input type="tel" class="form-control" placeholder="NUMERO">
+                </div>
+                <div class="form-item">
+                    <label class="form-label my-3">Email</label>
+                    <input type="email" class="form-control" placeholder="EMAIL DA PESSOA">
+                </div>
+                <hr>
+                <div id="saved-address">
+                    <h4>Endereço salvo:</h4>
+                    <p>Rua {{ pessoa.pesrua }}, {{ pessoa.pesnumero }}, {{ pessoa.pescidade }}, {{ pessoa.pespais }}y
+                    </p>
+                </div>
+                <div class="form-check my-3">
+                    <input class="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address"
+                        onchange="toggleAddressForm()">
+                    <label class="form-check-label" for="Address-1">Escolher um endereço diferente?</label>
+                </div>
+                <div id="address-form" style="display: none;">
+                    <div class="form-item">
+                        <label class="form-label my-3">Rua<sup>*</sup></label>
+                        <input type="text" class="form-control" name="pesrua" placeholder="Nome da Rua" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Número<sup>*</sup></label>
+                        <input type="text" class="form-control" name="pesnumero" placeholder="Número da Casa" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Bairro<sup>*</sup></label>
+                        <input type="text" class="form-control" name="pesbairro" placeholder="Bairro" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Cidade<sup>*</sup></label>
+                        <input type="text" class="form-control" name="pescidade" placeholder="Cidade" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Estado<sup>*</sup></label>
+                        <input type="text" class="form-control" name="pesestado" placeholder="Estado" required>
+                    </div>
+                </div>
             </div>
-        {% else %}
-            <div class="alert alert-{{message.tags}}">
-                {{message}}
-            </div>
-        {% endif %}
-    {% endfor %}
-    <!-- Checkout Page Start -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <h1 class="mb-4">Detalhes</h1>
-                <div class="row g-5">
-                    <div class="col-md-12 col-lg-6 col-xl-7">
-                        <div class="form-item">
-                            <label class="form-label my-3">Contato</label>
-                            <input type="tel" class="form-control" placeholder="NUMERO">
-                        </div>
-                        <div class="form-item">
-                            <label class="form-label my-3">Email</label>
-                            <input type="email" class="form-control" placeholder="EMAIL DA PESSOA">
-                        </div>
-                        <hr>
-                        <div id="saved-address">
-                            <h4>Endereço salvo:</h4>
-                            <p>Rua {{ pessoa.pesrua }}, {{ pessoa.pesnumero }}, {{ pessoa.pescidade }}, {{ pessoa.pespais }}y</p>
-                        </div>
-                        <div class="form-check my-3">
-                            <input class="form-check-input" type="checkbox" id="Address-1" name="Address"
-                                value="Address" onchange="toggleAddressForm()">
-                            <label class="form-check-label" for="Address-1">Escolher um endereço diferente?</label>
-                        </div>
-                        <div id="address-form" style="display: none;">
-                            <div class="form-item">
-                                <label class="form-label my-3">Rua<sup>*</sup></label>
-                                <input type="text" class="form-control" name="pesrua" placeholder="Nome da Rua"
-                                    required>
-                            </div>
-                            <div class="form-item">
-                                <label class="form-label my-3">Número<sup>*</sup></label>
-                                <input type="text" class="form-control" name="pesnumero" placeholder="Número da Casa"
-                                    required>
-                            </div>
-                            <div class="form-item">
-                                <label class="form-label my-3">Bairro<sup>*</sup></label>
-                                <input type="text" class="form-control" name="pesbairro" placeholder="Bairro" required>
-                            </div>
-                            <div class="form-item">
-                                <label class="form-label my-3">Cidade<sup>*</sup></label>
-                                <input type="text" class="form-control" name="pescidade" placeholder="Cidade" required>
-                            </div>
-                            <div class="form-item">
-                                <label class="form-label my-3">Estado<sup>*</sup></label>
-                                <input type="text" class="form-control" name="pesestado" placeholder="Estado" required>
+            <div class="col-md-12 col-lg-6 col-xl-5">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Produtos</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Preço</th>
+                                <th scope="col">Quantitade</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for carrinho in carrinhos %}
+                            <tr>
+                                <th scope="row" hx-get="fotoproduto/{{ carrinho.carpro.proid }}/2"
+                                    hx-target="#fotoproduto{{ carrinho.carid }}" hx-trigger="load">
+                                    <div class="d-flex align-items-center" id="fotoproduto{{ carrinho.carid }}">
+
+                                    </div>
+                                </th>
+                                <td class="py-5">{{ carrinho.carpro.pronome }}</td>
+                                <td class="py-5">R$ {{ carrinho.carpro.propreco }}</td>
+                                <td class="py-5">{{ carrinho.carquant }}</td>
+                                <td class="py-5">R$ {{ carrinho.carpreco }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <form id="orderForm" action="{% url 'finaliza_compra' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        <div class="col-12">
+                            <div class="form-check text-start my-3">
+                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-0"
+                                    name="PaymentMethod" value="6" onclick="uncheckOthers('Card-0')">
+                                <label class="form-check-label" for="Card-0">Cartão de crédito</label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 col-lg-6 col-xl-5">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Produtos</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Preço</th>
-                                        <th scope="col">Quantitade</th>
-                                        <th scope="col">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for carrinho in carrinhos %}
-                                    <tr>
-                                        <th scope="row" hx-get="fotoproduto/{{ carrinho.carpro.proid }}/2"
-                                        hx-target="#fotoproduto{{ carrinho.carid }}"
-                                        hx-trigger="load">
-                                            <div class="d-flex align-items-center" id="fotoproduto{{ carrinho.carid }}">
-                                        
-                                            </div>
-                                        </th>
-                                        <td class="py-5">{{ carrinho.carpro.pronome }}</td>
-                                        <td class="py-5">R$ {{ carrinho.carpro.propreco }}</td>
-                                        <td class="py-5">{{ carrinho.carquant }}</td>
-                                        <td class="py-5">R$ {{ carrinho.carpreco }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <form action="{% url 'finaliza_compra' %}" method="post">
-                            {% csrf_token %}
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-0" name="PaymentMethod" value="6" onclick="uncheckOthers('Card-0')">
-                                    <label class="form-check-label" for="Card-0">Cartão de crédito</label>
-                                </div>
+
+                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        <div class="col-12">
+                            <div class="form-check text-start my-3">
+                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-1"
+                                    name="PaymentMethod" value="5" onclick="uncheckOthers('Card-1')">
+                                <label class="form-check-label" for="Card-1">Cartão de débito</label>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        <div class="col-12">
+                            <div class="form-check text-start my-3">
+                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Pix-1"
+                                    name="PaymentMethod" value="3" onclick="uncheckOthers('Pix-1')">
+                                <label class="form-check-label" for="Pix-1">Pix</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        <div class="col-12">
+                            <div class="form-check text-start my-3">
+                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Delivery-1"
+                                    name="PaymentMethod" value="4" onclick="uncheckOthers('Delivery-1')">
+                                <label class="form-check-label" for="Delivery-1">Pagar na Entrega</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="card-info" style="display: none;">
+                        <div class="form-item">
+                            <label class="form-label my-3">Número do Cartão<sup>*</sup></label>
+                            <input type="text" class="form-control" placeholder="Número do Cartão">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Data de Validade<sup>*</sup></label>
+                            <input type="text" class="form-control" placeholder="MM/AA">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Código de Segurança (CVV)<sup>*</sup></label>
+                            <input type="text" class="form-control" placeholder="CVV">
                         </div>
 
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Card-1" name="PaymentMethod" value="5" onclick="uncheckOthers('Card-1')">
-                                    <label class="form-check-label" for="Card-1">Cartão de débito</label>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <!-- Error message container -->
+                    <div id="error-message" class="text-center error-message" style="display: none;"></div>
 
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Pix-1"
-                                        name="PaymentMethod" value="3" onclick="uncheckOthers('Pix-1')">
-                                    <label class="form-check-label" for="Pix-1">Pix</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Delivery-1"
-                                        name="PaymentMethod" value="4" onclick="uncheckOthers('Delivery-1')">
-                                    <label class="form-check-label" for="Delivery-1">Pagar na Entrega</label>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Button to trigger the order confirmation -->
+                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                        <button type="button" class="btn secondaria py-3 px-4 text-uppercase w-100"
+                            onclick="showConfirmModal()">Confirmar Pedido</button>
 
-                        <div id="card-info" style="display: none;">
-                            <div class="form-item">
-                                <label class="form-label my-3">Número do Cartão<sup>*</sup></label>
-                                <input type="text" class="form-control" placeholder="Número do Cartão" >
-                            </div>
-                            <div class="form-item">
-                                <label class="form-label my-3">Data de Validade<sup>*</sup></label>
-                                <input type="text" class="form-control" placeholder="MM/AA" >
-                            </div>
-                            <div class="form-item">
-                                <label class="form-label my-3">Código de Segurança (CVV)<sup>*</sup></label>
-                                <input type="text" class="form-control" placeholder="CVV" >
-                            </div>
-                            
-                        </div>
-                        <!-- Error message container -->
-                        <div id="error-message" class="text-center error-message" style="display: none;"></div>
+                    </div>
+                </form>
 
-                        <!-- Button to trigger the order confirmation -->
-                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                <button type="submit" class="btn secondaria py-3 px-4 text-uppercase w-100" onclick="showConfirmModal()">Confirmar Pedido</button>
-                            
-                        </div>
-                    </form>
+                <!-- Error message container -->
+                <div id="error-message" class="text-center error-message" style="display: none;"></div>
 
-                        <!-- Error message container -->
-                        <div id="error-message" class="text-center error-message" style="display: none;"></div>
-
-                        <!-- Order Confirmation Modal -->
-                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
-                            aria-labelledby="confirmModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmModalLabel">Confirmar Pedido</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        Tem certeza que deseja confirmar o pedido?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                            onclick="hideConfirmModal()">Cancelar</button>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="confirmOrder()">Confirmar</button>
-                                    </div>
-                                </div>
+                <!-- Order Confirmation Modal -->
+                <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                    aria-labelledby="confirmModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmModalLabel">Confirmar Pedido</h5>
+                            </div>
+                            <div class="modal-body">
+                                Tem certeza que deseja confirmar o pedido?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    onclick="hideConfirmModal()">Cancelar</button>
+                                <button type="button" class="btn btn-primary"
+                                    onclick="confirmOrder()">Confirmar</button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
-    <!-- Checkout Page End -->
-    {% endblock %}
+</div>
+<!-- Checkout Page End -->
+{% endblock %}

@@ -353,21 +353,9 @@
                                 <p>Pet: {{ tentativa.tta_petadocao.pet_petid.petnome }}</p>
                                 <p>Ong: {{ tentativa.tta_petadocao.ong_ongid.ongnome }}</p>
                                 <p>Status: {{ tentativa.ttastatus }}</p>
-                                <span class="text-muted">Recebida em: 01/01/2024</span>
+                                <span class="text-muted">Recebida em:{{ tentativa.ttadthora.date }} às {{ tentativa.ttadthora.time }}</span>
                             </li>
                             {% endfor %}
-                        </ul>
-                        
-                            
-                        
-                        <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
-                            <!-- Notificação 1 -->
-                            <li class="list-group-item border-bottom">
-                                <h6>Autor</h6>
-                                <p>Descrição da notificação...</p>
-                                <span class="text-muted">Recebida em: 01/01/2024</span>
-                            </li>
-                            
                         </ul>
                     </div>
                 </div>

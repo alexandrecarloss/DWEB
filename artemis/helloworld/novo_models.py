@@ -377,6 +377,7 @@ class TentativaAdota(models.Model):
     ttapes = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='ttapes')
     tta_petadocao = models.ForeignKey(PetAdocao, models.DO_NOTHING, db_column='tta_petadocao')
     ttastatus = models.CharField(max_length=11)
+    ttadthora = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -394,7 +395,7 @@ class Tiposervico(models.Model):
 
 
 class Venda(models.Model):
-    venid = models.IntegerField(primary_key=True)
+    venid = models.AutoField(primary_key=True)
     venser = models.IntegerField(blank=True, null=True)
     venpro = models.IntegerField(blank=True, null=True)
     venformapagamento_fpgid = models.ForeignKey(Formapagamento, models.DO_NOTHING, db_column='venformapagamento_fpgid')

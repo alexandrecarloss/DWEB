@@ -449,6 +449,7 @@ class TentativaAdota(models.Model):
     ttapes = models.ForeignKey(Pessoa, models.DO_NOTHING, db_column='ttapes')
     tta_petadocao = models.ForeignKey(PetAdocao, models.DO_NOTHING, db_column='tta_petadocao')
     ttastatus = models.CharField(max_length=11)
+    ttadthora = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
