@@ -249,6 +249,7 @@
                                     <th scope="col">Pet shop</th>
                                     <th scope="col">Data</th>
                                     <th scope="col">Hora</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Editar</th>
                                 </tr>
                             </thead>
@@ -277,6 +278,9 @@
                                     </td>
                                     <td>
                                         <p class="mb-0 mt-4">{{ solicita.soldthr.time }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ solicita.solstatus }}</p>
                                     </td>
                                     <td>
                                         <form action="{% url 'cancelar_solicitacao' solicita.solid %}" method="post">
@@ -338,6 +342,20 @@
                 <div class="card conteudo" id="notificacoes">
                     <div class="card-body">
                         <h5 class="card-title mb-4">Notificações</h5>
+                        <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+                            {% for tentativa in tentativas_adocao %}
+                            <li class="list-group-item border-bottom">
+                                <h6>Adoção</h6>
+                                <p>Pet: {{ tentativa.tta_petadocao.pet_petid.petnome }}</p>
+                                <p>Ong: {{ tentativa.tta_petadocao.ong_ongid.ongnome }}</p>
+                                <p>Status: {{ tentativa.ttastatus }}</p>
+                                <span class="text-muted">Recebida em: 01/01/2024</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
+                            
+                        
                         <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
                             <!-- Notificação 1 -->
                             <li class="list-group-item border-bottom">

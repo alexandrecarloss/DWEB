@@ -88,11 +88,13 @@
                         <div id="containercardspets" class="row g-4 justify-content-left">
                             
 {% for pet in pets %}
+
 <div class="col-md-6 col-lg-6 col-xl-3" 
 hx-get="fotopet/{{pet.petid}}/0"
 hx-target="#fotopet{{pet.petid}}"
 hx-trigger="load">
     <div class="rounded position-relative fruite-item" >
+        <a href="{% url 'petdetalhe' pet.petid %}" class="btn btn-block rounded-pill px-3">
         <div class="fruite-img" id="fotopet{{pet.petid}}">
                
         </div>
@@ -117,11 +119,13 @@ hx-trigger="load">
             </div>
            
             <div class="mt-auto">
-                <a href="{% url 'petdetalhe' pet.petid %}" class="btn azul btn-block rounded-pill px-3"> Quero adotar</a>
+                 Quero adotar
             </div>
         </div>
+    </a>
     </div>
 </div>
+
 {% endfor %}
             
                         </div>

@@ -20,16 +20,17 @@
                     <p class="mb-1">Raça: {{pet.pet_raca_ptrid.ptrnome}}</p>
                     <p class="mb-1">Peso: {{pet.petpeso}}</p>
                     <p class="mb-1">Porte: {{pet.pet_porte_ptpid.ptpnome}}: {{pet.pet_porte_ptpid.ptpdescricao}}</p>
-                    {% if petmes %}
-                        <p class="mb-1">Idade: {{petmes}} meses</p>
+                    {% if petdia %}
+                        <p class="mb-1">Idade: {{ petdia }} dias</p>
+                    {% elif petmes %}
+                        <p class="mb-1">Idade: {{ petmes }} meses</p>
                     {% else %}
-                        <p class="mb-1">Idade: {{petidade}} anos</p>
+                        <p class="mb-1">Idade: {{ petidade }} anos</p>
                     {% endif %}
                     <p class="mb-1">Castrado: {{pet.petcastrado}}</p>
                     {% if pet.pessoa_pesid != None %}
                     <p class="text-secondary mb-1">{{pet.pessoa_pesid.pesrua}}, {{pet.pessoa_pesid.pesnumero}}, {{pet.pessoa_pesid.pesbairro}}. {{pet.pessoa_pesid.pescidade}} - AM</p>
                     {% endif %}
-                    <!-- <p class="mb-4">Susp endisse ultricies nisi vel quam suscipit. Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish</p> -->
                     <div class="text-center">
                         <a href="{% url 'adocao' %}" class="btn secundaria btn-block rounded px-3"> Voltar</a>
                         <button
@@ -37,11 +38,20 @@
                             class="btn primaria"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal"
-                            data-bs-whatever="92991681228"
+                            data-bs-whatever="{{ petadocao.ong_ongid.ongtelefone }}"
                         >Entrar em contato</button>
-                    </a>
-                </div>
+                        </a>
+                    </div>
             </div>
+            <form action="{% url 'inicia_adocao' pessoa.pesid petadocao.adoid %}" method="post">
+                {% csrf_token %}
+                <div class="text-center">
+                    <button
+                        type="submit"
+                        class="btn primaria">Solicitar adoção
+                    </button>
+                </div>
+            </form>
         </div>
         <div
         class="modal fade"

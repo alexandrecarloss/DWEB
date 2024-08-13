@@ -110,6 +110,7 @@
                                     <th scope="col">Pessoa</th>
                                     <th scope="col">Data</th>
                                     <th scope="col">Hora</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Editar</th>
                                 </tr>
                             </thead>
@@ -138,6 +139,9 @@
                                     </td>
                                     <td>
                                         <p class="mb-0 mt-4">{{ solicita.soldthr.time }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ solicita.solstatus }}</p>
                                     </td>
                                     <td>
                                         <form action="{% url 'cancelar_solicitacao' solicita.solid %}" method="post">

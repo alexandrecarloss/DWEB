@@ -8,6 +8,7 @@ from django.db import connection
 from django.contrib import messages
 from helloworld.context_processors import *
 from accounts.views import cadastro_dados 
+from accounts.views import usuario, ong
 
 def index(request):
     return render(request, 'index.html')
@@ -49,7 +50,9 @@ def load_pets(request):
 
 @login_required(login_url="/accounts/login")
 def petdetalhe(request, petid):
+    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
     pet = Pet.objects.filter(petid = petid).first()
+    petadocao = PetAdocao.objects.filter(pet_petid=pet.petid).first()
     today = date.today()
     petidade = today.year - pet.petdtnascto.year - ((today.month, today.day) < (pet.petdtnascto.month, pet.petdtnascto.day))
     pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
@@ -58,8 +61,11 @@ def petdetalhe(request, petid):
             petmes = 12 - pet.petdtnascto.month + today.month - (today.day < pet.petdtnascto.day)
         else:
             petmes = today.month - pet.petdtnascto.month - (today.day < pet.petdtnascto.day)
-        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petmes": petmes})
-    return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade})
+        if petmes < 1:
+            petdia = today.day - pet.petdtnascto.day
+            return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petdia": petdia, 'petadocao': petadocao, 'pessoa': pessoa})
+        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petmes": petmes, 'petadocao': petadocao, 'pessoa': pessoa})
+    return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade, 'petadocao': petadocao, 'pessoa': pessoa})
     
 class fotopet(View):
     def get(self, request, petid, multiplo):
@@ -188,3 +194,88 @@ def removerpet(request, petid):
         print(erro)
         messages.error(request, 'Erro ao remover pet!')
     return redirect(adocao)
+
+def inicia_adocao(request, pesid, adoid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_inicia_adocao (%(pessoa)s, %(adocao)s)', 
+            {
+                'pessoa': pesid, 
+                'adocao': adoid,
+            })
+        messages.success(request, 'Solicitado com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao solicitar adoção!')
+        return redirect(adocao)
+    finally:
+        cursor.close()
+    return redirect(usuario)
+
+def altera_status_adocao_aceito(request, ttaid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_adocao (%(cod)s, %(novo)s)', 
+            {
+                'cod': ttaid, 
+                'novo': 'Aceito',
+            })
+        messages.success(request, 'Aceito com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao aceitar solicitação de adoção!')
+        return redirect(adocao)
+    finally:
+        cursor.close()
+    return redirect(ong)
+
+def altera_status_adocao_negado(request, ttaid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_adocao (%(cod)s, %(novo)s)', 
+            {
+                'cod': ttaid, 
+                'novo': 'Negado',
+            })
+        messages.success(request, 'Negado com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao negar solicitação de adoção!')
+        return redirect(adocao)
+    finally:
+        cursor.close()
+    return redirect(ong)
+
+def altera_status_adocao_adotado(request, ttaid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_adocao (%(cod)s, %(novo)s)', 
+            {
+                'cod': ttaid, 
+                'novo': 'Adotado',
+            })
+        messages.success(request, 'Adoção concluída com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao concluir adoção!')
+        return redirect(adocao)
+    finally:
+        cursor.close()
+    return redirect(ong)
+
+def altera_status_adocao_nao_adotado(request, ttaid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_adocao (%(cod)s, %(novo)s)', 
+            {
+                'cod': ttaid, 
+                'novo': 'Não adotado',
+            })
+        messages.success(request, 'Adoção não aceita com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao não aceitar adoção!')
+        return redirect(adocao)
+    finally:
+        cursor.close()
+    return redirect(ong)

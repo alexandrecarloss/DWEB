@@ -264,13 +264,37 @@ hx-trigger="load"
                     <div class="card-body">
                         <h5 class="card-title mb-4">Notificações</h5>
                         <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
-                            <!-- Notificação 1 -->
-                            <li class="list-group-item border-bottom">
-                                <h6>Autor</h6>
-                                <p>Descrição da notificação...</p>
+                            {% for tentativa in tentativas_adocao %}
+                            <li class=" border-bottom">
+                                <h6>Adoção</h6>
+                                <p>Pet: {{ tentativa.tta_petadocao.pet_petid.petnome }}</p>
+                                <p>Pessoa: {{ tentativa.ttapes.pesnome }}</p>
+                                <p>Número da pessoa: {{ tentativa.ttapes.pesnumero }}</p>
+                                <p>Ong: {{ tentativa.tta_petadocao.ong_ongid.ongnome }}</p>
+                                <p>Status: {{ tentativa.ttastatus }}</p>
+
+                                {% if tentativa.ttastatus == "Requisitado" %}
+                                <form action="{% url 'altera_status_adocao_aceito' tentativa.ttaid %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary" id="next-btn">Aceitar</button>
+                                </form>
+                                <form action="{% url 'altera_status_adocao_negado' tentativa.ttaid %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" id="next-btn">Negar requisição</button>
+                                </form>
+                                {% elif tentativa.ttastatus == "Aceito" %}
+                                <form action="{% url 'altera_status_adocao_adotado' tentativa.ttaid %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary" id="next-btn">Conceder adoção</button>
+                                </form>
+                                <form action="{% url 'altera_status_adocao_nao_adotado' tentativa.ttaid %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" id="next-btn">Negar adoção</button>
+                                </form>
+                                {% endif %}
                                 <span class="text-muted">Recebida em: 01/01/2024</span>
                             </li>
-                            
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

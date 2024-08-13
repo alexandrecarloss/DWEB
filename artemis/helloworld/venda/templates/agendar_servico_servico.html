@@ -39,9 +39,9 @@
                                         <!-- Classe list-group-item estava impedindo os radios de serem selecionados -->
                                         <li class="d-flex align-items-center border-bottom">
                                             <input type="radio" name="tipo_servico" id="tipo_servico{{ tipo.tpsid }}" value="{{ tipo.tpsid }}" class="form-check-input me-2" required>
-                                            <label for="tipo_servico{{ tipo.tpsid }}" class="d-flex w-100">
-                                                <strong>{{ tipo.tpsnome }}</strong><br>
-                                                {{ tipo.tpsdescricao }}
+                                            <label for="tipo_servico{{ tipo.tpsid }}" class=" w-100">
+                                                <p><strong>{{ tipo.tpsnome }}</strong></p> 
+                                                <p>{{ tipo.tpsdescricao }}</p>
                                             </label>
                                         </li>
                                         {% endfor %}

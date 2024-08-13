@@ -353,10 +353,9 @@ def usuario(request):
     #Obtém o usuário e seus dados associados de acordo com o e-mail autenticado
     pettipos = PetTipo.objects.all()
     petportes = PetPorte.objects.all()
-    pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
-    pets = Pet.objects.filter(pessoa_pesid = pesid)
-    pftfotos = PetFoto.objects.all()
     pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+    pets = Pet.objects.filter(pessoa_pesid = pessoa.pesid)
+    pftfotos = PetFoto.objects.all()
     #Envia a data de nascimento com formato adequado para preencher o value date
     nascimento = data_nasc()
 
@@ -372,7 +371,8 @@ def usuario(request):
     for venda in vendas:
         total_compras += venda.venvalor
     solicitacoes = Solicita.objects.filter(pessoa_pesid = pessoa.pesid)
-    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa, 'nascimento': nascimento, 'vendas': vendas, 'total_compras': total_compras, 'solicitacoes': solicitacoes})
+    tentativas_adocao = TentativaAdota.objects.filter(ttapes = pessoa.pesid)
+    return render(request, "petUsuario.html", {"pets": pets, "pftfotos": pftfotos, "pettipos": pettipos, "petportes": petportes, "pessoa": pessoa, 'nascimento': nascimento, 'vendas': vendas, 'total_compras': total_compras, 'solicitacoes': solicitacoes, 'tentativas_adocao': tentativas_adocao})
 
 @login_required(login_url="/accounts/login")
 def ong(request):
@@ -390,7 +390,8 @@ def ong(request):
     for adocao in pets_adocao:
         pet = Pet.objects.filter(petid = adocao.pet_petid.petid).first()
         pets.append(pet)
-    return render(request, 'pagOng.html', {'pets': pets, 'pettipos': pettipos, 'petportes': petportes, 'ong': ong})
+    tentativas_adocao = TentativaAdota.objects.filter(tta_petadocao__ong_ongid = ong.ongid)
+    return render(request, 'pagOng.html', {'pets': pets, 'pettipos': pettipos, 'petportes': petportes, 'ong': ong, 'tentativas_adocao': tentativas_adocao})
 
 def atualizar_pessoa(request):
     if str(request.user.groups.first()) == 'Pessoa':
