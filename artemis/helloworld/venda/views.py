@@ -527,8 +527,111 @@ def usuario_produto_detalhe(request, proid):
         petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
         produto = Produto.objects.filter(proid = proid).first()
         fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
-        return render(request, 'petshop_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto})
+        return render(request, 'usuario_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto})
     else:
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
 
+
+@login_required(login_url="/accounts/login")
+def insere_avaliacao_produto(request, proid):
+    cursor = connection.cursor()
+    if str(request.user.groups.first()) == 'Pessoa':
+        avadescricao = request.POST.get('avadescricao')
+        avavalor = request.POST.get('avavalor')
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        
+        try:
+            cursor.execute('call sp_insere_avaliacao (%(produto_proid)s, %(avadescricao)s, %(avavalor)s, %(pessoa_pesid)s)', 
+                {
+                    'produto_proid': proid, 
+                    'avadescricao': avadescricao, 
+                    'avavalor': avavalor, 
+                    'pessoa_pesid': pessoa.pesid 
+                })
+            messages.success(request, 'Avaliado com sucesso!')
+        except Exception as erro:
+            print('erro: ', erro)
+            messages.error(request, 'Erro ao avaliar!')
+            return redirect(usuario)
+        finally:
+            cursor.close()
+        return redirect(usuario)
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+    
+@login_required(login_url="/accounts/login")
+def insere_avaliacao_servico(request, serid):
+    cursor = connection.cursor()
+    if str(request.user.groups.first()) == 'Pessoa':
+        avadescricao = request.POST.get('avadescricao')
+        avavalor = request.POST.get('avavalor')
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        
+        try:
+            cursor.execute('call sp_insere_avaliacao (%(servico_serid)s, %(avadescricao)s, %(avavalor)s, %(pessoa_pesid)s)', 
+                {
+                    'servico_serid': serid, 
+                    'avadescricao': avadescricao, 
+                    'avavalor': avavalor, 
+                    'pessoa_pesid': pessoa.pesid 
+                })
+            messages.success(request, 'Avaliado com sucesso!')
+        except Exception as erro:
+            print('erro: ', erro)
+            messages.error(request, 'Erro ao avaliar!')
+            return redirect(usuario)
+        finally:
+            cursor.close()
+        return redirect(usuario)
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+    
+@login_required(login_url="/accounts/login")
+def exclui_avaliacao(request, avacod):
+    cursor = connection.cursor()
+    if str(request.user.groups.first()) == 'Pessoa':
+        try:
+            cursor.execute('call sp_exclui_avaliacao (%(cod)s)', 
+                {
+                    'cod': avacod
+                })
+            messages.success(request, 'Avaliação excluída com sucesso!')
+        except Exception as erro:
+            print('erro: ', erro)
+            messages.error(request, 'Erro ao excluir avaliação!')
+            return redirect(usuario)
+        finally:
+            cursor.close()
+        return redirect(usuario)
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+    
+
+@login_required(login_url="/accounts/login")
+def altera_avaliacao(request, avacod):
+    cursor = connection.cursor()
+    if str(request.user.groups.first()) == 'Pessoa':
+        avadescricao = request.POST.get('avadescricao')
+        avavalor = request.POST.get('avavalor')
+        try:
+            cursor.execute('call sp_insere_avaliacao (%(avadescricao)s, %(avavalor)s, %(cod)s)', 
+                {
+                    'avadescricao': avadescricao, 
+                    'avavalor': avavalor, 
+                    'cod': avacod 
+                })
+            messages.success(request, 'Avaliação alterada com sucesso!')
+        except Exception as erro:
+            print('erro: ', erro)
+            messages.error(request, 'Erro ao alterar avaliação!')
+            return redirect(usuario)
+        finally:
+            cursor.close()
+        return redirect(usuario)
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')

@@ -37,4 +37,9 @@ urlpatterns = [
     path('load_petshop_cidade/', views.load_petshop_cidade, name='load_petshop_cidade'),
     path('solicita_servico_junto', views.solicita_servico_junto, name='solicita_servico_junto'),
     path('usuario_produto_detalhe/<int:proid>/', views.usuario_produto_detalhe, name="usuario_produto_detalhe"),
+    path('insere_avaliacao_produto/<int:proid>/', views.insere_avaliacao_produto, name="insere_avaliacao_produto"),
+    path('insere_avaliacao_servico/<int:serid>/', views.insere_avaliacao_servico, name="insere_avaliacao_servico"), 
+    path('exclui_avaliacao/<int:avacod>/', views.exclui_avaliacao, name="exclui_avaliacao"),  
+    path('altera_avaliacao/<int:avacod>/', views.altera_avaliacao, name="altera_avaliacao"),  
+      
 ]

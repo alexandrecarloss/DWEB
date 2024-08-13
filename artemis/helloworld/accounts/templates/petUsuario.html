@@ -307,7 +307,7 @@
                             hx-trigger="load">
                                 <h6>Compra #{{ venda.venid }} - {{ venda.vendthora.date }} às {{ venda.vendthora.time }}</h6>
                                 <ul class="list-group list-group-flush">
-                                    <a href="{% url 'produto_detalhe' venda.venpro.proid %}">
+                                    <a href="{% url 'usuario_produto_detalhe' venda.venpro.proid %}">
                                     <li >
                                         <div class="row">
                                             <div class="d-flex align-items-center" id="fotoproduto{{ venda.venid }}">
