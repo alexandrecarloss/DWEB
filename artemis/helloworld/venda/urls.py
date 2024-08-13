@@ -41,5 +41,7 @@ urlpatterns = [
     path('insere_avaliacao_servico/<int:serid>/', views.insere_avaliacao_servico, name="insere_avaliacao_servico"), 
     path('exclui_avaliacao/<int:avacod>/', views.exclui_avaliacao, name="exclui_avaliacao"),  
     path('altera_avaliacao/<int:avacod>/', views.altera_avaliacao, name="altera_avaliacao"),  
+    path('aceitar_solicitacao/<int:solid>/', views.aceitar_solicitacao, name="aceitar_solicitacao"),
+    path('negar_solicitacao/<int:solid>/', views.negar_solicitacao, name="negar_solicitacao"),  
       
 ]

@@ -644,3 +644,33 @@ def altera_avaliacao(request, avacod):
     else:
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
+    
+def aceitar_solicitacao(request, solid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_solicita (%(cod)s, %(novo)s)', {
+                'cod': solid,
+                'novo': 'Concluído'
+            })
+        messages.success(request, 'Solicitação aceita com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao aceitar solicitação!')
+    finally:
+        cursor.close()
+    return redirect(servicos)
+
+def negar_solicitacao(request, solid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_solicita (%(cod)s, %(novo)s)', {
+                'cod': solid,
+                'novo': 'Cancelado'
+            })
+        messages.success(request, 'Solicitação cancelada com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao cancelar solicitação!')
+    finally:
+        cursor.close()
+    return redirect(servicos)
