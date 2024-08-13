@@ -366,7 +366,7 @@ def usuario(request):
     if pessoa.pesdtnascto.month < 10:
         nascimento.mes = f'0{pessoa.pesdtnascto.month}'
     nascimento.ano = pessoa.pesdtnascto.year 
-    vendas = Venda.objects.filter(venpessoa_pesid = pessoa.pesid)
+    vendas = Venda.objects.filter(venpessoa_pesid = pessoa.pesid).order_by('-vendthora')
     total_compras = 0
     for venda in vendas:
         total_compras += venda.venvalor

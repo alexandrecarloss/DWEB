@@ -527,7 +527,14 @@ def usuario_produto_detalhe(request, proid):
         petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
         produto = Produto.objects.filter(proid = proid).first()
         fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
-        return render(request, 'usuario_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto})
+        avaliacoes = Avaliacao.objects.filter(produto_proid = produto)
+        media_avaliacoes = 0
+        if avaliacoes:
+            vetor_avavalor = []
+            for avaliacao in avaliacoes:
+                vetor_avavalor.append(avaliacao.avavalor)
+            media_avaliacoes = int(mean(vetor_avavalor))
+        return render(request, 'usuario_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto, 'avaliacoes': avaliacoes, 'media_avaliacoes': media_avaliacoes})
     else:
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
