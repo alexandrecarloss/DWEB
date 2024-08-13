@@ -144,10 +144,16 @@
                                         <p class="mb-0 mt-4">{{ solicita.solstatus }}</p>
                                     </td>
                                     <td>
-                                        <form action="{% url 'cancelar_solicitacao' solicita.solid %}" method="post">
+                                        <form action="{% url 'cancelar_solicitacao' solicita.solid %}" method="post" style="display:inline;">
                                             {% csrf_token %}
                                             <button class="btn btn-md rounded-circle bg-light border mt-4" type="submit">
                                                 <i class="fa fa-times text-danger"></i>
+                                            </button>
+                                        </form>
+                                        <form action="" method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button class="btn btn-md rounded-circle bg-light border mt-4" type="submit">
+                                                <i class="fa fa-check text-success"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -199,15 +205,6 @@
                                 <hr>
                             </li>
                             {% endfor %}
-                        </ul>
-                        <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
-                            <!-- Notificação 1 -->
-                            <li class="list-group-item border-bottom">
-                                <h6>Autor</h6>
-                                <p>Descrição da notificação...</p>
-                                <span class="text-muted">Recebida em: 01/01/2024</span>
-                            </li>
-                            
                         </ul>
                     </div>
                 </div>

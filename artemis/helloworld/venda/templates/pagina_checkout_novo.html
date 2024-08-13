@@ -75,7 +75,7 @@
                         <tbody>
                             {% for carrinho in carrinhos %}
                             <tr>
-                                <th scope="row" hx-get="fotoproduto/{{ carrinho.carpro.proid }}/2"
+                                <th scope="row" hx-get="../fotoproduto/{{ carrinho.carpro.proid }}/2"
                                     hx-target="#fotoproduto{{ carrinho.carid }}" hx-trigger="load">
                                     <div class="d-flex align-items-center" id="fotoproduto{{ carrinho.carid }}">
 
