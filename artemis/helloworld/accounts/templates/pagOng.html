@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block titulo %}Ong dados{% endblock %}
+{% block titulo %}Ong{% endblock %}
 {% block content %}
 {% for message in messages %}
     {% if message.tags == 'error' %}
@@ -20,8 +20,6 @@
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action active" aria-current="true"
                         data-target="pets">Pets em Adoção</a>
-                    <a href="#" class="list-group-item list-group-item-action"
-                        data-target="agendamentos">Agendamentos</a>
                     <a href="#" class="list-group-item list-group-item-action" data-target="notificacoes">Notificações</a> <!-- Nova aba de Notificações -->
                     <a href="#" class="list-group-item list-group-item-action" data-target="configuracoes">Configurações
                         da Conta</a>
@@ -251,13 +249,6 @@ hx-trigger="load"
                         <i class="fas fa-plus"></i>
                     </button>
                     </a>
-                </div>
-
-                <div class="card conteudo" id="agendamentos">
-                    <div class="card-body">
-                        <!-- Aqui você pode listar os agendamentos -->
-                        <p>Agendamentos aqui...</p>
-                    </div>
                 </div>
 
                 <div class="card conteudo" id="notificacoes">

@@ -80,13 +80,8 @@
                                 <a href="{% url 'produtos' %}" class="nav-item nav-link ">Produtos</a>
                             {% endif %}
                             {% if grupo_usuario == 'Ong' %}
-                                <div class="nav-item dropdown">
-                                    <a href="{% url 'adocao' %}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Adoção</a>
-                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                        <a href="{% url 'adocao' %}" class="dropdown-item text-white">Adotar</a>
-                                        <a href="{% url 'cadastropet' %}" class="dropdown-item text-white">Cadastrar pet</a>
-                                    </div>
-                                </div>
+
+                            <a href="{% url 'cadastropet' %}" class="nav-item nav-link ">Cadastrar pet</a> 
                             {% elif grupo_usuario == 'Pessoa' %} 
                                 <a href="{% url 'adocao' %}" class="nav-item nav-link ">Adoção</a>                         
                             {% endif %}
