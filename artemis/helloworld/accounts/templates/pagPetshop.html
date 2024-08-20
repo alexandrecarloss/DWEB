@@ -80,6 +80,7 @@
                 <div class="card conteudo" id="servicos">
                     <div class="card-body">
                         <ul class="list-group">
+                            {% if servicos %}
                             {% for servico in servicos %}
                                 <a href="{% url 'form_altera_servico' servico.serid %}">
                                     <li class="d-flex align-items-center border-bottom">
@@ -93,8 +94,16 @@
                                     </li>
                                 </a>
                             {% endfor %}
+                            {% else %}
+                            <p>Você ainda não possui serviços cadastrados</p>
+                            {% endif %}
                         </ul>
                     </div>
+                    <a href="{% url 'adicionar_produto' %}">
+                        <button type="button" class="btn btn-primary btn-floating position-absolute top-0 end-0 mt-3 me-3"
+                            id="adicionarproduto">
+                            <i class="fas fa-plus"></i>
+                        </button>
                 </div>
 
                 <div class="card conteudo" id="agendamentos">

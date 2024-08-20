@@ -41,5 +41,9 @@
         </div>
         <button type="submit" class="btn primaria btn-block mt-4">Alterar Serviço</button>
     </form>
+    <form action="{% url 'removerservico' servico.serid %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Remover Serviço</button>
+    </form>
 </div>
 {% endblock %}

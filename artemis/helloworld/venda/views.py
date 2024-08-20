@@ -60,7 +60,7 @@ def servicos(request):
 ##################### CRUD produto #####################
 def insereservico(request):
     cursor = connection.cursor()
-    petshop = Petshop.objects.filter(ptsemail=request.user.email).first()
+    v_petshop = Petshop.objects.filter(ptsemail=request.user.email).first()
     valor = request.POST.get('servalor')
     tipo = request.POST.get('servico')
     descricao = request.POST.get('serdescricao')
@@ -68,7 +68,7 @@ def insereservico(request):
         cursor.execute('call sp_insere_servico (%(preco)s, %(petshop)s, %(tipo)s, %(descricao)s)', 
                 {
                     'preco': valor, 
-                    'petshop': petshop.ptsid, 
+                    'petshop': v_petshop.ptsid, 
                     'tipo': tipo, 
                     'descricao': descricao, 
                 })
@@ -76,10 +76,10 @@ def insereservico(request):
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao inserir Serviço!')
-        return redirect(index)
+        return redirect(petshop)
     finally:
         cursor.close()
-    return redirect(produtos)
+    return redirect(petshop)
 
 
 def insereproduto(request):
@@ -111,25 +111,28 @@ def insereproduto(request):
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao inserir produto!')
-        return redirect(index)
+        return redirect(petshop)
     finally:
         cursor.close()
     return redirect(petshop)
 
 def removerproduto(request, cod):
     produto = Produto.objects.filter(proid = cod).first()
-    # Removendo fotos antigas
+    cursor = connection.cursor()
     try:
-        prodfotos = ProdutoFoto.objects.filter(prfid = cod)
+        # Removendo fotos antigas
+        prodfotos = ProdutoFoto.objects.filter(produto_proid = produto.proid)
         for foto in prodfotos:
             foto.prffoto.delete()
             foto.delete()
-        produto.delete()
+        cursor.execute('call sp_exclui_produto (%(cod)s)', {'cod': cod})
         messages.success(request, 'Produto removido com sucesso!')
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao remover produto!')
-    return redirect(produtos)
+    finally:
+        cursor.close()
+    return redirect(petshop)
 
 ###### CRUD serviço
 def alteraservico(request, serid):
@@ -156,18 +159,16 @@ def alteraservico(request, serid):
     return redirect(petshop)
 
 def removerservico(request, cod):
-    # servico = Servico.objects.filter(serid = cod)
-    # servico.delete()
     cursor = connection.cursor()
     try:
-        cursor.execute('call sp_exclui_servico (%(cod)s', {
+        cursor.execute('call sp_exclui_servico (%(cod)s)', {
                 'cod': cod
             })
         messages.success(request, 'Serviço removido com sucesso!')
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao remover serviço!')
-    return redirect(servicos)
+    return redirect(petshop)
     
 def adicionar_produto(request):
     contexto = context_grupo_usuario(request)

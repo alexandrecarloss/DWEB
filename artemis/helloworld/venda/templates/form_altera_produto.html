@@ -53,5 +53,9 @@
         
         <button type="submit" class="btn primaria btn-block mt-4">Cadastrar Produto</button>
     </form>
+    <form action="{% url 'removerproduto' produto.proid %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Remover Produto</button>
+    </form>
 </div>
 {% endblock %}

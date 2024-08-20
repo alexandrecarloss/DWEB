@@ -225,6 +225,10 @@ hx-trigger="load"
                                             </div>
                                             <button type="submit" class="btn primaria">Atualizar</button>
                                         </form>
+                                        <form action="{% url 'removerpet' pet.petid %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Remover Pet</button>
+                                        </form>
                                     </div>
                                 </div>                                   
                             </div>

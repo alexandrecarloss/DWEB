@@ -181,19 +181,21 @@ def atualizarpet(request, petid):
     return redirect(adocao)
 
 def removerpet(request, petid):
-    pet = Pet.objects.filter(petid = petid).first()
-    # Removendo fotos antigas
+    cursor = connection.cursor()
     try:
+        # Removendo fotos antigas
         petfotoantigas = PetFoto.objects.filter(pet_petid_id = petid)
         for foto in petfotoantigas:
             foto.pftfoto.delete()
             foto.delete()
-        pet.delete()
+        cursor.execute('call sp_exclui_pet_adocao (%(cod)s)', {'cod': petid})
         messages.success(request, 'Pet removido com sucesso!')
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao remover pet!')
-    return redirect(adocao)
+    finally:
+        cursor.close()
+    return redirect(ong)
 
 def inicia_adocao(request, pesid, adoid):
     petadocao = PetAdocao.objects.filter(adoid = adoid).first()
