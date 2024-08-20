@@ -43,5 +43,5 @@ urlpatterns = [
     path('altera_avaliacao/<int:avacod>/', views.altera_avaliacao, name="altera_avaliacao"),  
     path('aceitar_solicitacao/<int:solid>/', views.aceitar_solicitacao, name="aceitar_solicitacao"),
     path('negar_solicitacao/<int:solid>/', views.negar_solicitacao, name="negar_solicitacao"),  
-      
+    path('petshop_relatorio_faturamento_venda/', views.petshop_relatorio_faturamento_venda, name='petshop_relatorio_faturamento_venda'),
 ]

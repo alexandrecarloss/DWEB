@@ -1,214 +1,255 @@
 {% extends 'base.html' %}
+{% block titulo %}Adoção {% endblock %}
 {% block content %}
-    {% for message in messages %}
-        {% if message.tags == 'error' %}
-            <div class="alert alert-danger mt-3" role="alert">
-                {{message}}
-            </div>
-        {% else %}
-            <div class="alert alert-{{message.tags}}">
-                {{message}}
-            </div>
-        {% endif %}
-    {% endfor %}
-    <!-- Hero Start -->
-    <div class="container-fluid py-5 mb-5 hero-header" >
-        <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-md-12 col-lg-7">
-                    <h4 class="mb-3 text-secondary">Artemis</h4>
-                    <h1 class="mb-5 display-3 text-primary">Tudo para seu PET em um só lugar</h1>
+<!-- Fruits Shop Start-->
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Filtro</h1>
+        <div class="row g-4">
+            <div class="col-lg-12">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-{{message.tags}}">
+                            {{message}}
+                        </div>
+                    {% endif %}
+                {% endfor %}
 
-                    <!-- search -->
+    <!-- Carousel -->
+    <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://via.placeholder.com/800x400?text=Imagem+1" class="d-block w-100" alt="Imagem 1">
+                <div class="carousel-caption custom-caption">
+                    <div class="caption-text">
+                        <h5>Imagem 1</h5>
+                        <p>Descrição da Imagem 1.</p>
+                    </div>
+                    <a href="#" class="btn btn-primary">Ler Mais</a>
                 </div>
-                <div class="col-md-12 col-lg-5">
-                    <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active rounded">
-                                <img src="img/serviços.jpg" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
-                                <a href="#" class="btn px-4 py-2 text-white rounded">Serviços</a>
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x400?text=Imagem+2" class="d-block w-100" alt="Imagem 2">
+                <div class="carousel-caption custom-caption">
+                    <div class="caption-text">
+                        <h5>Imagem 2</h5>
+                        <p>Descrição da Imagem 2.</p>
+                    </div>
+                    <a href="#" class="btn btn-primary">Ler Mais</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x400?text=Imagem+3" class="d-block w-100" alt="Imagem 3">
+                <div class="carousel-caption custom-caption">
+                    <div class="caption-text">
+                        <h5>Imagem 3</h5>
+                        <p>Descrição da Imagem 3.</p>
+                    </div>
+                    <a href="#" class="btn btn-primary">Ler Mais</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Feature Start -->
+<div class="container-fluid feature bg-light py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto pb-5" style="max-width: 800px;">
+            <h4 class="text-primary">Nossas Funcionalidades</h4>
+            <h1 class="display-4 mb-4">Encontre tudo para o seu melhor amigo</h1>
+            <p class="mb-0">Descubra nossos produtos, serviços e oportunidades de adoção para garantir o melhor para
+                seu pet.</p>
+        </div>
+        <div class="row g-4 d-flex justify-content-center">
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="feature-item p-4 pt-0 h-100 d-flex flex-column">
+                    <div class="feature-icon p-4 mb-4">
+                        <i class="fa fa-paw fa-3x"></i>
+                    </div>
+                    <h4 class="mb-4">Produtos de Alta Qualidade</h4>
+                    <p class="mb-4 flex-grow-1">Encontre uma vasta seleção de produtos para todas as necessidades do
+                        seu pet, desde alimentos até brinquedos.</p>
+                    <a class="btn btn-primary rounded-pill py-2 px-4 mt-auto" href="#">Veja os Produtos</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="feature-item p-4 pt-0 h-100 d-flex flex-column">
+                    <div class="feature-icon p-4 mb-4">
+                        <i class="fa fa-heart fa-3x"></i>
+                    </div>
+                    <h4 class="mb-4">Adoção de Pets</h4>
+                    <p class="mb-4 flex-grow-1">Descubra nossos amigos peludos que estão prontos para encontrar um
+                        novo lar e faça a diferença na vida deles.</p>
+                    <a class="btn btn-primary rounded-pill py-2 px-4 mt-auto" href="#">Conheça os Pets</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="feature-item p-4 pt-0 h-100 d-flex flex-column">
+                    <div class="feature-icon p-4 mb-4">
+                        <i class="fa fa-calendar-check fa-3x"></i>
+                    </div>
+                    <h4 class="mb-4">Agendamento de Serviços</h4>
+                    <p class="mb-4 flex-grow-1">Agende facilmente serviços para o seu pet, como banho e tosa, com a
+                        flexibilidade que você precisa.</p>
+                    <a class="btn btn-primary rounded-pill py-2 px-4 mt-auto" href="#">Agende Agora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Feature End -->
+
+
+
+
+    <!-- About Start -->
+    <div class="container-fluid bg-light about pt-5 pb-5">
+        <div class="container pb-5">
+            <div class="row g-5">
+                <div class="col-xl-6">
+                    <div class="about-item-content bg-white rounded p-5 h-100">
+                        <h4 class="text-primary">Sobre Nossa Empresa</h4>
+                        <h1 class="display-4 mb-4">Alta Gama de Proteção</h1>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt debitis sint tempora. Corporis
+                            consequatur illo blanditiis voluptates aperiam quos aliquam totam aliquid rem explicabo.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae praesentium recusandae
+                            eligendi modi hic.</p>
+                        <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>Podemos economizar seu
+                            dinheiro.</p>
+                        <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>Produção ou comércio de bens
+                        </p>
+                        <p class="text-dark mb-4"><i class="fa fa-check text-primary me-3"></i>Nossos seguros de vida
+                            são flexíveis</p>
+                        <a class="btn btn-primary rounded-pill py-3 px-5" href="#">Mais Informações</a>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="bg-white rounded p-5 h-100">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-12">
+                                <div class="rounded text-center">
+                                    <img src="img/logoazul-removebg.png" class="img-fluid rounded w-50" alt="">
+                                </div>
                             </div>
-                            <div class="carousel-item rounded">
-                                <img src="img/produtos.jpg" class="img-fluid w-100 h-100 rounded" alt="Second slide">
-                                <a href="#" class="btn px-4 py-2 text-white rounded">Produtos</a>
+                            <div class="col-sm-6">
+                                <div class="bg-light rounded p-3 h-100">
+                                    <div>
+                                        <span class="text-primary fs-2 fw-bold">129</span>
+                                        <span class="h1 fw-bold text-primary">+</span>
+                                    </div>
+                                    <h4 class="mb-0 text-dark">Adoções Realizadas</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="bg-light rounded p-3 h-100">
+                                    <div>
+                                        <span class="text-primary fs-2 fw-bold">99</span>
+                                        <span class="h1 fw-bold text-primary">+</span>
+                                    </div>
+                                    <h4 class="mb-0 text-dark">Produtos vendidos</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="bg-light rounded p-3 h-100">
+                                    <div>
+                                        <span class="text-primary fs-2 fw-bold">556</span>
+                                        <span class="h1 fw-bold text-primary">+</span>
+                                    </div>
+                                    <h4 class="mb-0 text-dark">Serviços Agendados</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="bg-light rounded p-3 h-100">
+                                    <div>
+                                        <span class="text-primary fs-2 fw-bold">967</span>
+                                        <span class="h1 fw-bold text-primary">+</span>
+                                    </div>
+                                    <h4 class="mb-0 text-dark">Petshops Ativos</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="bg-light rounded p-3 h-100">
+                                    <div>
+                                        <span class="text-primary fs-2 fw-bold">967</span>
+                                        <span class="h1 fw-bold text-primary">+</span>
+                                    </div>
+                                    <h4 class="mb-0 text-dark">ONGs Ativas</h4>
+                                </div>
                             </div>
                         </div>
-                        <button
-                            class="carousel-control-prev"
-                            type="button"
-                            data-bs-target="#carouselId"
-                            data-bs-slide="prev"
-                        >
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button
-                            class="carousel-control-next"
-                            type="button"
-                            data-bs-target="#carouselId"
-                            data-bs-slide="next"
-                        >
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Hero End -->
-    
-    <!-- Hero Start -->
-    <div class="container-fluid py-5 mb-5 hero-header" >
-        <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-md-12 col-lg-7">
-                    <h4 class="mb-3 text-secondary">Artemis</h4>
-                    <h1 class="mb-5 display-3 text-primary">Tudo para seu PET em um só lugar</h1>
+    <!-- About End -->
 
-                    <!-- search -->
+
+
+<!-- Dashboard Start -->
+<div class="container-fluid dashboard bg-light py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto pb-5" style="max-width: 800px;">
+            <h4 class="text-primary">Dashboard</h4>
+            <h1 class="display-4 mb-4">Visualize suas Informações</h1>
+            <p class="mb-0">Escolha a aba abaixo para visualizar gráficos detalhados sobre seus dados.</p>
+        </div>
+        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="vendas-tab" data-bs-toggle="tab" href="#vendas" role="tab" aria-controls="vendas" aria-selected="true">Vendas</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="gastos-tab" data-bs-toggle="tab" href="#gastos" role="tab" aria-controls="gastos" aria-selected="false">Gastos</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="adocoes-tab" data-bs-toggle="tab" href="#adocoes" role="tab" aria-controls="adocoes" aria-selected="false">Adoções</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="dashboardTabsContent">
+            <div class=" fade" id="vendas" role="tabpanel" aria-labelledby="vendas-tab">
+                <!-- Aqui você pode adicionar o gráfico para vendas -->
+                <div class="mt-4">
+                    {% if grupo_usuario == 'Pet shop' %}
+                    Aqui dash vendas
+                    <canvas id="petshop_relatorio_faturamento_venda"></canvas>
+                    {% endif %}
+                    <canvas id="vendasChart"></canvas>
                 </div>
-                <div class="col-md-12 col-lg-5">
-                    <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active rounded">
-                                <img src="img/serviços.jpg" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
-                                <a href="#" class="btn px-4 py-2 text-white rounded">Serviços</a>
-                            </div>
-                            <div class="carousel-item rounded">
-                                <img src="img/produtos.jpg" class="img-fluid w-100 h-100 rounded" alt="Second slide">
-                                <a href="#" class="btn px-4 py-2 text-white rounded">Produtos</a>
-                            </div>
-                        </div>
-                        <button
-                            class="carousel-control-prev"
-                            type="button"
-                            data-bs-target="#carouselId"
-                            data-bs-slide="prev"
-                        >
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button
-                            class="carousel-control-next"
-                            type="button"
-                            data-bs-target="#carouselId"
-                            data-bs-slide="next"
-                        >
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
+            </div>
+            <div class="tab-pane fade" id="gastos" role="tabpanel" aria-labelledby="gastos-tab">
+                <!-- Aqui você pode adicionar o gráfico para gastos -->
+                <div class="mt-4">
+                    <canvas id="gastosChart"></canvas>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="adocoes" role="tabpanel" aria-labelledby="adocoes-tab">
+                <!-- Aqui você pode adicionar o gráfico para adoções -->
+                <div class="mt-4">
+                    <canvas id="adocoesChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Hero End -->
-     <div class="card conteudo" id="compras">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Minhas Compras</h5>
-                        <ul class="list-group">
-                            <!-- Compra 1 -->
-                            <li class="list-group-item">
-                                <h6>Compra #1 - 01/01/2024</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 1">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 1</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 2</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 200,00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 2">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 2</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 1</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 100,00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <p>Total da Compra: R$ 300,00</p>
-                                <hr>
-                            </li>
-                            <!-- Compra 2 -->
-                            <li class="list-group-item">
-                                <h6>Compra #2 - 15/01/2024</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 3">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 3</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 3</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 900,00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="img/produtos.jpg" class="img-fluid img-circle"
-                                                    alt="Produto 4">
-                                            </div>
-                                            <div class="col-md-10">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <h6>Produto 4</h6>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Quantidade: 2</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <p>Total: R$ 400,00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <p>Total da Compra: R$ 1.300,00</p>
-                                <hr>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-{% endblock %}
+</div>
+<!-- Dashboard End -->
+<script>
+    window.onload = function(e){
+        renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}')
+    }
+  
+  </script>
+{% endblock content %}

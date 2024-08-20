@@ -9,6 +9,9 @@ import requests
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from statistics import mean
+from datetime import datetime
+from django.http import JsonResponse
+from django.db.models import Sum
 
 token = '8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e'
 headers = {
@@ -675,3 +678,30 @@ def negar_solicitacao(request, solid):
     finally:
         cursor.close()
     return redirect(servicos)
+
+@login_required(login_url="/accounts/login")
+def petshop_relatorio_faturamento_venda(request):
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        #Venda do petshop logado
+        x = Venda.objects.filter(venpro__propetshop_ptsid__ptsid = petshop.ptsid)
+        meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+        data = []
+        labels = []
+        mes = datetime.now().month + 1
+        ano = datetime.now().year
+        for i in range(12): 
+            mes -= 1
+            if mes == 0:
+                mes = 12
+                ano -= 1
+
+            y = sum([i.venvalor for i in x if i.vendthora.month == mes and i.vendthora.year == ano])
+            labels.append(meses[mes-1])
+            data.append(y)
+        data_json = {'data': data[::-1], 'labels': labels[::-1]}
+        
+        return JsonResponse(data_json)
+    else:
+        messages.error(request, 'Usuário deve ser um pet shop!')
+        return render(request, 'index.html')
