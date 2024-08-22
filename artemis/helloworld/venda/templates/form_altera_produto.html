@@ -51,7 +51,7 @@
             <input type="file" class="form-control-file" id="profoto" name="profoto" multiple>
         </div>
         
-        <button type="submit" class="btn primaria btn-block mt-4">Cadastrar Produto</button>
+        <button type="submit" class="btn primaria btn-block mt-4">Alterar Produto</button>
     </form>
     <form action="{% url 'removerproduto' produto.proid %}" method="post">
         {% csrf_token %}

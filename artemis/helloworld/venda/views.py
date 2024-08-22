@@ -104,7 +104,6 @@ def insereproduto(request):
         })
         # produto_novo = Produto.objects.order_by('-ptsid')[0]
         produto_novo = Produto.objects.order_by('-proid')[0]
-        print('produto novo', produto_novo)
         profotos_novo = request.FILES.getlist("profoto")
         if profotos_novo:
             for foto in profotos_novo:
@@ -333,7 +332,7 @@ def alteraproduto(request, proid):
     categoriaproduto = request.POST.get('categoriaproduto')
     propetshop = petshop.ptsid
     try:
-        cursor.execute('call sp_alteraproduto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(categoria)s, %(cod)s)', 
+        cursor.execute('call sp_altera_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(categoria)s, %(cod)s)', 
                 {
                     'nome': pronome, 
                     'preco': propreco, 
@@ -342,6 +341,12 @@ def alteraproduto(request, proid):
                     'categoria': categoriaproduto, 
                     'cod': proid
                 })
+        profotos_novo = request.FILES.getlist("profoto")
+        produto = Produto.objects.filter(proid = proid).first()
+        if profotos_novo:
+            for foto in profotos_novo:
+                produto_foto_novo = ProdutoFoto(prffoto = foto, produto_proid = produto)
+                produto_foto_novo.save()
         messages.success(request, 'Produto alterado com sucesso!')
     except Exception as erro:
         print('erro: ', erro)
