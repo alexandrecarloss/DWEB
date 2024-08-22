@@ -11,7 +11,7 @@ from django.conf import settings
 from statistics import mean
 from datetime import datetime
 from django.http import JsonResponse
-from django.db.models import Sum
+from django.db.models import Sum, Count
 
 token = '8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e'
 headers = {
@@ -19,28 +19,7 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-def produtos(request):
-    nome_produto_pesquisa = request.GET.get('nome_produto_pesquisa')
-    categorias = CategoriaProduto.objects.all()
-    if nome_produto_pesquisa:
-         produtos_todos = Produto.objects.all().filter(pronome__icontains = nome_produto_pesquisa)
-    else:
-        produtos_todos = Produto.objects.all()
-    produtos = []
-    for p in produtos_todos:
-        if p.prosaldo > 0:
-            produtos.append(p)
-    return render(request, 'pagProdutos.html', {'produtos': produtos, 'categorias': categorias})
-
-def load_produtos_categoria(request):
-    id_categoria_pesquisa = request.GET.get('categoria')
-    produtos_filtrados = Produto.objects.all().filter(categoria_produto_ctpid = id_categoria_pesquisa)
-    produtos = []
-    for p in produtos_filtrados:
-        if p.prosaldo > 0:
-            produtos.append(p)
-    return render(request, "load_produtos_categoria.html", {"produtos": produtos})
-
+##################### CRUD serviço #####################
 def servicos(request):
     # current_site = get_current_site(request)
     # mail_subject = "Notificação de compra"
@@ -60,7 +39,6 @@ def servicos(request):
     return render(request, 'servicos.html', {'servicos': servicos})
 # Create your views here.
 
-##################### CRUD produto #####################
 def insereservico(request):
     cursor = connection.cursor()
     v_petshop = Petshop.objects.filter(ptsemail=request.user.email).first()
@@ -84,6 +62,72 @@ def insereservico(request):
         cursor.close()
     return redirect(petshop)
 
+def alteraservico(request, serid):
+    cursor = connection.cursor()
+    preco = request.POST.get('servalor')
+    var_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    tipo = request.POST.get('servico')
+    descricao = request.POST.get('serdescricao')
+    try:
+        cursor.execute('call sp_altera_servico (%(preco)s, %(petshop)s, %(tipo)s, %(decsricao)s, %(cod)s)', {
+                'preco': preco, 
+                'petshop': var_petshop.ptsid, 
+                'tipo': tipo, 
+                'decsricao': descricao, 
+                'cod': serid
+            })
+        messages.success(request, 'Serviço alterado com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao alterar serviço!')
+        return redirect(petshop)
+    finally:
+        cursor.close()
+    return redirect(petshop)
+
+def removerservico(request, cod):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_exclui_servico (%(cod)s)', {
+                'cod': cod
+            })
+        messages.success(request, 'Serviço removido com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao remover serviço!')
+    return redirect(petshop)
+
+def form_altera_servico(request, serid):
+    contexto = context_grupo_usuario(request)
+    if contexto['dado_usuario'] == None:
+        messages.error(request, 'Termine seu cadastro')
+        return redirect(cadastro_dados)
+    tiposervicos =Tiposervico.objects.all()
+    servico = Servico.objects.filter(serid = serid).first()
+    return render(request, 'form_altera_servico.html', {'tiposervicos': tiposervicos, 'servico': servico})
+
+##################### CRUD produto #####################
+def produtos(request):
+    nome_produto_pesquisa = request.GET.get('nome_produto_pesquisa')
+    categorias = CategoriaProduto.objects.all()
+    if nome_produto_pesquisa:
+         produtos_todos = Produto.objects.all().filter(pronome__icontains = nome_produto_pesquisa)
+    else:
+        produtos_todos = Produto.objects.all()
+    produtos = []
+    for p in produtos_todos:
+        if p.prosaldo > 0:
+            produtos.append(p)
+    return render(request, 'pagProdutos.html', {'produtos': produtos, 'categorias': categorias})
+
+def load_produtos_categoria(request):
+    id_categoria_pesquisa = request.GET.get('categoria')
+    produtos_filtrados = Produto.objects.all().filter(categoria_produto_ctpid = id_categoria_pesquisa)
+    produtos = []
+    for p in produtos_filtrados:
+        if p.prosaldo > 0:
+            produtos.append(p)
+    return render(request, "load_produtos_categoria.html", {"produtos": produtos})
 
 def insereproduto(request):
     cursor = connection.cursor()
@@ -135,42 +179,6 @@ def removerproduto(request, cod):
     finally:
         cursor.close()
     return redirect(petshop)
-
-###### CRUD serviço
-def alteraservico(request, serid):
-    cursor = connection.cursor()
-    preco = request.POST.get('servalor')
-    var_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-    tipo = request.POST.get('servico')
-    descricao = request.POST.get('serdescricao')
-    try:
-        cursor.execute('call sp_altera_servico (%(preco)s, %(petshop)s, %(tipo)s, %(decsricao)s, %(cod)s)', {
-                'preco': preco, 
-                'petshop': var_petshop.ptsid, 
-                'tipo': tipo, 
-                'decsricao': descricao, 
-                'cod': serid
-            })
-        messages.success(request, 'Serviço alterado com sucesso!')
-    except Exception as erro:
-        print(erro)
-        messages.error(request, 'Erro ao alterar serviço!')
-        return redirect(petshop)
-    finally:
-        cursor.close()
-    return redirect(petshop)
-
-def removerservico(request, cod):
-    cursor = connection.cursor()
-    try:
-        cursor.execute('call sp_exclui_servico (%(cod)s)', {
-                'cod': cod
-            })
-        messages.success(request, 'Serviço removido com sucesso!')
-    except Exception as erro:
-        print(erro)
-        messages.error(request, 'Erro ao remover serviço!')
-    return redirect(petshop)
     
 def adicionar_produto(request):
     contexto = context_grupo_usuario(request)
@@ -203,7 +211,88 @@ def produto_detalhe(request, proid):
     else:
         messages.error(request, 'Usuário deve ser uma pessoa física!')
         return render(request, 'index.html')
+    
+class fotoproduto(View):
+    def get(self, request, proid, multiplo):
+        produto = Produto.objects.filter(proid = proid).first()
+        if multiplo == 0 or multiplo == 2:
+            prffoto = ProdutoFoto.objects.filter(produto_proid = produto.proid).first()   
+        else:
+            prffoto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
+            if len(prffoto) > 1:
+                prfprimeira_foto= ProdutoFoto.objects.filter(produto_proid = produto.proid).first() 
+                varias = 1
+                return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo, "varias": varias, "prfprimeira_foto": prfprimeira_foto})
+        return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo})
+    
+@login_required(login_url="/accounts/login")
+def petshop_produto_detalhe(request, proid):
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
+        produto = Produto.objects.filter(proid = proid).first()
+        fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
+        return render(request, 'petshop_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto})
+    else:
+        messages.error(request, 'Usuário deve ser uma loja Pet shop!')
+        return render(request, 'index.html')
+    
+def form_altera_produto(request, proid):
+    produto = Produto.objects.filter(proid = proid).first()
+    categorias = CategoriaProduto.objects.all()
+    return render(request, 'form_altera_produto.html', {'produto': produto, 'categorias': categorias})
 
+def alteraproduto(request, proid):
+    cursor = connection.cursor()
+    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    pronome = request.POST.get('pronome')
+    propreco = request.POST.get('propreco')
+    prosaldo = request.POST.get('prosaldo')
+    categoriaproduto = request.POST.get('categoriaproduto')
+    propetshop = petshop.ptsid
+    try:
+        cursor.execute('call sp_altera_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(categoria)s, %(cod)s)', 
+                {
+                    'nome': pronome, 
+                    'preco': propreco, 
+                    'saldo': prosaldo, 
+                    'petshop': propetshop, 
+                    'categoria': categoriaproduto, 
+                    'cod': proid
+                })
+        profotos_novo = request.FILES.getlist("profoto")
+        produto = Produto.objects.filter(proid = proid).first()
+        if profotos_novo:
+            for foto in profotos_novo:
+                produto_foto_novo = ProdutoFoto(prffoto = foto, produto_proid = produto)
+                produto_foto_novo.save()
+        messages.success(request, 'Produto alterado com sucesso!')
+    except Exception as erro:
+        print('erro: ', erro)
+        messages.error(request, 'Erro ao alterar produto!')
+        return redirect(index)
+    finally:
+        cursor.close()
+    return redirect(produtos)
+
+@login_required(login_url="/accounts/login")
+def usuario_produto_detalhe(request, proid):
+    if str(request.user.groups.first()) == 'Pessoa':
+        petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
+        produto = Produto.objects.filter(proid = proid).first()
+        fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
+        avaliacoes = Avaliacao.objects.filter(produto_proid = produto)
+        media_avaliacoes = 0
+        if avaliacoes:
+            vetor_avavalor = []
+            for avaliacao in avaliacoes:
+                vetor_avavalor.append(avaliacao.avavalor)
+            media_avaliacoes = int(mean(vetor_avavalor))
+        return render(request, 'usuario_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto, 'avaliacoes': avaliacoes, 'media_avaliacoes': media_avaliacoes})
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+
+##################### Carrinho #####################
 @login_required(login_url="/accounts/login")
 def carrinho_user(request):
     if str(request.user.groups.all()[0]) == 'Pessoa':
@@ -262,30 +351,6 @@ def remover_produto_carrinho(request, carid):
         return redirect(carrinho_user)   
     return redirect(carrinho_user)
     
-class fotoproduto(View):
-    def get(self, request, proid, multiplo):
-        produto = Produto.objects.filter(proid = proid).first()
-        if multiplo == 0 or multiplo == 2:
-            prffoto = ProdutoFoto.objects.filter(produto_proid = produto.proid).first()   
-        else:
-            prffoto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
-            if len(prffoto) > 1:
-                prfprimeira_foto= ProdutoFoto.objects.filter(produto_proid = produto.proid).first() 
-                varias = 1
-                return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo, "varias": varias, "prfprimeira_foto": prfprimeira_foto})
-        return render(request, "load_foto_produto.html", {"produto": produto, "proid": proid, "prffoto": prffoto, "multiplo": multiplo})
-    
-@login_required(login_url="/accounts/login")
-def petshop_produto_detalhe(request, proid):
-    if str(request.user.groups.first()) == 'Pet shop':
-        petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
-        produto = Produto.objects.filter(proid = proid).first()
-        fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
-        return render(request, 'petshop_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto})
-    else:
-        messages.error(request, 'Usuário deve ser uma loja Pet shop!')
-        return render(request, 'index.html')
-    
 
 def checkout_produto(request):
     if str(request.user.groups.all()[0]) == 'Pessoa':
@@ -318,45 +383,7 @@ def finaliza_compra(request):
         messages.success(request, 'Compra solicitada com sucesso!')
     return redirect(usuario) 
 
-def form_altera_produto(request, proid):
-    produto = Produto.objects.filter(proid = proid).first()
-    categorias = CategoriaProduto.objects.all()
-    return render(request, 'form_altera_produto.html', {'produto': produto, 'categorias': categorias})
-
-def alteraproduto(request, proid):
-    cursor = connection.cursor()
-    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-    pronome = request.POST.get('pronome')
-    propreco = request.POST.get('propreco')
-    prosaldo = request.POST.get('prosaldo')
-    categoriaproduto = request.POST.get('categoriaproduto')
-    propetshop = petshop.ptsid
-    try:
-        cursor.execute('call sp_altera_produto (%(nome)s, %(preco)s, %(saldo)s, %(petshop)s, %(categoria)s, %(cod)s)', 
-                {
-                    'nome': pronome, 
-                    'preco': propreco, 
-                    'saldo': prosaldo, 
-                    'petshop': propetshop, 
-                    'categoria': categoriaproduto, 
-                    'cod': proid
-                })
-        profotos_novo = request.FILES.getlist("profoto")
-        produto = Produto.objects.filter(proid = proid).first()
-        if profotos_novo:
-            for foto in profotos_novo:
-                produto_foto_novo = ProdutoFoto(prffoto = foto, produto_proid = produto)
-                produto_foto_novo.save()
-        messages.success(request, 'Produto alterado com sucesso!')
-    except Exception as erro:
-        print('erro: ', erro)
-        messages.error(request, 'Erro ao alterar produto!')
-        return redirect(index)
-    finally:
-        cursor.close()
-    return redirect(produtos)
-
-    
+##################### Agendamento #####################
 @login_required(login_url="/accounts/login")
 def agendar_servico_pet(request):
     contexto = context_grupo_usuario(request)
@@ -444,15 +471,6 @@ def solicita_servico(request, petid, serid):
         cursor.close()
     return redirect(usuario)
 
-def form_altera_servico(request, serid):
-    contexto = context_grupo_usuario(request)
-    if contexto['dado_usuario'] == None:
-        messages.error(request, 'Termine seu cadastro')
-        return redirect(cadastro_dados)
-    tiposervicos =Tiposervico.objects.all()
-    servico = Servico.objects.filter(serid = serid).first()
-    return render(request, 'form_altera_servico.html', {'tiposervicos': tiposervicos, 'servico': servico})
-
 def cancelar_solicitacao(request, solid):
     cursor = connection.cursor()
     try:
@@ -463,6 +481,36 @@ def cancelar_solicitacao(request, solid):
     except Exception as erro:
         print(erro)
         messages.error(request, 'Erro ao remover solicitação!')
+    finally:
+        cursor.close()
+    return redirect(servicos)
+
+def aceitar_solicitacao(request, solid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_solicita (%(cod)s, %(novo)s)', {
+                'cod': solid,
+                'novo': 'Concluído'
+            })
+        messages.success(request, 'Solicitação aceita com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao aceitar solicitação!')
+    finally:
+        cursor.close()
+    return redirect(servicos)
+
+def negar_solicitacao(request, solid):
+    cursor = connection.cursor()
+    try:
+        cursor.execute('call sp_altera_status_solicita (%(cod)s, %(novo)s)', {
+                'cod': solid,
+                'novo': 'Cancelado'
+            })
+        messages.success(request, 'Solicitação cancelada com sucesso!')
+    except Exception as erro:
+        print(erro)
+        messages.error(request, 'Erro ao cancelar solicitação!')
     finally:
         cursor.close()
     return redirect(servicos)
@@ -528,27 +576,7 @@ def solicita_servico_junto(request):
         cursor.close()
     return redirect(usuario)
 
-##################### Fim solicita junto
-
-@login_required(login_url="/accounts/login")
-def usuario_produto_detalhe(request, proid):
-    if str(request.user.groups.first()) == 'Pessoa':
-        petshop = Petshop.objects.filter(ptsemail = str(request.user.email)).first()
-        produto = Produto.objects.filter(proid = proid).first()
-        fotos_produto = ProdutoFoto.objects.filter(produto_proid = produto.proid)
-        avaliacoes = Avaliacao.objects.filter(produto_proid = produto)
-        media_avaliacoes = 0
-        if avaliacoes:
-            vetor_avavalor = []
-            for avaliacao in avaliacoes:
-                vetor_avavalor.append(avaliacao.avavalor)
-            media_avaliacoes = int(mean(vetor_avavalor))
-        return render(request, 'usuario_detalhes_produto.html', {'produto': produto, 'petshop': petshop, 'fotos_produto': fotos_produto, 'avaliacoes': avaliacoes, 'media_avaliacoes': media_avaliacoes})
-    else:
-        messages.error(request, 'Usuário deve ser uma pessoa!')
-        return render(request, 'index.html')
-
-
+##################### CRUD avaliação #####################
 @login_required(login_url="/accounts/login")
 def insere_avaliacao_produto(request, proid):
     cursor = connection.cursor()
@@ -653,37 +681,8 @@ def altera_avaliacao(request, avacod):
     else:
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
-    
-def aceitar_solicitacao(request, solid):
-    cursor = connection.cursor()
-    try:
-        cursor.execute('call sp_altera_status_solicita (%(cod)s, %(novo)s)', {
-                'cod': solid,
-                'novo': 'Concluído'
-            })
-        messages.success(request, 'Solicitação aceita com sucesso!')
-    except Exception as erro:
-        print(erro)
-        messages.error(request, 'Erro ao aceitar solicitação!')
-    finally:
-        cursor.close()
-    return redirect(servicos)
 
-def negar_solicitacao(request, solid):
-    cursor = connection.cursor()
-    try:
-        cursor.execute('call sp_altera_status_solicita (%(cod)s, %(novo)s)', {
-                'cod': solid,
-                'novo': 'Cancelado'
-            })
-        messages.success(request, 'Solicitação cancelada com sucesso!')
-    except Exception as erro:
-        print(erro)
-        messages.error(request, 'Erro ao cancelar solicitação!')
-    finally:
-        cursor.close()
-    return redirect(servicos)
-
+##################### Dashboards Pet shop #####################
 @login_required(login_url="/accounts/login")
 def petshop_relatorio_faturamento_venda(request):
     if str(request.user.groups.first()) == 'Pet shop':
@@ -710,3 +709,70 @@ def petshop_relatorio_faturamento_venda(request):
     else:
         messages.error(request, 'Usuário deve ser um pet shop!')
         return render(request, 'index.html')
+    
+@login_required(login_url="/accounts/login")
+def petshop_relatorio_produto_categoria(request):
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        #Vendas do petshop logado
+        x = Venda.objects.filter(venpro__propetshop_ptsid__ptsid = petshop.ptsid)
+        #Categorias dos produtos
+        categorias = CategoriaProduto.objects.all()
+        label = []
+        data = []
+        for categoria in categorias:
+            vendas = Venda.objects.filter(venpro__categoria_produto_ctpid__ctpid =  categoria.ctpid).aggregate(Sum('venqtd'))
+            if not vendas['venqtd__sum']:
+                vendas['venqtd__sum'] = 0
+            label.append(categoria.ctpnome)
+            data.append(vendas['venqtd__sum'])
+        x = list(zip(label, data))
+        #Ordenar em ordem decrescente
+        x.sort(key=lambda x: x[1], reverse=True)
+        x = list(zip(*x))
+        return JsonResponse({'labels': x[0], 'data': x[1]})
+    else:
+        messages.error(request, 'Usuário deve ser um pet shop!')
+        return render(request, 'index.html')
+    
+def retorna_receita_mes(request):
+    mes = request.GET.get('mes')
+    mes = 1
+    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+    print(mes)
+    total = Venda.objects.filter(venpro__propetshop_ptsid__ptsid = petshop.ptsid, vendthora__month = mes).aggregate(Sum('venvalor'))['venvalor__sum']
+    print(total)
+    if request.method == "GET":
+        return JsonResponse({'total': total})
+
+
+##################### Dashboards Pessoa #####################
+@login_required(login_url="/accounts/login")
+def usuario_relatorio_gastos_produtos(request):
+    if str(request.user.groups.first()) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        #Venda da pessoa logado
+        x = Venda.objects.filter(venpessoa_pesid__pesid = pessoa.pesid)
+        meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+        data = []
+        labels = []
+        mes = datetime.now().month + 1
+        ano = datetime.now().year
+        for i in range(12): 
+            mes -= 1
+            if mes == 0:
+                mes = 12
+                ano -= 1
+
+            y = sum([i.venvalor for i in x if i.vendthora.month == mes and i.vendthora.year == ano])
+            labels.append(meses[mes-1])
+            data.append(y)
+        data_json = {'data': data[::-1], 'labels': labels[::-1]}
+        
+        return JsonResponse(data_json)
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+    
+
+##################### Dashboards Ong #####################

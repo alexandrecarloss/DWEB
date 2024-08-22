@@ -224,7 +224,14 @@
                 <!-- Aqui você pode adicionar o gráfico para vendas -->
                 <div class="mt-4">
                     {% if grupo_usuario == 'Pet shop' %}
-                    <canvas id="petshop_relatorio_faturamento_venda"></canvas>
+                    <div class="row">
+                    <div class="col-md">
+                        <canvas id="petshop_relatorio_faturamento_venda" width="250px" height="200px"></canvas>
+                    </div>
+                    <div class="col-md">
+                    <canvas id="petshop_relatorio_produto_categoria"></canvas>
+                </div>
+                </div>
                     {% endif %}
                     <canvas id="vendasChart"></canvas>
                 </div>
@@ -232,6 +239,10 @@
             <div class="tab-pane fade" id="gastos" role="tabpanel" aria-labelledby="gastos-tab">
                 <!-- Aqui você pode adicionar o gráfico para gastos -->
                 <div class="mt-4">
+                    {% if grupo_usuario == 'Pessoa' %}
+                    <canvas id="usuario_relatorio_gastos_produtos"></canvas>
+                    
+                    {% endif %}
                     <canvas id="gastosChart"></canvas>
                 </div>
             </div>
@@ -245,10 +256,27 @@
     </div>
 </div>
 <!-- Dashboard End -->
+{% if grupo_usuario == 'Pet shop' %}
 <script>
     window.onload = function(e){
         renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}')
+        renderiza_petshop_relatorio_produto_categoria('{% url "petshop_relatorio_produto_categoria" %}')
     }
-  
-  </script>
+</script>
+{% endif %}
+{% if grupo_usuario == 'Pessoa' %}
+<script>
+    window.onload = function(e){
+        renderiza_usuario_relatorio_gastos_produtos('{% url "usuario_relatorio_gastos_produtos" %}')
+    }
+</script>
+{% endif %}
+{% if grupo_usuario == 'Ong' %}
+<script>
+    window.onload = function(e){
+        
+    }
+</script>
+{% endif %}
+
 {% endblock content %}
