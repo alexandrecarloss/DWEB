@@ -228,13 +228,26 @@
                         <h1>Faturamento mensal: &nbspR$ <span id="receita_mes"></span></h1> 
                         
                         <div class="row">
+                            <h1>Produto</h1>
+                            <br>
                             <div class="col-md">
                                 <canvas id="petshop_relatorio_faturamento_venda" width="250px" height="200px"></canvas>
                             </div>
                             <div class="col-md">
-                                <canvas id="petshop_relatorio_quantidade_venda"></canvas>
+                                <canvas id="petshop_relatorio_quantidade_venda" width="250px" height="200px"></canvas>
                             </div>
                         </div>
+                        <div class="row">
+                            <h1>Serviço</h1>
+                            <br>
+                            <div class="col-md">
+                                <canvas id="petshop_relatorio_faturamento_servico" width="250px" height="200px"></canvas>
+                            </div>
+                            <div class="col-md">
+                                <canvas id="petshop_relatorio_quantidade_servico" width="250px" height="200px"></canvas>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md">
                                 <canvas id="petshop_relatorio_produto_categoria"></canvas>
@@ -285,7 +298,8 @@
         renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}');
         renderiza_petshop_relatorio_produto_categoria('{% url "petshop_relatorio_produto_categoria" %}');
         renderiza_petshop_relatorio_quantidade_venda('{% url "petshop_relatorio_quantidade_venda" %}');
-        
+        renderiza_petshop_relatorio_faturamento_servico('{% url "petshop_relatorio_faturamento_servico" %}');
+
         renderiza_receita_mes('{% url "retorna_receita_mes" %}');
     }
 </script>

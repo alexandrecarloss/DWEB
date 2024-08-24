@@ -53,6 +53,8 @@ urlpatterns = [
     path('petshop_relatorio_faturamento_venda/', views.petshop_relatorio_faturamento_venda, name='petshop_relatorio_faturamento_venda'),
     path('petshop_relatorio_produto_categoria/', views.petshop_relatorio_produto_categoria, name='petshop_relatorio_produto_categoria'),
     path('petshop_relatorio_quantidade_venda/', views.petshop_relatorio_quantidade_venda, name='petshop_relatorio_quantidade_venda'),
+    path('petshop_relatorio_faturamento_servico/', views.petshop_relatorio_faturamento_servico, name='petshop_relatorio_faturamento_servico'),
+    
     #Retorno de valor int
     path('retorna_receita_mes/', views.retorna_receita_mes, name='retorna_receita_mes'),
     
