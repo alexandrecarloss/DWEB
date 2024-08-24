@@ -791,6 +791,36 @@ def petshop_relatorio_faturamento_servico(request):
         messages.error(request, 'Usuário deve ser um pet shop!')
         return render(request, 'index.html')
     
+@login_required(login_url="/accounts/login")
+def petshop_relatorio_quantidade_servico(request):
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        #Venda do petshop logado
+        x = Solicita.objects.filter(servico_serid__petshop_ptsid = petshop)
+        meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+        data = []
+        labels = []
+        mes = datetime.now().month + 1
+        ano = datetime.now().year
+        for i in range(12): 
+            mes -= 1
+            if mes == 0:
+                mes = 12
+                ano -= 1
+            count = 0
+            #Contando a quantidade de serviços solicitados para cada mês
+            for i in x:
+                if i.soldthr.month == mes and i.soldthr.year == ano:
+                    count += 1
+            labels.append(meses[mes-1])
+            data.append(count)
+        data_json = {'data': data[::-1], 'labels': labels[::-1]}
+        
+        return JsonResponse(data_json)
+    else:
+        messages.error(request, 'Usuário deve ser um pet shop!')
+        return render(request, 'index.html')
+    
     
 @login_required(login_url="/accounts/login")
 def retorna_receita_mes(request):
