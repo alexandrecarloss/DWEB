@@ -20,5 +20,8 @@ urlpatterns = [
     #Dashboard para ong
     path('ong_relatorio_adocoes_concluidas/', views.ong_relatorio_adocoes_concluidas, name='ong_relatorio_adocoes_concluidas'),
     path('ong_relatorio_adocoes_concluidas_tipo/', views.ong_relatorio_adocoes_concluidas_tipo, name='ong_relatorio_adocoes_concluidas_tipo'),
+
+    #Retorno de Valores
+    path('retorna_total_adocoes/', views.retorna_total_adocoes, name='retorna_total_adocoes'),
     
 ]

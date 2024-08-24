@@ -513,3 +513,16 @@ function renderiza_ong_relatorio_adocoes_concluidas_tipo(url){
         });
     })
 }
+
+
+
+function renderiza_total_adocoes(url) {  
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        document.getElementById('total_adocoes').innerHTML = data.total
+    })
+}
+

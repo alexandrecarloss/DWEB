@@ -341,7 +341,6 @@ def ong_relatorio_adocoes_concluidas_tipo(request):
                 adocoes['ttaid__count'] = 0
             label.append(tipo.pttnome)
             data.append(adocoes['ttaid__count'])
-            print(tipo.pttnome, adocoes['ttaid__count'])
         x = list(zip(label, data))
         #Ordenar em ordem decrescente
         x.sort(key=lambda x: x[1], reverse=True)
@@ -350,3 +349,9 @@ def ong_relatorio_adocoes_concluidas_tipo(request):
     else:
         messages.error(request, 'Usuário deve ser uma ong!')
         return render(request, 'index.html')
+    
+
+def retorna_total_adocoes(request):
+    total = TentativaAdota.objects.filter(ttastatus = 'Adotado').aggregate(Count('ttaid'))
+    if request.method == "GET":
+            return JsonResponse({'total': total['ttaid__count']})
