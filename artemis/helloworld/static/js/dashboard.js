@@ -64,7 +64,7 @@ function renderiza_petshop_relatorio_produto_categoria(url){
         // Receber canva do html que vai renderizar o dashboard
         const ctx = document.getElementById('petshop_relatorio_produto_categoria').getContext('2d');
         // Gerar cores aleatórias para o dashboard
-        var cores_faturamento_mensal = gera_cor(qtd=12)
+        var cores_produtos_categoria = gera_cor(qtd=12)
         // Atribuir dados do chart
         const myChart = new Chart(ctx, {
             //Tipo de dashboard
@@ -77,8 +77,8 @@ function renderiza_petshop_relatorio_produto_categoria(url){
                     label: 'quantidade',
                     // dados equivalentes aos meses
                     data: data.data,
-                    backgroundColor: cores_faturamento_mensal[0],
-                    borderColor: cores_faturamento_mensal[1],
+                    backgroundColor: cores_produtos_categoria[0],
+                    borderColor: cores_produtos_categoria[1],
                     borderWidth: 1
                 }]
             },
@@ -117,7 +117,7 @@ function renderiza_usuario_relatorio_gastos_produtos(url){
         // Receber canva do html que vai renderizar o dashboard
         const ctx = document.getElementById('usuario_relatorio_gastos_produtos').getContext('2d');
         // Gerar cores aleatórias para o dashboard
-        var cores_faturamento_mensal = gera_cor(qtd=12)
+        var cores_gastos_produtos_mensal = gera_cor(qtd=12)
         // Atribuir dados do chart
         const myChart = new Chart(ctx, {
             //Tipo de dashboard
@@ -127,11 +127,11 @@ function renderiza_usuario_relatorio_gastos_produtos(url){
                 labels: data.labels,
                 datasets: [{
                     //Nome do dado
-                    label: 'gastos com produtos',
+                    label: 'gastos com produtos R$',
                     // dados equivalentes aos meses
                     data: data.data,
-                    backgroundColor: cores_faturamento_mensal[0],
-                    borderColor: cores_faturamento_mensal[1],
+                    backgroundColor: cores_gastos_produtos_mensal[0],
+                    borderColor: cores_gastos_produtos_mensal[1],
                     borderWidth: 1
                 }]
             },
@@ -158,7 +158,7 @@ function renderiza_usuario_relatorio_gastos_servicos(url){
         // Receber canva do html que vai renderizar o dashboard
         const ctx = document.getElementById('usuario_relatorio_gastos_servicos').getContext('2d');
         // Gerar cores aleatórias para o dashboard
-        var cores_faturamento_mensal = gera_cor(qtd=12)
+        var cores_gastos_servicos_mensal = gera_cor(qtd=12)
         // Atribuir dados do chart
         const myChart = new Chart(ctx, {
             //Tipo de dashboard
@@ -168,11 +168,11 @@ function renderiza_usuario_relatorio_gastos_servicos(url){
                 labels: data.labels,
                 datasets: [{
                     //Nome do dado
-                    label: 'gastos com serviços',
+                    label: 'gastos com serviços R$',
                     // dados equivalentes aos meses
                     data: data.data,
-                    backgroundColor: cores_faturamento_mensal[0],
-                    borderColor: cores_faturamento_mensal[1],
+                    backgroundColor: cores_gastos_servicos_mensal[0],
+                    borderColor: cores_gastos_servicos_mensal[1],
                     borderWidth: 1
                 }]
             },
@@ -198,7 +198,7 @@ function renderiza_usuario_relatorio_produto_categoria(url){
         // Receber canva do html que vai renderizar o dashboard
         const ctx = document.getElementById('usuario_relatorio_produto_categoria').getContext('2d');
         // Gerar cores aleatórias para o dashboard
-        var cores_faturamento_mensal = gera_cor(qtd=12)
+        var cores_quantidade_produto_categoria = gera_cor(qtd=12)
         // Atribuir dados do chart
         const myChart = new Chart(ctx, {
             //Tipo de dashboard
@@ -211,8 +211,49 @@ function renderiza_usuario_relatorio_produto_categoria(url){
                     label: 'quantidade',
                     // dados equivalentes aos meses
                     data: data.data,
-                    backgroundColor: cores_faturamento_mensal[0],
-                    borderColor: cores_faturamento_mensal[1],
+                    backgroundColor: cores_quantidade_produto_categoria[0],
+                    borderColor: cores_quantidade_produto_categoria[1],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    })
+}
+
+
+// Função para renderizar o gráfico do dashboard de quantidade comprada por categoria
+function renderiza_usuario_relatorio_produto_categoria_gastos(url){
+    // Fazer fetch para receber os dados do backend
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        // Receber canva do html que vai renderizar o dashboard
+        const ctx = document.getElementById('usuario_relatorio_produto_categoria_gastos').getContext('2d');
+        // Gerar cores aleatórias para o dashboard
+        var cores_gastos_produto_categoria = gera_cor(qtd=12)
+        // Atribuir dados do chart
+        const myChart = new Chart(ctx, {
+            //Tipo de dashboard
+            type: 'doughnut',
+            data: {
+                // nomes de meses que estão no label de data
+                labels: data.labels,
+                datasets: [{
+                    //Nome do dado
+                    label: 'gasto R$',
+                    // dados equivalentes aos meses
+                    data: data.data,
+                    backgroundColor: cores_gastos_produto_categoria[0],
+                    borderColor: cores_gastos_produto_categoria[1],
                     borderWidth: 1
                 }]
             },

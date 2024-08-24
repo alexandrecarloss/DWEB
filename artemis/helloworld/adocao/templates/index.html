@@ -255,6 +255,9 @@
                         <div class="col-md">
                             <canvas id="usuario_relatorio_produto_categoria"  width="250px" height="200px"></canvas>
                         </div>
+                        <div class="col-md">
+                            <canvas id="usuario_relatorio_produto_categoria_gastos"  width="250px" height="200px"></canvas>
+                        </div>
                     </div>
                     {% endif %}
                     <canvas id="gastosChart"></canvas>
@@ -285,6 +288,7 @@
         renderiza_usuario_relatorio_gastos_produtos('{% url "usuario_relatorio_gastos_produtos" %}');
         renderiza_usuario_relatorio_gastos_servicos('{% url "usuario_relatorio_gastos_servicos" %}');
         renderiza_usuario_relatorio_produto_categoria('{% url "usuario_relatorio_produto_categoria" %}');
+        renderiza_usuario_relatorio_produto_categoria_gastos('{% url "usuario_relatorio_produto_categoria_gastos" %}');
     }
 </script>
 {% endif %}

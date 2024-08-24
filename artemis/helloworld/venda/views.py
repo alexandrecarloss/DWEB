@@ -857,4 +857,30 @@ def usuario_relatorio_produto_categoria(request):
         return render(request, 'index.html')
     
 
+@login_required(login_url="/accounts/login")
+def usuario_relatorio_produto_categoria_gastos(request):
+    if str(request.user.groups.first()) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        #Vendas de pessoa logado
+        x = Venda.objects.filter(venpessoa_pesid__pesid = pessoa.pesid)
+        #Categorias dos produtos
+        categorias = CategoriaProduto.objects.all()
+        label = []
+        data = []
+        for categoria in categorias:
+            vendas = Venda.objects.filter(venpro__categoria_produto_ctpid__ctpid =  categoria.ctpid, venpessoa_pesid = pessoa).aggregate(Sum('venvalor'))
+            if not vendas['venvalor__sum']:
+                vendas['venvalor__sum'] = 0
+            label.append(categoria.ctpnome)
+            data.append(vendas['venvalor__sum'])
+        x = list(zip(label, data))
+        #Ordenar em ordem decrescente
+        x.sort(key=lambda x: x[1], reverse=True)
+        x = list(zip(*x))
+        return JsonResponse({'labels': x[0], 'data': x[1]})
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+    
+
 ##################### Dashboards Ong #####################

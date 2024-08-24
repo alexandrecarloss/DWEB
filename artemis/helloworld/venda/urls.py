@@ -58,6 +58,8 @@ urlpatterns = [
     path('usuario_relatorio_gastos_produtos/', views.usuario_relatorio_gastos_produtos, name='usuario_relatorio_gastos_produtos'),
     path('usuario_relatorio_gastos_servicos/', views.usuario_relatorio_gastos_servicos, name='usuario_relatorio_gastos_servicos'),
     path('usuario_relatorio_produto_categoria/', views.usuario_relatorio_produto_categoria, name='usuario_relatorio_produto_categoria'),
+    path('usuario_relatorio_produto_categoria_gastos/', views.usuario_relatorio_produto_categoria_gastos, name='usuario_relatorio_produto_categoria_gastos'),
+    
     
     
 ]
