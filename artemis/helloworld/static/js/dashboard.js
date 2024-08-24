@@ -127,7 +127,48 @@ function renderiza_usuario_relatorio_gastos_produtos(url){
                 labels: data.labels,
                 datasets: [{
                     //Nome do dado
-                    label: 'gastos',
+                    label: 'gastos com produtos',
+                    // dados equivalentes aos meses
+                    data: data.data,
+                    backgroundColor: cores_faturamento_mensal[0],
+                    borderColor: cores_faturamento_mensal[1],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    })
+}
+
+
+// Função para renderizar o gráfico do dashboard de gastos com servicos mes/ano
+function renderiza_usuario_relatorio_gastos_servicos(url){
+    // Fazer fetch para receber os dados do backend
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        // Receber canva do html que vai renderizar o dashboard
+        const ctx = document.getElementById('usuario_relatorio_gastos_servicos').getContext('2d');
+        // Gerar cores aleatórias para o dashboard
+        var cores_faturamento_mensal = gera_cor(qtd=12)
+        // Atribuir dados do chart
+        const myChart = new Chart(ctx, {
+            //Tipo de dashboard
+            type: 'bar',
+            data: {
+                // nomes de meses que estão no label de data
+                labels: data.labels,
+                datasets: [{
+                    //Nome do dado
+                    label: 'gastos com serviços',
                     // dados equivalentes aos meses
                     data: data.data,
                     backgroundColor: cores_faturamento_mensal[0],

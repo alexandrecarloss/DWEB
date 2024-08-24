@@ -803,4 +803,32 @@ def usuario_relatorio_gastos_produtos(request):
         return render(request, 'index.html')
     
 
+@login_required(login_url="/accounts/login")
+def usuario_relatorio_gastos_servicos(request):
+    if str(request.user.groups.first()) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        #Venda da pessoa logado
+        x = Solicita.objects.filter(pessoa_pesid = pessoa.pesid)
+        meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+        data = []
+        labels = []
+        mes = datetime.now().month + 1
+        ano = datetime.now().year
+        for i in range(12): 
+            mes -= 1
+            if mes == 0:
+                mes = 12
+                ano -= 1
+
+            y = sum([i.servico_serid.servalor for i in x if i.soldthr.month == mes and i.soldthr.year == ano])
+            labels.append(meses[mes-1])
+            data.append(y)
+        data_json = {'data': data[::-1], 'labels': labels[::-1]}
+        
+        return JsonResponse(data_json)
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
+    
+
 ##################### Dashboards Ong #####################

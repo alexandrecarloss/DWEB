@@ -244,6 +244,7 @@
                 <div class="mt-4">
                     {% if grupo_usuario == 'Pessoa' %}
                     <canvas id="usuario_relatorio_gastos_produtos"></canvas>
+                    <canvas id="usuario_relatorio_gastos_servicos"></canvas>
                     
                     {% endif %}
                     <canvas id="gastosChart"></canvas>
@@ -272,6 +273,7 @@
 <script>
     window.onload = function(e){
         renderiza_usuario_relatorio_gastos_produtos('{% url "usuario_relatorio_gastos_produtos" %}')
+        renderiza_usuario_relatorio_gastos_servicos('{% url "usuario_relatorio_gastos_servicos" %}')
     }
 </script>
 {% endif %}

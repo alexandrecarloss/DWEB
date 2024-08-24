@@ -54,9 +54,8 @@ urlpatterns = [
     path('petshop_relatorio_produto_categoria/', views.petshop_relatorio_produto_categoria, name='petshop_relatorio_produto_categoria'),
     path('retorna_receita_mes/', views.retorna_receita_mes, name='retorna_receita_mes'),
     
-
     #Dashboard para pessoa
     path('usuario_relatorio_gastos_produtos/', views.usuario_relatorio_gastos_produtos, name='usuario_relatorio_gastos_produtos'),
+    path('usuario_relatorio_gastos_servicos/', views.usuario_relatorio_gastos_servicos, name='usuario_relatorio_gastos_servicos'),
     
-
 ]
