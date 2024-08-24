@@ -12,6 +12,7 @@ from statistics import mean
 from datetime import datetime
 from django.http import JsonResponse
 from django.db.models import Sum, Count
+from django.db.models.functions import ExtractMonth
 
 token = '8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e'
 headers = {
@@ -735,15 +736,42 @@ def petshop_relatorio_produto_categoria(request):
         messages.error(request, 'Usuário deve ser um pet shop!')
         return render(request, 'index.html')
     
+@login_required(login_url="/accounts/login")
 def retorna_receita_mes(request):
-    mes = request.GET.get('mes')
-    mes = 1
-    petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-    print(mes)
-    total = Venda.objects.filter(venpro__propetshop_ptsid__ptsid = petshop.ptsid, vendthora__month = mes).aggregate(Sum('venvalor'))['venvalor__sum']
-    print(total)
-    if request.method == "GET":
-        return JsonResponse({'total': total})
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        mes = request.GET.get('mes')
+        ano = request.GET.get('ano')
+        #Coloquei ano 2024 e mes 8 default 
+        if not mes:
+            mes = 8
+        if not ano:
+            ano = 2024
+        cursor = connection.cursor()
+
+        try:
+            # SP para obter informações de venda de um determinado mes ano e petshop
+            cursor.execute('call sp_venda_mes (%(mes)s, %(ano)s, %(petshop)s)', 
+                {
+                    'mes': mes, 
+                    'ano': ano,
+                    'petshop': petshop.ptsid
+                })
+            # results recebe o resultado da procedure que retorna produto, cliente, quantidade, total e data hora
+            results = cursor.fetchall()
+            total = 0
+            # Somar o total das vendas desse mes
+            for r in results:
+                total += r[3]
+        except Exception as erro:
+            print('erro: ', erro)
+        finally:
+            cursor.close()
+        if request.method == "GET":
+            return JsonResponse({'total': total})
+    else:
+        messages.error(request, 'Usuário deve ser um pet shop!')
+        return render(request, 'index.html')
 
 
 ##################### Dashboards Pessoa #####################

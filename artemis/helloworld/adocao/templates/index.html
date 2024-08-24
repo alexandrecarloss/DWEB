@@ -224,15 +224,18 @@
                 <!-- Aqui você pode adicionar o gráfico para vendas -->
                 <div class="mt-4">
                     {% if grupo_usuario == 'Pet shop' %}
-                    <div class="row">
-                    <div class="col-md">
-                        <canvas id="petshop_relatorio_faturamento_venda" width="250px" height="200px"></canvas>
-                    </div>
-                    <div class="col-md">
-                    <canvas id="petshop_relatorio_produto_categoria"></canvas>
-                </div>
-                </div>
+                        <div  class="col-md informacoes_basicas">
+                            <h1>Faturamento mensal: &nbspR$ <span id="receita_mes"></span></h1> 
+                        </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <canvas id="petshop_relatorio_faturamento_venda" width="250px" height="200px"></canvas>
+                            </div>
+                            <div class="col-md">
+                            <canvas id="petshop_relatorio_produto_categoria"></canvas>
+                        </div>
                     {% endif %}
+                </div>
                     <canvas id="vendasChart"></canvas>
                 </div>
             </div>
@@ -261,6 +264,7 @@
     window.onload = function(e){
         renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}')
         renderiza_petshop_relatorio_produto_categoria('{% url "petshop_relatorio_produto_categoria" %}')
+        renderiza_receita_mes('{% url "retorna_receita_mes" %}')
     }
 </script>
 {% endif %}

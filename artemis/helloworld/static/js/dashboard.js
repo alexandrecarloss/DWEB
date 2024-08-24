@@ -93,7 +93,16 @@ function renderiza_petshop_relatorio_produto_categoria(url){
     })
 }
 
+function renderiza_receita_mes(url) {  
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        document.getElementById('receita_mes').innerHTML = data.total
+    })
 
+}
 
 ////////////////////////////// Usuário ///////////////////////////////////////
 
