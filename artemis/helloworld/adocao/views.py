@@ -9,6 +9,8 @@ from django.contrib import messages
 from helloworld.context_processors import *
 from accounts.views import cadastro_dados 
 from accounts.views import usuario, ong
+from datetime import datetime
+from django.http import JsonResponse
 
 def index(request):
     return render(request, 'index.html')
@@ -287,3 +289,38 @@ def altera_status_adocao_nao_adotado(request, ttaid):
     finally:
         cursor.close()
     return redirect(ong)
+
+
+########################################## Dashboards Ong ##########################################
+@login_required(login_url="/accounts/login")
+def ong_relatorio_adocoes_concluidas(request):
+    if str(request.user.groups.first()) == 'Ong':
+        v_ong = Ong.objects.filter(ongemail = request.user.email).first()
+        #Adoções concluídas de ong logado
+        x = TentativaAdota.objects.filter(tta_petadocao__ong_ongid = v_ong, ttastatus = 'Adotado')
+        meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+        data = []
+        labels = []
+        mes = datetime.now().month + 1
+        ano = datetime.now().year
+        for i in range(12): 
+            mes -= 1
+            if mes == 0:
+                mes = 12
+                ano -= 1
+
+            count = 0
+            #Contando a quantidade de adoções para cada mês
+            for i in x:
+                if i.ttadthora.month == mes and i.ttadthora.year == ano:
+                    count += 1
+            labels.append(meses[mes-1])
+            data.append(count)
+        data_json = {'data': data[::-1], 'labels': labels[::-1]}
+        
+        return JsonResponse(data_json)
+    else:
+        messages.error(request, 'Usuário deve ser uma ong!')
+        return render(request, 'index.html')
+    
+

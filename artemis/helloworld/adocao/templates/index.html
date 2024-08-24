@@ -287,7 +287,9 @@
             <div class="tab-pane fade" id="adocoes" role="tabpanel" aria-labelledby="adocoes-tab">
                 <!-- Aqui você pode adicionar o gráfico para adoções -->
                 <div class="mt-4">
-                    <canvas id="adocoesChart"></canvas>
+                    {% if grupo_usuario == 'Ong' %}
+                        <canvas id="ong_relatorio_adocoes_concluidas"></canvas>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -321,7 +323,7 @@
 {% if grupo_usuario == 'Ong' %}
 <script>
     window.onload = function(e){
-        
+        renderiza_ong_relatorio_adocoes_concluidas('{% url "ong_relatorio_adocoes_concluidas" %}');
     }
 </script>
 {% endif %}

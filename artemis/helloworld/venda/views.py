@@ -768,8 +768,8 @@ def petshop_relatorio_produto_categoria(request):
 def petshop_relatorio_faturamento_servico(request):
     if str(request.user.groups.first()) == 'Pet shop':
         petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-        #Venda da pessoa logado
-        x = Solicita.objects.filter(servico_serid__petshop_ptsid = petshop)
+        #Solicitações do petshop logado e concluído
+        x = Solicita.objects.filter(servico_serid__petshop_ptsid = petshop, solstatus = 'Concluído')
         meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
         data = []
         labels = []
@@ -795,8 +795,8 @@ def petshop_relatorio_faturamento_servico(request):
 def petshop_relatorio_quantidade_servico(request):
     if str(request.user.groups.first()) == 'Pet shop':
         petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-        #Venda do petshop logado
-        x = Solicita.objects.filter(servico_serid__petshop_ptsid = petshop)
+        #Solicitações do petshop logado e concluído
+        x = Solicita.objects.filter(servico_serid__petshop_ptsid = petshop, solstatus = 'Concluído')
         meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
         data = []
         labels = []
@@ -919,7 +919,7 @@ def usuario_relatorio_gastos_servicos(request):
     if str(request.user.groups.first()) == 'Pessoa':
         pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
         #Venda da pessoa logado
-        x = Solicita.objects.filter(pessoa_pesid = pessoa.pesid)
+        x = Solicita.objects.filter(pessoa_pesid = pessoa.pesid, solstatus = 'Concluído')
         meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
         data = []
         labels = []
@@ -993,5 +993,3 @@ def usuario_relatorio_produto_categoria_gastos(request):
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
     
-
-########################################## Dashboards Ong ##########################################

@@ -17,4 +17,6 @@ urlpatterns = [
     path('altera_status_adocao_negado/<int:ttaid>/', views.altera_status_adocao_negado, name='altera_status_adocao_negado'),
     path('altera_status_adocao_adotado/<int:ttaid>/', views.altera_status_adocao_adotado, name='altera_status_adocao_adotado'),
     path('altera_status_adocao_nao_adotado/<int:ttaid>/', views.altera_status_adocao_nao_adotado, name='altera_status_adocao_nao_adotado'),
+    #Dashboard para ong
+    path('ong_relatorio_adocoes_concluidas/', views.ong_relatorio_adocoes_concluidas, name='ong_relatorio_adocoes_concluidas'),
 ]
