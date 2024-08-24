@@ -232,7 +232,13 @@
                                 <canvas id="petshop_relatorio_faturamento_venda" width="250px" height="200px"></canvas>
                             </div>
                             <div class="col-md">
-                            <canvas id="petshop_relatorio_produto_categoria"></canvas>
+                                <canvas id="petshop_relatorio_quantidade_venda"></canvas>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <canvas id="petshop_relatorio_produto_categoria"></canvas>
+                            </div>
                         </div>
                     {% endif %}
                 </div>
@@ -278,6 +284,8 @@
     window.onload = function(e){
         renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}');
         renderiza_petshop_relatorio_produto_categoria('{% url "petshop_relatorio_produto_categoria" %}');
+        renderiza_petshop_relatorio_quantidade_venda('{% url "petshop_relatorio_quantidade_venda" %}');
+        
         renderiza_receita_mes('{% url "retorna_receita_mes" %}');
     }
 </script>

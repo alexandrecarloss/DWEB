@@ -683,7 +683,7 @@ def altera_avaliacao(request, avacod):
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
 
-##################### Dashboards Pet shop #####################
+########################################## Dashboards Pet shop ##########################################
 @login_required(login_url="/accounts/login")
 def petshop_relatorio_faturamento_venda(request):
     if str(request.user.groups.first()) == 'Pet shop':
@@ -710,6 +710,34 @@ def petshop_relatorio_faturamento_venda(request):
     else:
         messages.error(request, 'Usuário deve ser um pet shop!')
         return render(request, 'index.html')
+    
+@login_required(login_url="/accounts/login")
+def petshop_relatorio_quantidade_venda(request):
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        #Venda do petshop logado
+        x = Venda.objects.filter(venpro__propetshop_ptsid__ptsid = petshop.ptsid)
+        meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+        data = []
+        labels = []
+        mes = datetime.now().month + 1
+        ano = datetime.now().year
+        for i in range(12): 
+            mes -= 1
+            if mes == 0:
+                mes = 12
+                ano -= 1
+
+            y = sum([i.venqtd for i in x if i.vendthora.month == mes and i.vendthora.year == ano])
+            labels.append(meses[mes-1])
+            data.append(y)
+        data_json = {'data': data[::-1], 'labels': labels[::-1]}
+        
+        return JsonResponse(data_json)
+    else:
+        messages.error(request, 'Usuário deve ser um pet shop!')
+        return render(request, 'index.html')
+    
     
 @login_required(login_url="/accounts/login")
 def petshop_relatorio_produto_categoria(request):
@@ -774,7 +802,7 @@ def retorna_receita_mes(request):
         return render(request, 'index.html')
 
 
-##################### Dashboards Pessoa #####################
+########################################## Dashboards Pessoa ##########################################
 @login_required(login_url="/accounts/login")
 def usuario_relatorio_gastos_produtos(request):
     if str(request.user.groups.first()) == 'Pessoa':
@@ -883,4 +911,4 @@ def usuario_relatorio_produto_categoria_gastos(request):
         return render(request, 'index.html')
     
 
-##################### Dashboards Ong #####################
+########################################## Dashboards Ong ##########################################
