@@ -288,7 +288,14 @@
                 <!-- Aqui você pode adicionar o gráfico para adoções -->
                 <div class="mt-4">
                     {% if grupo_usuario == 'Ong' %}
-                        <canvas id="ong_relatorio_adocoes_concluidas"></canvas>
+                        <div class="row">
+                            <div class="col-md">
+                                <canvas id="ong_relatorio_adocoes_concluidas"  width="250px" height="200px"></canvas>
+                            </div>
+                            <div class="col-md">
+                                <canvas id="ong_relatorio_adocoes_concluidas_tipo"  width="250px" height="200px"></canvas>
+                            </div>
+                        </div>                        
                     {% endif %}
                 </div>
             </div>
@@ -324,6 +331,7 @@
 <script>
     window.onload = function(e){
         renderiza_ong_relatorio_adocoes_concluidas('{% url "ong_relatorio_adocoes_concluidas" %}');
+        renderiza_ong_relatorio_adocoes_concluidas_tipo('{% url "ong_relatorio_adocoes_concluidas_tipo" %}');
     }
 </script>
 {% endif %}

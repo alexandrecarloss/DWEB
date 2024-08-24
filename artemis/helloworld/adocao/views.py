@@ -11,6 +11,7 @@ from accounts.views import cadastro_dados
 from accounts.views import usuario, ong
 from datetime import datetime
 from django.http import JsonResponse
+from django.db.models import Sum, Count
 
 def index(request):
     return render(request, 'index.html')
@@ -324,3 +325,28 @@ def ong_relatorio_adocoes_concluidas(request):
         return render(request, 'index.html')
     
 
+@login_required(login_url="/accounts/login")
+def ong_relatorio_adocoes_concluidas_tipo(request):
+    if str(request.user.groups.first()) == 'Ong':
+        v_ong = Ong.objects.filter(ongemail = request.user.email).first()
+        #Adoções concluídas de ong logado
+        x = TentativaAdota.objects.filter(tta_petadocao__ong_ongid = v_ong, ttastatus = 'Adotado')
+        #Tipos de pets
+        tipos = PetTipo.objects.all()
+        label = []
+        data = []
+        for tipo in tipos:
+            adocoes = TentativaAdota.objects.filter(tta_petadocao__ong_ongid = v_ong, ttastatus = 'Adotado', tta_petadocao__pet_petid__pet_tipo_pttid = tipo).aggregate(Count('ttaid'))
+            if not adocoes['ttaid__count']:
+                adocoes['ttaid__count'] = 0
+            label.append(tipo.pttnome)
+            data.append(adocoes['ttaid__count'])
+            print(tipo.pttnome, adocoes['ttaid__count'])
+        x = list(zip(label, data))
+        #Ordenar em ordem decrescente
+        x.sort(key=lambda x: x[1], reverse=True)
+        x = list(zip(*x))
+        return JsonResponse({'labels': x[0], 'data': x[1]})
+    else:
+        messages.error(request, 'Usuário deve ser uma ong!')
+        return render(request, 'index.html')

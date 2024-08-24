@@ -471,3 +471,45 @@ function renderiza_ong_relatorio_adocoes_concluidas(url){
         });
     })
 }
+
+
+
+// Função para renderizar o gráfico do dashboard de quantidade de pets adotados por tipo
+function renderiza_ong_relatorio_adocoes_concluidas_tipo(url){
+    // Fazer fetch para receber os dados do backend
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        // Receber canva do html que vai renderizar o dashboard
+        const ctx = document.getElementById('ong_relatorio_adocoes_concluidas_tipo').getContext('2d');
+        // Gerar cores aleatórias para o dashboard
+        var cores_quantidade_mensal_adocao_tipo = gera_cor(qtd=12)
+        // Atribuir dados do chart
+        const myChart = new Chart(ctx, {
+            //Tipo de dashboard
+            type: 'doughnut',
+            data: {
+                // nomes de meses que estão no label de data
+                labels: data.labels,
+                datasets: [{
+                    //Nome do dado
+                    label: 'Qtde adoção tipo',
+                    // dados equivalentes aos meses
+                    data: data.data,
+                    backgroundColor: cores_quantidade_mensal_adocao_tipo[0],
+                    borderColor: cores_quantidade_mensal_adocao_tipo[1],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    })
+}
