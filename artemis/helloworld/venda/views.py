@@ -821,6 +821,31 @@ def petshop_relatorio_quantidade_servico(request):
         messages.error(request, 'Usuário deve ser um pet shop!')
         return render(request, 'index.html')
     
+@login_required(login_url="/accounts/login")
+def petshop_relatorio_produto_categoria_faturamento(request):
+    if str(request.user.groups.first()) == 'Pet shop':
+        petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        #Vendas do petshop logado
+        x = Venda.objects.filter(venpro__propetshop_ptsid__ptsid = petshop.ptsid)
+        #Categorias dos produtos
+        categorias = CategoriaProduto.objects.all()
+        label = []
+        data = []
+        for categoria in categorias:
+            vendas = Venda.objects.filter(venpro__categoria_produto_ctpid__ctpid =  categoria.ctpid, venpro__propetshop_ptsid = petshop).aggregate(Sum('venvalor'))
+            if not vendas['venvalor__sum']:
+                vendas['venvalor__sum'] = 0
+            label.append(categoria.ctpnome)
+            data.append(vendas['venvalor__sum'])
+        x = list(zip(label, data))
+        #Ordenar em ordem decrescente
+        x.sort(key=lambda x: x[1], reverse=True)
+        x = list(zip(*x))
+        return JsonResponse({'labels': x[0], 'data': x[1]})
+    else:
+        messages.error(request, 'Usuário deve ser um pet shop!')
+        return render(request, 'index.html')
+    
     
 @login_required(login_url="/accounts/login")
 def retorna_receita_mes(request):

@@ -225,10 +225,10 @@
                 <div class="mt-4">
                     {% if grupo_usuario == 'Pet shop' %}
                         
-                        <h1>Faturamento mensal: &nbspR$ <span id="receita_mes"></span></h1> 
-                        
-                        <div class="row">
-                            <h1>Produto</h1>
+                    
+                    <div class="row">
+                        <h2>Produto</h2>
+                            <h3>Faturamento mensal: &nbspR$ <span id="receita_mes"></span></h3> 
                             <br>
                             <div class="col-md">
                                 <canvas id="petshop_relatorio_faturamento_venda" width="250px" height="200px"></canvas>
@@ -238,23 +238,25 @@
                             </div>
                         </div>
                         <div class="row">
-                            <h1>Serviço</h1>
-                            <br>
-                            <div class="col-md">
-                                <canvas id="petshop_relatorio_faturamento_servico" width="250px" height="200px"></canvas>
-                            </div>
-                            <div class="col-md">
-                                <canvas id="petshop_relatorio_quantidade_servico" width="250px" height="200px"></canvas>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
                             <div class="col-md">
                                 <canvas id="petshop_relatorio_produto_categoria" width="250px" height="200px"></canvas>
                             </div>
+                            <div class="col-md">
+                                <canvas id="petshop_relatorio_produto_categoria_faturamento" width="250px" height="200px"></canvas>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <h1>Serviço</h1>
+                        <br>
+                        <div class="col-md">
+                            <canvas id="petshop_relatorio_faturamento_servico" width="250px" height="200px"></canvas>
                         </div>
+                        <div class="col-md">
+                            <canvas id="petshop_relatorio_quantidade_servico" width="250px" height="200px"></canvas>
+                        </div>
+                    </div>
                     {% endif %}
-                </div>
                     <canvas id="vendasChart"></canvas>
                 </div>
             </div>
@@ -300,6 +302,7 @@
         renderiza_petshop_relatorio_quantidade_venda('{% url "petshop_relatorio_quantidade_venda" %}');
         renderiza_petshop_relatorio_faturamento_servico('{% url "petshop_relatorio_faturamento_servico" %}');
         renderiza_petshop_relatorio_quantidade_servico('{% url "petshop_relatorio_quantidade_servico" %}');
+        renderiza_petshop_relatorio_produto_categoria_faturamento('{% url "petshop_relatorio_produto_categoria_faturamento" %}');
         
         renderiza_receita_mes('{% url "retorna_receita_mes" %}');
     }

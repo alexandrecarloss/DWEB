@@ -54,6 +54,7 @@ urlpatterns = [
     path('petshop_relatorio_produto_categoria/', views.petshop_relatorio_produto_categoria, name='petshop_relatorio_produto_categoria'),
     path('petshop_relatorio_quantidade_venda/', views.petshop_relatorio_quantidade_venda, name='petshop_relatorio_quantidade_venda'),
     path('petshop_relatorio_faturamento_servico/', views.petshop_relatorio_faturamento_servico, name='petshop_relatorio_faturamento_servico'),
+    path('petshop_relatorio_produto_categoria_faturamento/', views.petshop_relatorio_produto_categoria_faturamento, name='petshop_relatorio_produto_categoria_faturamento'),
     
     path('petshop_relatorio_quantidade_servico/', views.petshop_relatorio_quantidade_servico, name='petshop_relatorio_quantidade_servico'),
     

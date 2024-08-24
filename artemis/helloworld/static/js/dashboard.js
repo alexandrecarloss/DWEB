@@ -215,6 +215,46 @@ function renderiza_petshop_relatorio_quantidade_servico(url){
     })
 }
 
+// Função para renderizar o gráfico do dashboard de quantidade vendida por categoria
+function renderiza_petshop_relatorio_produto_categoria_faturamento(url){
+    // Fazer fetch para receber os dados do backend
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        // Receber canva do html que vai renderizar o dashboard
+        const ctx = document.getElementById('petshop_relatorio_produto_categoria_faturamento').getContext('2d');
+        // Gerar cores aleatórias para o dashboard
+        var cores_produtos_categoria_faturamento = gera_cor(qtd=12)
+        // Atribuir dados do chart
+        const myChart = new Chart(ctx, {
+            //Tipo de dashboard
+            type: 'doughnut',
+            data: {
+                // nomes de meses que estão no label de data
+                labels: data.labels,
+                datasets: [{
+                    //Nome do dado
+                    label: 'faturamento R$',
+                    // dados equivalentes aos meses
+                    data: data.data,
+                    backgroundColor: cores_produtos_categoria_faturamento[0],
+                    borderColor: cores_produtos_categoria_faturamento[1],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    })
+}
+
 
 function renderiza_receita_mes(url) {  
     fetch(url, {
