@@ -224,9 +224,9 @@
                 <!-- Aqui você pode adicionar o gráfico para vendas -->
                 <div class="mt-4">
                     {% if grupo_usuario == 'Pet shop' %}
-                        <div  class="col-md informacoes_basicas">
-                            <h1>Faturamento mensal: &nbspR$ <span id="receita_mes"></span></h1> 
-                        </div>
+                        
+                        <h1>Faturamento mensal: &nbspR$ <span id="receita_mes"></span></h1> 
+                        
                         <div class="row">
                             <div class="col-md">
                                 <canvas id="petshop_relatorio_faturamento_venda" width="250px" height="200px"></canvas>
@@ -243,9 +243,19 @@
                 <!-- Aqui você pode adicionar o gráfico para gastos -->
                 <div class="mt-4">
                     {% if grupo_usuario == 'Pessoa' %}
-                    <canvas id="usuario_relatorio_gastos_produtos"></canvas>
-                    <canvas id="usuario_relatorio_gastos_servicos"></canvas>
-                    
+                    <div class="row">
+                        <div class="col-md">
+                            <canvas id="usuario_relatorio_gastos_produtos"  width="250px" height="200px"></canvas>
+                        </div>
+                        <div class="col-md">
+                            <canvas id="usuario_relatorio_gastos_servicos"  width="250px" height="200px"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <canvas id="usuario_relatorio_produto_categoria"  width="250px" height="200px"></canvas>
+                        </div>
+                    </div>
                     {% endif %}
                     <canvas id="gastosChart"></canvas>
                 </div>
@@ -263,17 +273,18 @@
 {% if grupo_usuario == 'Pet shop' %}
 <script>
     window.onload = function(e){
-        renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}')
-        renderiza_petshop_relatorio_produto_categoria('{% url "petshop_relatorio_produto_categoria" %}')
-        renderiza_receita_mes('{% url "retorna_receita_mes" %}')
+        renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}');
+        renderiza_petshop_relatorio_produto_categoria('{% url "petshop_relatorio_produto_categoria" %}');
+        renderiza_receita_mes('{% url "retorna_receita_mes" %}');
     }
 </script>
 {% endif %}
 {% if grupo_usuario == 'Pessoa' %}
 <script>
     window.onload = function(e){
-        renderiza_usuario_relatorio_gastos_produtos('{% url "usuario_relatorio_gastos_produtos" %}')
-        renderiza_usuario_relatorio_gastos_servicos('{% url "usuario_relatorio_gastos_servicos" %}')
+        renderiza_usuario_relatorio_gastos_produtos('{% url "usuario_relatorio_gastos_produtos" %}');
+        renderiza_usuario_relatorio_gastos_servicos('{% url "usuario_relatorio_gastos_servicos" %}');
+        renderiza_usuario_relatorio_produto_categoria('{% url "usuario_relatorio_produto_categoria" %}');
     }
 </script>
 {% endif %}

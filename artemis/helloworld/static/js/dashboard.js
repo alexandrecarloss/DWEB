@@ -186,3 +186,43 @@ function renderiza_usuario_relatorio_gastos_servicos(url){
         });
     })
 }
+
+// Função para renderizar o gráfico do dashboard de quantidade comprada por categoria
+function renderiza_usuario_relatorio_produto_categoria(url){
+    // Fazer fetch para receber os dados do backend
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        // Receber canva do html que vai renderizar o dashboard
+        const ctx = document.getElementById('usuario_relatorio_produto_categoria').getContext('2d');
+        // Gerar cores aleatórias para o dashboard
+        var cores_faturamento_mensal = gera_cor(qtd=12)
+        // Atribuir dados do chart
+        const myChart = new Chart(ctx, {
+            //Tipo de dashboard
+            type: 'doughnut',
+            data: {
+                // nomes de meses que estão no label de data
+                labels: data.labels,
+                datasets: [{
+                    //Nome do dado
+                    label: 'quantidade',
+                    // dados equivalentes aos meses
+                    data: data.data,
+                    backgroundColor: cores_faturamento_mensal[0],
+                    borderColor: cores_faturamento_mensal[1],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    })
+}
