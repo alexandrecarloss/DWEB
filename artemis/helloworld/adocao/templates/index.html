@@ -178,7 +178,7 @@
                             <div class="col-sm-6">
                                 <div class="bg-light rounded p-3 h-100">
                                     <div>
-                                        <span class="text-primary fs-2 fw-bold">967</span>
+                                        <span class="text-primary fs-2 fw-bold" id="total_petshops"></span>
                                         <span class="h1 fw-bold text-primary">+</span>
                                     </div>
                                     <h4 class="mb-0 text-dark">Petshops Ativos</h4>
@@ -187,7 +187,7 @@
                             <div class="col-sm-6">
                                 <div class="bg-light rounded p-3 h-100">
                                     <div>
-                                        <span class="text-primary fs-2 fw-bold">967</span>
+                                        <span class="text-primary fs-2 fw-bold" id="total_ongs"></span>
                                         <span class="h1 fw-bold text-primary">+</span>
                                     </div>
                                     <h4 class="mb-0 text-dark">ONGs Ativas</h4>
@@ -314,6 +314,8 @@
         renderiza_total_adocoes('{% url "retorna_total_adocoes" %}');
         renderiza_total_produtos_vendidos('{% url "retorna_total_produtos_vendidos" %}');
         renderiza_total_servicos_concluidos('{% url "retorna_total_servicos_concluidos" %}');
+        renderiza_total_petshops('{% url "retorna_total_petshops" %}');
+        renderiza_total_ongs('{% url "retorna_total_ongs" %}');
         
 
         renderiza_petshop_relatorio_faturamento_venda('{% url "petshop_relatorio_faturamento_venda" %}');
@@ -334,6 +336,8 @@
         renderiza_total_adocoes('{% url "retorna_total_adocoes" %}');
         renderiza_total_produtos_vendidos('{% url "retorna_total_produtos_vendidos" %}');
         renderiza_total_servicos_concluidos('{% url "retorna_total_servicos_concluidos" %}');
+        renderiza_total_petshops('{% url "retorna_total_petshops" %}');
+        renderiza_total_ongs('{% url "retorna_total_ongs" %}');
 
         renderiza_usuario_relatorio_gastos_produtos('{% url "usuario_relatorio_gastos_produtos" %}');
         renderiza_usuario_relatorio_gastos_servicos('{% url "usuario_relatorio_gastos_servicos" %}');
@@ -349,6 +353,8 @@
         renderiza_total_adocoes('{% url "retorna_total_adocoes" %}');
         renderiza_total_produtos_vendidos('{% url "retorna_total_produtos_vendidos" %}');
         renderiza_total_servicos_concluidos('{% url "retorna_total_servicos_concluidos" %}');
+        renderiza_total_petshops('{% url "retorna_total_petshops" %}');
+        renderiza_total_ongs('{% url "retorna_total_ongs" %}');
 
         renderiza_ong_relatorio_adocoes_concluidas('{% url "ong_relatorio_adocoes_concluidas" %}');
         renderiza_ong_relatorio_adocoes_concluidas_tipo('{% url "ong_relatorio_adocoes_concluidas_tipo" %}');

@@ -1003,4 +1003,14 @@ def retorna_total_servicos_concluidos(request):
     if request.method == "GET":
             return JsonResponse({'total': total['solid__count']})
     
+def retorna_total_petshops(request):
+    total = Petshop.objects.all().aggregate(Count('ptsid'))
+    if request.method == "GET":
+            return JsonResponse({'total': total['ptsid__count']})
+    
+def retorna_total_ongs(request):
+    total = Ong.objects.all().aggregate(Count('ongid'))
+    if request.method == "GET":
+            return JsonResponse({'total': total['ongid__count']})
+    
     

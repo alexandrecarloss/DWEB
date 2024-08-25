@@ -546,3 +546,25 @@ function renderiza_total_servicos_concluidos(url) {
         document.getElementById('total_servicos_concluidos').innerHTML = data.total
     })
 }
+
+
+function renderiza_total_petshops(url) {  
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        document.getElementById('total_petshops').innerHTML = data.total
+    })
+}
+
+
+function renderiza_total_ongs(url) {  
+    fetch(url, {
+        method: 'get',
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        document.getElementById('total_ongs').innerHTML = data.total
+    })
+}

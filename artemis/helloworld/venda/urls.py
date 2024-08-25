@@ -63,6 +63,9 @@ urlpatterns = [
     path('retorna_receita_mes/', views.retorna_receita_mes, name='retorna_receita_mes'),
     path('retorna_total_produtos_vendidos/', views.retorna_total_produtos_vendidos, name='retorna_total_produtos_vendidos'),
     path('retorna_total_servicos_concluidos/', views.retorna_total_servicos_concluidos, name='retorna_total_servicos_concluidos'),
+    path('retorna_total_petshops/', views.retorna_total_petshops, name='retorna_total_petshops'),
+    path('retorna_total_ongs/', views.retorna_total_ongs, name='retorna_total_ongs'),
+    
     
     
     #Dashboard para pessoa
