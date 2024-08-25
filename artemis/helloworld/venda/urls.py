@@ -76,5 +76,7 @@ urlpatterns = [
     
     
     
-    
+    #Relatorios
+    path('relatorio_venda_ano/', views.relatorio_venda_ano, name='relatorio_venda_ano'),
+    path('relatorio_venda_ano_pdf_viewGeneratePdf/', views.relatorio_venda_ano_pdf_viewGeneratePdf.as_view(), name='relatorio_venda_ano_pdf_viewGeneratePdf'),
 ]

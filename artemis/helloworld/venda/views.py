@@ -13,6 +13,8 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.db.models import Sum, Count
 from django.db.models.functions import ExtractMonth
+from .utils import render_to_pdf
+from django.http import HttpResponse
 
 token = '8d5dec11c6d81e78b4aaa63bc56a98f53cf6f30e'
 headers = {
@@ -1011,6 +1013,97 @@ def retorna_total_petshops(request):
 def retorna_total_ongs(request):
     total = Ong.objects.all().aggregate(Count('ongid'))
     if request.method == "GET":
-            return JsonResponse({'total': total['ongid__count']})
+        return JsonResponse({'total': total['ongid__count']})
     
     
+class venda_ano:
+    par = int
+    produto = str
+    cliente = str
+    quantidade = int
+    total = float
+    datahora = datetime
+
+    def __str__(self):
+        return self.produto
+@login_required(login_url="/accounts/login")
+def relatorio_venda_ano(request):
+    cursor = connection.cursor()
+    if str(request.user.groups.first()) == 'Pet shop':
+        ano = request.GET.get('ano')
+        v_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        if not ano:
+            ano = 2024
+        try:
+            cursor.execute('call sp_venda_ano (%(ano)s, %(petshop)s)', 
+                {
+                    'ano': ano, 
+                    'petshop': v_petshop.ptsid, 
+                })
+            results = cursor.fetchall()
+            vendas = []
+            count = 0
+            for r in results:
+                vendas.append(venda_ano())
+                if count % 2 == 0:
+                    vendas[count].par = 1
+                else:
+                    vendas[count].par = 0
+                vendas[count].produto=r[0]
+                vendas[count].cliente=r[1]
+                vendas[count].quantidade=r[2]
+                vendas[count].total=r[3]
+                vendas[count].datahora=r[4]
+                count += 1
+        except Exception as erro:
+            print('erro: ', erro)
+            return redirect(index)
+        finally:
+            cursor.close()
+        return render(request, 'relatorio_venda_ano.html', {'vendas': vendas})
+    else:
+        messages.error(request, 'Usuário deve ser uma Pet shop!')
+        return render(request, 'index.html')
+    
+
+    
+class relatorio_venda_ano_pdf_viewGeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        cursor = connection.cursor()
+        if str(request.user.groups.first()) == 'Pet shop':
+            ano = request.GET.get('ano')
+            v_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+            if not ano:
+                ano = 2024
+            try:
+                cursor.execute('call sp_venda_ano (%(ano)s, %(petshop)s)', 
+                    {
+                        'ano': ano, 
+                        'petshop': v_petshop.ptsid, 
+                    })
+                results = cursor.fetchall()
+                vendas = []
+                count = 0
+                for r in results:
+                    vendas.append(venda_ano())
+                    if count % 2 == 0:
+                        vendas[count].par = 1
+                    else:
+                        vendas[count].par = 0
+                    vendas[count].produto=r[0]
+                    vendas[count].cliente=r[1]
+                    vendas[count].quantidade=r[2]
+                    vendas[count].total=r[3]
+                    vendas[count].datahora=r[4]
+                    count += 1
+            except Exception as erro:
+                print('erro: ', erro)
+                return redirect(index)
+            finally:
+                cursor.close()
+            pdf = render_to_pdf('relatorio_venda_ano.html', {'vendas': vendas})
+            return HttpResponse(pdf, content_type='application/pdf')
+        else:
+            messages.error(request, 'Usuário deve ser uma Pet shop!')
+            return render(request, 'index.html')
+        
