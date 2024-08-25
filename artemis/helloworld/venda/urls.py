@@ -60,7 +60,6 @@ urlpatterns = [
     
     
     #Retorno de valor int
-    path('retorna_receita_mes/', views.retorna_receita_mes, name='retorna_receita_mes'),
     path('retorna_total_produtos_vendidos/', views.retorna_total_produtos_vendidos, name='retorna_total_produtos_vendidos'),
     path('retorna_total_servicos_concluidos/', views.retorna_total_servicos_concluidos, name='retorna_total_servicos_concluidos'),
     path('retorna_total_petshops/', views.retorna_total_petshops, name='retorna_total_petshops'),
@@ -79,4 +78,7 @@ urlpatterns = [
     #Relatorios
     path('relatorio_venda_ano/', views.relatorio_venda_ano, name='relatorio_venda_ano'),
     path('relatorio_venda_ano_pdf_viewGeneratePdf/', views.relatorio_venda_ano_pdf_viewGeneratePdf.as_view(), name='relatorio_venda_ano_pdf_viewGeneratePdf'),
+    path('relatorio_venda_produtos/', views.relatorio_venda_produtos, name='relatorio_venda_produtos'),
+    path('relatorio_venda_produtos_pdf/', views.relatorio_venda_produtos_pdf, name='relatorio_venda_produtos_pdf'),
+    
 ]

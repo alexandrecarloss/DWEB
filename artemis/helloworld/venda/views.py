@@ -847,44 +847,6 @@ def petshop_relatorio_produto_categoria_faturamento(request):
     else:
         messages.error(request, 'Usuário deve ser um pet shop!')
         return render(request, 'index.html')
-    
-    
-@login_required(login_url="/accounts/login")
-def retorna_receita_mes(request):
-    if str(request.user.groups.first()) == 'Pet shop':
-        petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-        mes = request.GET.get('mes')
-        ano = request.GET.get('ano')
-        #Coloquei ano 2024 e mes 8 default 
-        if not mes:
-            mes = 8
-        if not ano:
-            ano = 2024
-        cursor = connection.cursor()
-
-        try:
-            # SP para obter informações de venda de um determinado mes ano e petshop
-            cursor.execute('call sp_venda_mes (%(mes)s, %(ano)s, %(petshop)s)', 
-                {
-                    'mes': mes, 
-                    'ano': ano,
-                    'petshop': petshop.ptsid
-                })
-            # results recebe o resultado da procedure que retorna produto, cliente, quantidade, total e data hora
-            results = cursor.fetchall()
-            total = 0
-            # Somar o total das vendas desse mes
-            for r in results:
-                total += r[3]
-        except Exception as erro:
-            print('erro: ', erro)
-        finally:
-            cursor.close()
-        if request.method == "GET":
-            return JsonResponse({'total': total})
-    else:
-        messages.error(request, 'Usuário deve ser um pet shop!')
-        return render(request, 'index.html')
 
 
 ########################################## Dashboards Pessoa ##########################################
@@ -995,6 +957,10 @@ def usuario_relatorio_produto_categoria_gastos(request):
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
     
+
+
+########################################## Retorno de int ##########################################
+
 def retorna_total_produtos_vendidos(request):
     total = Venda.objects.all().aggregate(Sum('venqtd'))
     if request.method == "GET":
@@ -1015,7 +981,8 @@ def retorna_total_ongs(request):
     if request.method == "GET":
         return JsonResponse({'total': total['ongid__count']})
     
-    
+
+########################################## Gerar PDF relatório ##########################################
 class venda_ano:
     par = int
     produto = str
@@ -1064,9 +1031,7 @@ def relatorio_venda_ano(request):
     else:
         messages.error(request, 'Usuário deve ser uma Pet shop!')
         return render(request, 'index.html')
-    
-
-    
+       
 class relatorio_venda_ano_pdf_viewGeneratePdf(View):
     def get(self, request, *args, **kwargs):
         cursor = connection.cursor()
@@ -1107,3 +1072,78 @@ class relatorio_venda_ano_pdf_viewGeneratePdf(View):
             messages.error(request, 'Usuário deve ser uma Pet shop!')
             return render(request, 'index.html')
         
+class venda_produtos:
+    par = int
+    produto = str
+    quantidade = str
+    valor = float
+
+    def __str__(self):
+        return self.produto
+        
+@login_required(login_url="/accounts/login")
+def relatorio_venda_produtos(request):
+    cursor = connection.cursor()
+    if str(request.user.groups.first()) == 'Pet shop':
+        v_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        try:
+            cursor.execute('call sp_venda_produtos (%(petshop)s)', 
+                {
+                    'petshop': v_petshop.ptsid, 
+                })
+            results = cursor.fetchall()
+            vendas = []
+            count = 0
+            for r in results:
+                vendas.append(venda_ano())
+                if count % 2 == 0:
+                    vendas[count].par = 1
+                else:
+                    vendas[count].par = 0
+                vendas[count].produto=r[0]
+                vendas[count].quantidade=r[1]
+                vendas[count].valor=r[2]
+                count += 1
+        except Exception as erro:
+            print('erro: ', erro)
+            return redirect(index)
+        finally:
+            cursor.close()
+        return render(request, 'relatorio_venda_produtos.html', {'vendas': vendas})
+    else:
+        messages.error(request, 'Usuário deve ser uma Pet shop!')
+        return render(request, 'index.html')
+    
+@login_required(login_url="/accounts/login")
+def relatorio_venda_produtos_pdf(request):
+    cursor = connection.cursor()
+    if str(request.user.groups.first()) == 'Pet shop':
+        v_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
+        try:
+            cursor.execute('call sp_venda_produtos (%(petshop)s)', 
+                {
+                    'petshop': v_petshop.ptsid, 
+                })
+            results = cursor.fetchall()
+            vendas = []
+            count = 0
+            for r in results:
+                vendas.append(venda_ano())
+                if count % 2 == 0:
+                    vendas[count].par = 1
+                else:
+                    vendas[count].par = 0
+                vendas[count].produto=r[0]
+                vendas[count].quantidade=r[1]
+                vendas[count].valor=r[2]
+                count += 1
+        except Exception as erro:
+            print('erro: ', erro)
+            return redirect(index)
+        finally:
+            cursor.close()
+        pdf = render_to_pdf('relatorio_venda_produtos.html', {'vendas': vendas})
+        return HttpResponse(pdf, content_type='application/pdf')
+    else:
+        messages.error(request, 'Usuário deve ser uma Pet shop!')
+        return render(request, 'index.html')
