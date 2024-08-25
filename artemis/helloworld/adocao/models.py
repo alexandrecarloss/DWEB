@@ -143,19 +143,6 @@ class Formapagamento(models.Model):
         return self.fpgdescricao
 
 
-class Login(models.Model):
-    logemail = models.CharField(primary_key=True, max_length=70)
-    logsenha = models.CharField(max_length=45, blank=True, null=True)
-    petshop_ptsid = models.ForeignKey('Petshop', models.DO_NOTHING, db_column='petshop_ptsid', blank=True, null=True, related_name='login')
-    pessoa_pesid = models.ForeignKey('Pessoa', models.DO_NOTHING, db_column='pessoa_pesid', blank=True, null=True, related_name='login')
-    ong_ongid = models.ForeignKey('Ong', models.DO_NOTHING, db_column='ong_ongid', blank=True, null=True, related_name='login')
-
-    class Meta:
-        managed = False
-        db_table = 'login'
-        ordering = ['logemail']
-
-
 class Ong(models.Model):
     ongid = models.AutoField(primary_key=True)
     ongnome = models.CharField(max_length=65)
@@ -259,11 +246,11 @@ class Pet(models.Model):
     def __str__(self):
         return self.petnome
 
-
 class PetAdocao(models.Model):
     ong_ongid = models.ForeignKey(Ong, models.DO_NOTHING, db_column='ong_ongid', related_name='petadocoes')
     pet_petid = models.ForeignKey(Pet, models.DO_NOTHING, db_column='pet_petid', related_name='petadocoes')
     adoid = models.AutoField(primary_key=True)
+    adostatus = models.CharField(max_length=10)
 
     class Meta:
         managed = False

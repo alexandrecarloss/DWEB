@@ -53,22 +53,6 @@ class FormapagamentoSerializer(serializers.ModelSerializer):
         )
 
 
-class LoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        extra_kwargs = {
-            # 'logemail': {'write_only': True},
-            'logsenha': {'write_only': True}
-        }
-        model = Login
-        fields = (
-            'logemail',
-            'logsenha',
-            'petshop_ptsid',
-            'pessoa_pesid',
-            'ong_ongid', 
-        )
-
-
 class NotafiscalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notafiscal

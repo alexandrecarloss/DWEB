@@ -64,21 +64,6 @@ class FormapagamentoAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = FormapagamentoSerializer
 
 
-class LoginsAPIView(generics.ListCreateAPIView):
-    """
-        API de Login
-    """
-    queryset = Login.objects.all().order_by('logemail')
-    serializer_class = LoginSerializer
-
-class LoginAPIView(generics.RetrieveUpdateDestroyAPIView):
-    """
-        API de Login
-    """
-    queryset = Login.objects.all().order_by('logemail')
-    serializer_class = LoginSerializer
-
-
 class NotasfiscaisAPIView(generics.ListCreateAPIView):
     """
         API de Notas fiscais
@@ -357,10 +342,6 @@ class CarrinhoViewSet(viewsets.ModelViewSet):
 class FormapagamentoViewSet(viewsets.ModelViewSet):
     queryset = Formapagamento.objects.all()
     serializer_class = FormapagamentoSerializer
-
-class LoginViewSet(viewsets.ModelViewSet):
-    queryset = Login.objects.all()
-    serializer_class = LoginSerializer
 
 class NotafiscalViewSet(viewsets.ModelViewSet):
     queryset = Notafiscal.objects.all()
