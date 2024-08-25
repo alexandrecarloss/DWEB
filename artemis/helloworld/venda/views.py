@@ -993,3 +993,14 @@ def usuario_relatorio_produto_categoria_gastos(request):
         messages.error(request, 'Usuário deve ser uma pessoa!')
         return render(request, 'index.html')
     
+def retorna_total_produtos_vendidos(request):
+    total = Venda.objects.all().aggregate(Sum('venqtd'))
+    if request.method == "GET":
+            return JsonResponse({'total': total['venqtd__sum']})
+    
+def retorna_total_servicos_concluidos(request):
+    total = Solicita.objects.filter(solstatus = 'Concluído').aggregate(Count('solid'))
+    if request.method == "GET":
+            return JsonResponse({'total': total['solid__count']})
+    
+    

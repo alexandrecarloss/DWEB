@@ -61,6 +61,8 @@ urlpatterns = [
     
     #Retorno de valor int
     path('retorna_receita_mes/', views.retorna_receita_mes, name='retorna_receita_mes'),
+    path('retorna_total_produtos_vendidos/', views.retorna_total_produtos_vendidos, name='retorna_total_produtos_vendidos'),
+    path('retorna_total_servicos_concluidos/', views.retorna_total_servicos_concluidos, name='retorna_total_servicos_concluidos'),
     
     
     #Dashboard para pessoa
