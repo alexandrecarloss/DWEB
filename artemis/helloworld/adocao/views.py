@@ -53,22 +53,26 @@ def load_pets(request):
 
 @login_required(login_url="/accounts/login")
 def petdetalhe(request, petid):
-    pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
-    pet = Pet.objects.filter(petid = petid).first()
-    petadocao = PetAdocao.objects.filter(pet_petid=pet.petid).first()
-    today = date.today()
-    petidade = today.year - pet.petdtnascto.year - ((today.month, today.day) < (pet.petdtnascto.month, pet.petdtnascto.day))
-    pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
-    if petidade < 1:
-        if pet.petdtnascto.month > today.month:
-            petmes = 12 - pet.petdtnascto.month + today.month - (today.day < pet.petdtnascto.day)
-        else:
-            petmes = today.month - pet.petdtnascto.month - (today.day < pet.petdtnascto.day)
-        if petmes < 1:
-            petdia = today.day - pet.petdtnascto.day
-            return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petdia": petdia, 'petadocao': petadocao, 'pessoa': pessoa})
-        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petmes": petmes, 'petadocao': petadocao, 'pessoa': pessoa})
-    return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade, 'petadocao': petadocao, 'pessoa': pessoa})
+    if str(request.user.groups.first()) == 'Pessoa':
+        pessoa = Pessoa.objects.filter(pesemail = request.user.email).first()
+        pet = Pet.objects.filter(petid = petid).first()
+        petadocao = PetAdocao.objects.filter(pet_petid=pet.petid).first()
+        today = date.today()
+        petidade = today.year - pet.petdtnascto.year - ((today.month, today.day) < (pet.petdtnascto.month, pet.petdtnascto.day))
+        pftfotos = PetFoto.objects.filter(pet_petid = pet.petid)
+        if petidade < 1:
+            if pet.petdtnascto.month > today.month:
+                petmes = 12 - pet.petdtnascto.month + today.month - (today.day < pet.petdtnascto.day)
+            else:
+                petmes = today.month - pet.petdtnascto.month - (today.day < pet.petdtnascto.day)
+            if petmes < 1:
+                petdia = today.day - pet.petdtnascto.day
+                return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petdia": petdia, 'petadocao': petadocao, 'pessoa': pessoa})
+            return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petmes": petmes, 'petadocao': petadocao, 'pessoa': pessoa})
+        return render(request, "pagDetalheAdocao.html", {"pet": pet, "petid": petid, "pftfotos": pftfotos, "petidade": petidade, 'petadocao': petadocao, 'pessoa': pessoa})
+    else:
+        messages.error(request, 'Usuário deve ser uma pessoa!')
+        return render(request, 'index.html')
     
 class fotopet(View):
     def get(self, request, petid, multiplo):
@@ -115,7 +119,7 @@ def salvarpet(request):
     if str(request.user.groups.all()[0]) == 'Pessoa':
         pessoa_pesid = Pessoa.objects.filter(pesemail = request.user.email).first().pesid
         try:
-            print('pessoa')
+
             cursor.execute('call sp_inserepet (%(nome)s, %(sexo)s, %(castrado)s, %(dtnascto)s, %(peso)s, %(pessoa)s, %(porte)s, %(raca)s, %(tipo)s)', {'nome': petnome, 'sexo': petsexo, 'castrado': petcastrado, 'dtnascto': petdtnascto, 'peso': petpeso, 'pessoa': pessoa_pesid, 'porte': vpet_porte_ptpid, 'raca': vpet_raca_ptrid, 'tipo': vpet_tipo_pttid})
         except Exception as erro:
             print('Erro: ', erro)

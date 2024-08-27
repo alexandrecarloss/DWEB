@@ -76,6 +76,7 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
+                            <a href="{% url 'index' %}" class="nav-item nav-link ">Início</a>
                             {% if grupo_usuario == 'Pessoa' %}
                                 <a href="{% url 'produtos' %}" class="nav-item nav-link ">Produtos</a>
                             {% endif %}
