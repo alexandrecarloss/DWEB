@@ -1038,8 +1038,7 @@ class relatorio_venda_ano_pdf_viewGeneratePdf(View):
         if str(request.user.groups.first()) == 'Pet shop':
             ano = request.GET.get('ano')
             v_petshop = Petshop.objects.filter(ptsemail = request.user.email).first()
-            if not ano:
-                ano = 2024
+            
             try:
                 cursor.execute('call sp_venda_ano (%(ano)s, %(petshop)s)', 
                     {
