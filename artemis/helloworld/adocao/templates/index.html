@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
-{% block titulo %}Início{% endblock %}
+{% block titulo %}Inicio{% endblock %}
 {% block content %}
+{% load static %}
 
 <div class="container-fluid  py-5">
     <div class="container py-5">
-        <h1 class="mb-4">Filtro</h1>
+
         <div class="row g-4">
             <div class="col-lg-12">
                 {% for message in messages %}
@@ -20,53 +21,37 @@
                 {% endfor %}
 
                 <!-- Carousel -->
-                <div id="carouselExampleCaptions" class="carousel slide">
+                <div id="bannerCarousel" class="carousel slide pb-5 data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="https://via.placeholder.com/800x400?text=Imagem+1" class="d-block w-100" alt="Imagem 1">
-                            <!-- <img src="" alt=""> -->
-                            <div class="carousel-caption custom-caption">
-                                <div class="caption-text">
-                                    <h5>Imagem 1</h5>
-                                    <p>Descrição da Imagem 1.</p>
-                                </div>
-                                <a href="#" class="btn btn-primary">Ler Mais</a>
-                            </div>
+                            <a href="#">
+                                <img src="{% static 'img/banner3.jpg' %}" class="d-block w-100" alt="Banner 1">
+                            </a>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://via.placeholder.com/800x400?text=Imagem+2" class="d-block w-100" alt="Imagem 2">
-                            <!-- <img src="" alt=""> -->
-                            <div class="carousel-caption custom-caption">
-                                <div class="caption-text">
-                                    <h5>Imagem 2</h5>
-                                    <p>Descrição da Imagem 2.</p>
-                                </div>
-                                <a href="#" class="btn btn-primary">Ler Mais</a>
-                            </div>
+                            <a href="#">
+                                <img src="{% static 'img/banner2.jpg' %}" class="d-block w-100" alt="Banner 2">
+                            </a>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://via.placeholder.com/800x400?text=Imagem+3" class="d-block w-100" alt="Imagem 3">
-                            <!-- <img src="" alt=""> -->
-                            <div class="carousel-caption custom-caption">
-                                <div class="caption-text">
-                                    <h5>Imagem 3</h5>
-                                    <p>Descrição da Imagem 3.</p>
-                                </div>
-                                <a href="#" class="btn btn-primary">Ler Mais</a>
-                            </div>
+                            <a href="#">
+                                <img src="{% static 'img/banner1.jpg' %}" class="d-block w-100" alt="Banner 3">
+                            </a>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel"
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+
+                {% if grupo_usuario == 'Pessoa' %}
 
                 <!-- Feature Start -->
                 <div class="container-fluid feature bg-light py-5">
@@ -121,6 +106,7 @@
                     </div>
                 </div>
                 <!-- Feature End -->
+                {% endif %}
 
 
 
@@ -132,24 +118,22 @@
                             <div class="col-xl-6">
                                 <div class="about-item-content bg-white rounded p-5 h-100">
                                     <h4 class="text-primary">Sobre Nossa Empresa</h4>
-                                    <h1 class="display-4 mb-4">Alta Gama de Proteção</h1>
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt debitis sint
-                                        tempora. Corporis
-                                        consequatur illo blanditiis voluptates aperiam quos aliquam totam aliquid rem
-                                        explicabo.</p>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae praesentium
-                                        recusandae
-                                        eligendi modi hic.</p>
-                                    <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>Podemos economizar
-                                        seu
-                                        dinheiro.</p>
-                                    <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>Produção ou
-                                        comércio de bens
-                                    </p>
-                                    <p class="text-dark mb-4"><i class="fa fa-check text-primary me-3"></i>Nossos
-                                        seguros de vida
-                                        são flexíveis</p>
-                                    <a class="btn btn-primary rounded-pill py-3 px-5" href="#">Mais Informações</a>
+                                    <h1 class="display-4 mb-4">Artemis</h1>
+                                    <p>Nosso site foi criado com o intuito de promover adoção, venda e agendamento de
+                                        forma prática
+                                        e fácil. Nossa missão é conectar pessoas a pets e serviços de forma rápida e
+                                        eficiente.</p>
+                                    <p>Com uma interface amigável e recursos intuitivos, oferecemos uma experiência
+                                        fluida para que
+                                        você possa encontrar o que precisa sem complicações.</p>
+                                    <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>Adoção de pets
+                                        facilitada.</p>
+                                    <p class="text-dark"><i class="fa fa-check text-primary me-3"></i>Venda de produtos
+                                        para pets de
+                                        forma rápida.</p>
+                                    <p class="text-dark mb-4"><i class="fa fa-check text-primary me-3"></i>Agendamento
+                                        de serviços
+                                        sem complicação.</p>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -216,8 +200,7 @@
                 </div>
                 <!-- About End -->
 
-
-
+                
                 <!-- Dashboard Start -->
                 <div class="container-fluid dashboard bg-light py-5">
                     <div class="container py-5">
@@ -240,6 +223,8 @@
                                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
                                     data-bs-target="#petshop-produto-faturamento" aria-expanded="false">Faturamento por
                                     Produto</button>
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
+                                    data-bs-target="#petshop-relatorios" aria-expanded="false">Relatórios PDF</button>
 
                                 {% elif grupo_usuario == 'Pessoa' %}
                                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
@@ -251,7 +236,7 @@
                                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
                                     data-bs-target="#usuario-produto-categoria" aria-expanded="false">Produto por
                                     Categoria</button>
-                                
+
 
                                 {% elif grupo_usuario == 'Ong' %}
                                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
@@ -265,27 +250,26 @@
                         </div>
 
                         <!-- Pet Shop Graphs -->
-                        
-                        
-                
+
+
+
                         <div class="collapse mt-4" id="petshop-vendas">
-                            <form method="get" action="{% url 'relatorio_venda_ano_pdf_viewGeneratePdf' %}">
+                            <form method="get" action="{% url 'relatorio_venda_ano' %}">
                                 <label for="ano">Selecione o ano:</label>
                                 <input type="number" name="ano" id="ano" min="2000" max="2100" value="2024">
                                 <button type="submit">Gerar Relatório</button>
                             </form>
-                            <a href="{% url 'relatorio_venda_produtos_pdf' %}">Relatório de todos os produtos</a>
                             <div class="row">
                                 <div class="col-md">
                                     <h4 class="mb-2">Faturamento por mês</h4>
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="petshop_relatorio_faturamento_venda"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <h4 class="mb-2">Produtos por mês</h4>
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="petshop_relatorio_quantidade_venda"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
@@ -296,13 +280,13 @@
                             <h2>Serviços</h2>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="petshop_relatorio_faturamento_servico"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="petshop_relatorio_quantidade_servico"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
@@ -313,8 +297,14 @@
                             <h2>Produto por Categoria</h2>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="petshop_relatorio_produto_categoria"
+                                            style="width: 100%; height: 100%;"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
+                                        <canvas id="petshop_relatorio_produto_categoria_faturamento"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
                                 </div>
@@ -322,10 +312,54 @@
                         </div>
                         <div class="collapse mt-4" id="petshop-produto-faturamento">
                             <h2>Faturamento por Produto</h2>
-                            <div class="col-md">
-                                <div class="d-flex justify-content-center"style=" height: 300px;">
-                                    <canvas id="petshop_relatorio_produto_categoria_faturamento"
-                                        style="width: 100%; height: 100%;"></canvas>
+                            <div class="row">
+                                <div class="col-md">
+                                    <div style="width: 250px; height: 200px;">
+                                        <canvas id="petshop_relatorio_produto_categoria_faturamento"
+                                            style="width: 100%; height: 100%;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse mt-4" id="petshop-relatorios">
+
+                            <div class="row justify-content-center">
+                                <div class="col-md-4 mb-3">
+                                    <!-- Botão para abrir o modal -->
+                                    <button class="btn btn-primary btn-lg w-100" data-bs-toggle="modal"
+                                        data-bs-target="#modalVendasAno">Vendas por Ano</button>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <form method="get" action="{% url 'relatorio_venda_produtos_pdf' %}"
+                                        target="_blank">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100">Vendas por
+                                            Produtos</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal para Vendas por Ano -->
+                        <div class="modal fade" id="modalVendasAno" tabindex="-1" aria-labelledby="modalVendasAnoLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalVendasAnoLabel">Filtrar Vendas por Ano</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="get" action="{% url 'relatorio_venda_ano_pdf_viewGeneratePdf' %}"
+                                            target="_blank">
+                                            <div class="mb-3">
+                                                <label for="ano" class="form-label">Selecione o ano:</label>
+                                                <input type="number" name="ano" id="ano" min="2000" max="2100"
+                                                    value="2024" class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -333,7 +367,7 @@
 
                         <!-- Pessoa Graphs -->
                         <div class="collapse mt-4" id="usuario-gastos-produtos">
-                            
+
                             <div class="row">
                                 <div class="col-md">
                                     <h4 class="mb-2">Gastos por mês</h4>
@@ -344,7 +378,7 @@
                                 </div>
                                 <div class="col-md">
                                     <h4 class="mb-2">Gastos por categoria</h4>
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="usuario_relatorio_produto_categoria_gastos"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
@@ -355,7 +389,7 @@
                             <h2>Gastos com Serviços</h2>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="usuario_relatorio_gastos_servicos"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
@@ -366,14 +400,14 @@
                             <h2>Produto por Categoria</h2>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="usuario_relatorio_produto_categoria"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
 
 
                         <!-- Ong Graphs -->
@@ -381,7 +415,7 @@
                             <h2>Adoções Concluídas</h2>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="ong_relatorio_adocoes_concluidas"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
@@ -392,7 +426,7 @@
                             <h2>Adoções por Tipo</h2>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-center"style=" height: 300px;">
+                                    <div class="d-flex justify-content-center" style=" height: 300px;">
                                         <canvas id="ong_relatorio_adocoes_concluidas_tipo"
                                             style="width: 100%; height: 100%;"></canvas>
                                     </div>
@@ -406,78 +440,86 @@
 
 
                 {% if grupo_usuario == 'Pet shop' %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var buttons = document.querySelectorAll('.btn-group .btn');
-        buttons.forEach(button => {
-            button.addEventListener('click', function () {
-                var target = document.querySelector(this.getAttribute('data-bs-target'));
-                var collapses = document.querySelectorAll('.collapse');
+
+
+
+
                 
-                // Mostrar apenas o gráfico correspondente e esconder os outros
-                collapses.forEach(collapse => {
-                    if (collapse !== target) {
-                        var bsCollapse = new bootstrap.Collapse(collapse, { toggle: false });
-                        bsCollapse.hide();
-                    }
-                });
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var buttons = document.querySelectorAll('.btn-group .btn');
+                        buttons.forEach(button => {
+                            button.addEventListener('click', function () {
+                                var target = document.querySelector(this.getAttribute('data-bs-target'));
+                                var collapses = document.querySelectorAll('.collapse');
 
-                // Ativar o botão clicado e desativar os outros
-                buttons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    });
-</script>
-{% elif grupo_usuario == 'Pessoa' %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var buttons = document.querySelectorAll('.btn-group .btn');
-        buttons.forEach(button => {
-            button.addEventListener('click', function () {
-                var target = document.querySelector(this.getAttribute('data-bs-target'));
-                var collapses = document.querySelectorAll('.collapse');
+                                // Mostrar apenas o gráfico correspondente e esconder os outros
+                                collapses.forEach(collapse => {
+                                    if (collapse !== target) {
+                                        var bsCollapse = new bootstrap.Collapse(collapse, { toggle: false });
+                                        bsCollapse.hide();
+                                    }
+                                });
 
-                // Mostrar apenas o gráfico correspondente e esconder os outros
-                collapses.forEach(collapse => {
-                    if (collapse !== target) {
-                        var bsCollapse = new bootstrap.Collapse(collapse, { toggle: false });
-                        bsCollapse.hide();
-                    }
-                });
+                                // Ativar o botão clicado e desativar os outros
+                                buttons.forEach(btn => btn.classList.remove('active'));
+                                this.classList.add('active');
+                            });
+                        });
+                    });
+                </script>
+                {% elif grupo_usuario == 'Pessoa' %}
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var buttons = document.querySelectorAll('.btn-group .btn');
+                        buttons.forEach(button => {
+                            button.addEventListener('click', function () {
+                                var target = document.querySelector(this.getAttribute('data-bs-target'));
+                                var collapses = document.querySelectorAll('.collapse');
 
-                // Ativar o botão clicado e desativar os outros
-                buttons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    });
-</script>
-{% elif grupo_usuario == 'Ong' %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var buttons = document.querySelectorAll('.btn-group .btn');
-        buttons.forEach(button => {
-            button.addEventListener('click', function () {
-                var target = document.querySelector(this.getAttribute('data-bs-target'));
-                var collapses = document.querySelectorAll('.collapse');
+                                // Mostrar apenas o gráfico correspondente e esconder os outros
+                                collapses.forEach(collapse => {
+                                    if (collapse !== target) {
+                                        var bsCollapse = new bootstrap.Collapse(collapse, { toggle: false });
+                                        bsCollapse.hide();
+                                    }
+                                });
 
-                // Mostrar apenas o gráfico correspondente e esconder os outros
-                collapses.forEach(collapse => {
-                    if (collapse !== target) {
-                        var bsCollapse = new bootstrap.Collapse(collapse, { toggle: false });
-                        bsCollapse.hide();
-                    }
-                });
+                                // Ativar o botão clicado e desativar os outros
+                                buttons.forEach(btn => btn.classList.remove('active'));
+                                this.classList.add('active');
+                            });
+                        });
+                    });
+                </script>
+                {% elif grupo_usuario == 'Ong' %}
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var buttons = document.querySelectorAll('.btn-group .btn');
+                        buttons.forEach(button => {
+                            button.addEventListener('click', function () {
+                                var target = document.querySelector(this.getAttribute('data-bs-target'));
+                                var collapses = document.querySelectorAll('.collapse');
 
-                // Ativar o botão clicado e desativar os outros
-                buttons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    });
-</script>
-{% endif %}
+                                // Mostrar apenas o gráfico correspondente e esconder os outros
+                                collapses.forEach(collapse => {
+                                    if (collapse !== target) {
+                                        var bsCollapse = new bootstrap.Collapse(collapse, { toggle: false });
+                                        bsCollapse.hide();
+                                    }
+                                });
+
+                                // Ativar o botão clicado e desativar os outros
+                                buttons.forEach(btn => btn.classList.remove('active'));
+                                this.classList.add('active');
+                            });
+                        });
+                    });
+                </script>
+                {% endif %}
+
+
                 {% if grupo_usuario == 'Pet shop' %}
                 <script>
                     window.onload = function (e) {
@@ -524,6 +566,99 @@
                     }
                 </script>
                 {% endif %}
+
+                <!-- Team Start -->
+                <div class="container-fluid team pt-5 pb-5">
+                    <div class="container pb-5">
+                        <div class="text-center mx-auto pb-5" style="max-width: 800px;">
+                            <h4 class="text-primary">Nosso time</h4>
+                            <h1 class="display-4 mb-4">Conheça os membros do Projeto Artemis</h1>
+                        </div>
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-6 col-md-4 col-lg-2-4">
+                                <div class="team-item">
+                                    <div class="team-img">
+                                        <img src="{% static 'img/carlosalexandre.jpeg' %}"
+                                            class="img-fluid rounded-top w-100" alt="">
+                                        <div class="team-icon">
+                                            <a class="btn btn-primary btn-sm-square rounded-pill mb-0"
+                                                href="https://github.com/alexandrecarloss"><i
+                                                    class="fab fa-github"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="team-title p-4">
+                                        <h4 class="mb-0">Carlos Alexandre</h4>
+                                        <p class="mb-0">Back-End</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2-4">
+                                <div class="team-item">
+                                    <div class="team-img">
+                                        <img src="{% static 'img/carloseduardo.jpeg' %}"
+                                            class="img-fluid rounded-top w-100" alt="">
+                                        <div class="team-icon">
+                                            <a class="btn btn-primary btn-sm-square rounded-pill mb-0"
+                                                href="https://github.com/cadu-araujo"><i class="fab fa-github"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="team-title p-4">
+                                        <h4 class="mb-0">Carlos Araujo</h4>
+                                        <p class="mb-0">Banco de Dados</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2-4">
+                                <div class="team-item">
+                                    <div class="team-img">
+                                        <img src="{% static 'img/jpedro.jpeg' %}" class="img-fluid rounded-top w-100"
+                                            alt="">
+                                        <div class="team-icon">
+                                            <a class="btn btn-primary btn-sm-square rounded-pill mb-0"
+                                                href="https://github.com/"><i class="fab fa-github"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="team-title p-4">
+                                        <h4 class="mb-0">João Pedro</h4>
+                                        <p class="mb-0">Analista de Software</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2-4">
+                                <div class="team-item">
+                                    <div class="team-img">
+                                        <img src="{% static 'img/marcusc.jpeg' %}" class="img-fluid rounded-top w-100"
+                                            alt="">
+                                        <div class="team-icon">
+                                            <a class="btn btn-primary btn-sm-square rounded-pill mb-0"
+                                                href="https://github.com/MvsCorreia"><i class="fab fa-github"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="team-title p-4">
+                                        <h4 class="mb-0">Marcus Correia</h4>
+                                        <p class="mb-0">Front-End</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2-4">
+                                <div class="team-item">
+                                    <div class="team-img">
+                                        <img src="{% static 'img/mikael.jpeg' %}" class="img-fluid rounded-top w-100"
+                                            alt="">
+                                        <div class="team-icon">
+                                            <a class="btn btn-primary btn-sm-square rounded-pill mb-0"
+                                                href="https://github.com/"><i class="fab fa-github"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="team-title p-4">
+                                        <h4 class="mb-0">Mikael Jamil</h4>
+                                        <p class="mb-0">Analista de Software</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 {% endblock content %}
